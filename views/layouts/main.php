@@ -9,6 +9,7 @@ use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 use yii\bootstrap4\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -29,7 +30,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => 'CoolGames',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-dark bg-dark navbar-expand-md fixed-top',
@@ -39,24 +40,40 @@ AppAsset::register($this);
         ],
     ]);
     echo Nav::widget([
+        // 'options' => ['class' => 'navbar-nav'],
+        // 'items' => [
+        //     ['label' => 'Home', 'url' => ['/site/index']],
+        //     ['label' => 'About', 'url' => ['/site/about']],
+        //     ['label' => 'Contact', 'url' => ['/site/contact']],
+        //     Yii::$app->user->isGuest ? (
+        //         ['label' => 'Login', 'url' => ['/site/login']]
+        //     ) : (
+        //         '<li class="nav-item">'
+        //         . Html::beginForm(['/site/logout'], 'post')
+        //         . Html::submitButton(
+        //             'Logout (' . Yii::$app->user->identity->nombre . ')',
+        //             ['class' => 'btn btn-dark nav-link logout']
+        //         )
+        //         . Html::endForm()
+        //         . '</li>'
+        //     )
+        // ],
         'options' => ['class' => 'navbar-nav'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li class="nav-item">'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->nombre . ')',
-                    ['class' => 'btn btn-dark nav-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
+            'items' => [
+                ['label' => 'Home', 'url' => ['/site/index']],
+                [
+                    'label' => 'Usuarios',
+                    'items' => [
+                        !Yii::$app->user->isGuest ? (Html::beginForm(['/site/logout'], 'post')
+                        . Html::submitButton(
+                            'Logout (' . Yii::$app->user->identity->nombre . ')',
+                            ['class' => 'dropdown-item'],
+                        )
+                        . Html::endForm()) : (Html::beginForm() . Html::a('Login',['/site/login'],['class' => 'dropdown-item']) .Html::a('Registrarse', Url::to(['/usuarios/registrar']),['class' => 'dropdown-item'])),
+                        // ['label' => 'Registrarse', 'url' => ['usuarios/registrar']]
+                    ],
+                ],
+            ],
     ]);
     NavBar::end();
     ?>

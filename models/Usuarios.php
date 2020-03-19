@@ -9,14 +9,21 @@ use yii\web\IdentityInterface;
  * This is the model class for table "usuarios".
  *
  * @property int $id
+ * @property string $login
  * @property string $nombre
  * @property string $password
- * @property string $auth_key
- * @property string $telefono
- * @property string $poblacion
+ * @property string $email
+ * @property string|null $auth_key
+ * @property string|null $rol
+ * @property string|null $token
+ * @property string $created_at
  */
 class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 {
+    const SCENARIO_CREAR = 'crear';
+    public $password_repeat;
+
+
     /**
      * {@inheritdoc}
      */
@@ -31,9 +38,33 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['nombre', 'password'], 'required'],
-            [['nombre', 'auth_key', 'telefono', 'poblacion'], 'string', 'max' => 255],
-            [['password'], 'string', 'max' => 60],
+            [['login', 'nombre', 'password', 'email'], 'required'],
+            [['created_at'], 'safe'],
+            [['login', 'nombre', 'password', 'email', 'auth_key', 'rol', 'token'], 'string', 'max' => 255],
+            [['email'], 'unique'],
+            [['login'], 'unique'],
+            [
+                ['password'],
+                'required',
+                'on' => [self::SCENARIO_DEFAULT, self::SCENARIO_CREAR],
+            ],
+            [
+                ['password'],
+                'trim',
+                'on' => [self::SCENARIO_CREAR],
+            ],
+            [
+                ['password_repeat'],
+                'required',
+                'on' => [self::SCENARIO_CREAR]
+            ],
+            [
+                ['password_repeat'],
+                'compare',
+                'compareAttribute' => 'password',
+                'skipOnEmpty' => false,
+                'on' => [self::SCENARIO_CREAR],
+            ],
         ];
     }
 
@@ -44,11 +75,15 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
+            'login' => 'Login',
             'nombre' => 'Nombre',
-            'password' => 'Password',
+            'password' => 'Contraseña',
+            'password_repeat' => 'Repetir contraseña',
+            'email' => 'Correo electrónico',
             'auth_key' => 'Auth Key',
-            'telefono' => 'Teléfono',
-            'poblacion' => 'Población',
+            'rol' => 'Rol',
+            'token' => 'Token',
+            'created_at' => 'Created At',
         ];
     }
 
@@ -81,6 +116,11 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
         return static::findOne(['nombre' => $nombre]);
     }
 
+    public static function findPorLogin($login)
+    {
+        return static::findOne(['login' => $login]);
+    }
+
     public static function findPorEmail($email)
     {
         return static::findOne(['email' => $email]);
@@ -91,19 +131,21 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
         return Yii::$app->security->validatePassword($password, $this->password);
     }
 
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        if ($insert) {
+            if ($this->scenario === self::SCENARIO_CREAR) {
+                $security = Yii::$app->security;
+                $this->auth_key = $security->generateRandomString();
+                $this->password = $security->generatePasswordHash($this->password);
+                // asignar al usuario recien registrado un token
+                $this->token = $security->generateRandomString();
+            }
+        }
+        return true;
+    }
 }
