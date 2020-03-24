@@ -62,6 +62,7 @@ AppAsset::register($this);
             'items' => [
                 ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'Generos', 'url' => ['/generos/index']],
+                ['label' => 'Juegos', 'url' => ['/juegos/index']],
                 [
                     'label' => 'Usuarios',
                     'items' => [
