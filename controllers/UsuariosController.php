@@ -40,6 +40,19 @@ class UsuariosController extends Controller
                     // everything else is denied by default
                 ],
             ],
+
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['index'],
+                'rules' => [
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    // everything else is denied by default
+                ],
+            ],
         ];
     }
 
