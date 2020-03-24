@@ -34,6 +34,7 @@ CREATE TABLE juegos
   , titulo          varchar(255) NOT NULL
   , genero_id       bigint NOT NULL REFERENCES generos (id)
   , flanzamiento    date
+  , precio          numeric(6,2)
   , created_at      timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
