@@ -57,4 +57,12 @@ class Generos extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Juegos::className(), ['genero_id' => 'id']);
     }
+
+    public static function lista()
+    {
+        return static::find()
+        ->select('denom')
+        ->indexBy('id')
+        ->column();
+    }
 }

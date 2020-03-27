@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Generos', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear Género', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -28,6 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             // 'id',
             'denom',
+            // [
+            //     'attribute' => 'denom',
+            //     'label' => 'Denominación',
+            //     'filter' => $lista,
+            //     'format' => 'raw',
+            // ],
             // 'created_at',
 
             ['class' => 'yii\grid\ActionColumn'],

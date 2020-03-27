@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Generos;
 use Yii;
 use app\models\Juegos;
 use app\models\JuegosSearch;
@@ -55,6 +56,7 @@ class JuegosController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'generos' => Generos::lista(),
         ]);
     }
 
@@ -86,6 +88,7 @@ class JuegosController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'generos' => Generos::lista(),
         ]);
     }
 

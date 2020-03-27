@@ -24,13 +24,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            // ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'titulo',
-            'genero_id',
+            [
+                'attribute' => 'genero.denom',
+                'value' => function ($model,$key,$index,$column) {
+                    return Html::a($model->genero->denom, ['generos/view','id' => $model->genero->id]);
+                },
+                'label' => 'Género',
+                'filter' => $generos,
+                'format' => 'raw',
+            ],
             'flanzamiento',
-            'precio',
+            'precio:currency',
             //'created_at',
 
             ['class' => 'yii\grid\ActionColumn'],

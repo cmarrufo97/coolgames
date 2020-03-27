@@ -18,7 +18,7 @@ class JuegosSearch extends Juegos
     {
         return [
             [['id', 'genero_id'], 'integer'],
-            [['titulo', 'flanzamiento', 'created_at'], 'safe'],
+            [['titulo', 'flanzamiento', 'created_at','genero.denom'], 'safe'],
             [['precio'], 'number'],
         ];
     }
@@ -32,6 +32,11 @@ class JuegosSearch extends Juegos
         return Model::scenarios();
     }
 
+    public function attributes()
+    {
+        return array_merge(parent::attributes(), ['genero.denom']);
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -41,13 +46,18 @@ class JuegosSearch extends Juegos
      */
     public function search($params)
     {
-        $query = Juegos::find();
+        $query = Juegos::find()->joinWith('genero g');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['genero.denom'] = [
+            'asc' => ['g.denom' => SORT_ASC],
+            'desc' => ['g.denom' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -60,7 +70,7 @@ class JuegosSearch extends Juegos
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'genero_id' => $this->genero_id,
+            'genero_id' => $this->getAttribute('genero.denom'),
             'flanzamiento' => $this->flanzamiento,
             'precio' => $this->precio,
             'created_at' => $this->created_at,
