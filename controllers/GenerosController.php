@@ -55,6 +55,7 @@ class GenerosController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            // 'lista' => Generos::lista(),
         ]);
     }
 

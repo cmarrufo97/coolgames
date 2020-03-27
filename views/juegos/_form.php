@@ -14,7 +14,7 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'titulo')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'genero_id')->textInput() ?>
+    <?= $form->field($model, 'genero_id')->dropDownList($generos)->label('Género') ?>
 
     <?= $form->field($model, 'flanzamiento')->textInput() ?>
 
@@ -23,7 +23,7 @@ use yii\bootstrap4\ActiveForm;
     <!-- <?= $form->field($model, 'created_at')->textInput() ?> -->
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Crear', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
