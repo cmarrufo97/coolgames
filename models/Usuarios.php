@@ -96,6 +96,11 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     {
     }
 
+    /**
+     * Obtiene el id del usuario.
+     *
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
@@ -111,21 +116,45 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->auth_key === $authKey;
     }
 
+    /**
+     * Buscar al usuario por su nombre
+     *
+     * @param [type] $nombre
+     * @return static|null instancia de ActiveRecord si coincide o null si no coincide.
+     */
     public static function findPorNombre($nombre)
     {
         return static::findOne(['nombre' => $nombre]);
     }
 
+    /**
+     * Buscar al usuario por su login, es decir, por la columna login de la base de datos.
+     *
+     * @param [type] $login
+     * @return static|null instancia de ActiveRecord si coincide o null si no.
+     */
     public static function findPorLogin($login)
     {
         return static::findOne(['login' => $login]);
     }
 
+    /**
+     * Busca al usuario por su email.
+     *
+     * @param [type] $email
+     * @return static|null instancia de ActiveRecord si coincide o null si no.
+     */
     public static function findPorEmail($email)
     {
         return static::findOne(['email' => $email]);
     }
 
+    /**
+     * Valida la contraseña del usuario
+     *
+     * @param [type] $password
+     * @return true|false si coincide o no la contraseña
+     */
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password);
