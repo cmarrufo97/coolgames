@@ -31,7 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'titulo',
-            'genero_id',
+            // 'genero_id',
+            [
+                'attribute' => 'genero.denom',
+                'label' => 'Género',
+            ],
             'flanzamiento',
             'precio',
             // 'created_at',

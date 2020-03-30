@@ -109,6 +109,7 @@ class JuegosController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'generos' => Generos::lista(),
         ]);
     }
 
