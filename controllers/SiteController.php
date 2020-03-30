@@ -9,6 +9,10 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Generos;
+use app\models\Juegos;
+use app\models\Usuarios;
+use yii\data\ActiveDataProvider;
 
 class SiteController extends Controller
 {
@@ -61,7 +65,28 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $usuarios = new ActiveDataProvider([
+            'query' => Usuarios::find()->where('1=0'),
+        ]);
+
+        $juegos = new ActiveDataProvider([
+            'query' => Juegos::find()->joinWith('genero g')->where('1=0'),
+        ]);
+
+        if (($cadena = Yii::$app->request->get('cadena', ''))) {
+            $usuarios->query->where(['ilike', 'nombre', $cadena]);
+            $juegos->query->where(['ilike', 'titulo', $cadena]);
+
+            if ((Generos::find()->where(['ilike', 'denom', $cadena])->exists())) {
+                $juegos->query->where(['ilike', 'g.denom', $cadena]);
+            }
+        }
+
+        return $this->render('index', [
+            'usuarios' => $usuarios,
+            'juegos' => $juegos,
+            'cadena' => $cadena,
+        ]);
     }
 
     /**
