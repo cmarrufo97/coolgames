@@ -17,6 +17,8 @@ use yii\web\IdentityInterface;
  * @property string|null $rol
  * @property string|null $token
  * @property string $created_at
+ * 
+ * @property Roles $rol
  */
 class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 {
@@ -39,10 +41,13 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['login', 'nombre', 'password', 'email'], 'required'],
+            [['rol_id'], 'default', 'value' => null],
+            [['rol_id'], 'integer'],
             [['created_at'], 'safe'],
             [['login', 'nombre', 'password', 'email', 'auth_key', 'rol', 'token'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['login'], 'unique'],
+            [['rol_id'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::className(), 'targetAttribute' => ['rol_id' => 'id']],
             [
                 ['password'],
                 'required',
@@ -81,7 +86,7 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
             'password_repeat' => 'Repetir contraseña',
             'email' => 'Correo electrónico',
             'auth_key' => 'Auth Key',
-            'rol' => 'Rol',
+            'rol_id' => 'Rol ID',
             'token' => 'Token',
             'created_at' => 'Created At',
         ];
@@ -114,6 +119,16 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     public function validateAuthKey($authKey)
     {
         return $this->auth_key === $authKey;
+    }
+
+    /**
+     * Gets query for [[Rol]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRol()
+    {
+        return $this->hasOne(Roles::className(), ['id' => 'rol_id']);
     }
 
     /**
@@ -171,6 +186,8 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
                 $security = Yii::$app->security;
                 $this->auth_key = $security->generateRandomString();
                 $this->password = $security->generatePasswordHash($this->password);
+                // asignar rol por defecto (1 -> usuario)
+                $this->rol_id = 1;
                 // asignar al usuario recien registrado un token
                 $this->token = $security->generateRandomString();
             }

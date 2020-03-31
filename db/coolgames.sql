@@ -2,6 +2,15 @@
 -- Archivo de base de datos --
 ------------------------------
 
+DROP TABLE IF EXISTS roles CASCADE;
+
+CREATE TABLE roles
+(
+    id  bigserial PRIMARY KEY
+  , rol varchar(255) NOT NULL UNIQUE
+);
+
+
 DROP TABLE IF EXISTS usuarios CASCADE;
 
 CREATE TABLE usuarios
@@ -12,7 +21,7 @@ CREATE TABLE usuarios
   , password    varchar(255) NOT NULL
   , email       varchar(255) NOT NULL UNIQUE
   , auth_key    varchar(255)
-  , rol         varchar(255)
+  , rol_id      bigint NOT NULL REFERENCES roles (id) DEFAULT 1
   , token       varchar(255)
   , created_at  timestamp(0) NOT NULL DEFAULT current_timestamp
 );
@@ -38,5 +47,12 @@ CREATE TABLE juegos
   , created_at      timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
-INSERT INTO usuarios (login,nombre,password,email,rol)
-    VALUES ('admin','admin',crypt('admin', gen_salt('bf',12)),'admin@admin.com','admin');
+INSERT INTO roles (rol)
+  VALUES ('usuario')
+      ,  ('admin');
+
+INSERT INTO usuarios (login,nombre,password,email,rol_id)
+    VALUES ('admin','admin',crypt('admin', gen_salt('bf',12)),'admin@admin.com',2);
+
+INSERT INTO usuarios (login,nombre,password,email)
+    VALUES ('pepe','pepe',crypt('pepe', gen_salt('bf',12)),'pepe@gmail.com');

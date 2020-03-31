@@ -22,7 +22,7 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'rol')->textInput(['maxlength' => true]) ?>
+   
 
     <?= $form->field($model, 'token')->textInput(['maxlength' => true]) ?>
 
