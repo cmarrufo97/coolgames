@@ -5,8 +5,48 @@
 use yii\bootstrap4\Html;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 $this->title = 'Coolgames';
+
+$this->registerJsFile(
+    '@web/js/bootbox.min.js',
+    ['depends' => [\yii\web\JqueryAsset::class]]
+);
+
+$cookie = Url::to(['site/cookie']);
+
+$js = <<<EOT
+    $(document).ready(function() {
+        bootbox.confirm({
+            title: "Política de Cookies",
+            message: "Este sitio web utiliza cookies para recoger datos de los usuarios con el fin de mejorar la experiencia.",
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-primary'
+                },
+                cancel: {
+                    label: 'Rechazar',
+                    className: 'btn-secondary',
+                },
+            },
+            callback: function (result) {
+                if (result) {
+                    window.location = "$cookie";
+                }else {
+                    window.location = "http://www.google.es";
+                }
+            }
+        });
+    });
+EOT;
+
+
+if (!isset($_COOKIE['aceptar'])) {
+    $this->registerJs($js);
+}
+
 ?>
 <div class="site-index">
 

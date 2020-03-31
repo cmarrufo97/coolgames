@@ -99,3 +99,8 @@ a.desc:after {
 .nav > li > form > button.logout:hover {
     background-color: transparent;
 }
+
+.modal-footer {
+    flex-direction: row-reverse;
+    justify-content: right;
+}

@@ -150,4 +150,11 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+    public function actionCookie()
+    {
+        setcookie('aceptar', '1', time() + 3600 * 24 * 365, '/');
+
+        $this->goBack();
+    }
 }
