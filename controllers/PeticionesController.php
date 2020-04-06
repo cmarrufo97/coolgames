@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Peticiones;
 use app\models\PeticionesSearch;
+use app\models\Usuarios;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -107,6 +108,46 @@ class PeticionesController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionCrear($receptor_id)
+    {
+        $model = new Peticiones();
+        $model->emisor_id = Yii::$app->user->id;
+        $model->receptor_id = $receptor_id;
+
+        $nombreAmigo = Usuarios::find()->select('nombre')->where(['=', 'id', $receptor_id])->scalar();
+
+        $existePeticion = Peticiones::find()->where(['=', 'emisor_id', $model->emisor_id])
+            ->andFilterWhere(['=', 'receptor_id', $model->receptor_id])
+            ->exists();
+
+        if (!$existePeticion) {
+            if ($model->insert()) {
+                Yii::$app->session->setFlash('success', "Petición de amistad enviada a <b>$nombreAmigo</b> correctamente");
+            } else {
+                Yii::$app->session->setFlash('error', "Hubo un fallo al enviar la petición de amistad a <b>$nombreAmigo</b>");
+            }
+        } else {
+            Yii::$app->session->setFlash('warning', "Ya hay en marcha una petición de amistad para <b>$nombreAmigo</b>");
+        }
+
+        return $this->redirect(['chat/principal']);
+    }
+
+    public function actionRechazar($emisor_id)
+    {
+        $receptor_id = Yii::$app->user->id;
+
+        $modelId = Peticiones::find()->select('id')->where(['=', 'emisor_id', $emisor_id])
+            ->andFilterWhere(['=', 'receptor_id', $receptor_id]);
+
+        $model = $this->findModel($modelId);
+
+        if ($model->delete()) {
+            Yii::$app->session->setFlash('success', 'Solicitud de amistad rechazada correctamente.');
+        }
+        return $this->redirect(['chat/principal']);
     }
 
     /**

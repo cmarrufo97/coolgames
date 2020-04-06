@@ -61,6 +61,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav'],
             'items' => [
                 ['label' => 'Home', 'url' => ['/site/index']],
+                ['label' => 'Social', 'url' => ['/chat/principal']],
                 ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
                 ['label' => 'Generos', 'url' => ['/generos/index']],
                 ['label' => 'Juegos', 'url' => ['/juegos/index']],

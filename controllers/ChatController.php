@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Chat;
 use app\models\ChatSearch;
+use app\models\Usuarios;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -107,6 +109,29 @@ class ChatController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionPrincipal()
+    {
+        $usuarios = new ActiveDataProvider([
+            'query' => Usuarios::find()->where('1=0'),
+        ]);
+
+        if (($cadena = Yii::$app->request->get('cadena', ''))) {
+            $usuarios->query->where(['ilike', 'nombre', $cadena])
+                ->andFilterWhere(['!=', 'id', Yii::$app->user->id]);
+
+            if (filter_var($cadena, FILTER_VALIDATE_EMAIL)) {
+                $usuarios->query->where(['ilike', 'email', $cadena])
+                    ->andFilterWhere(['!=', 'id', Yii::$app->user->id]);
+            }
+        }
+
+
+        return $this->render('principal', [
+            'usuarios' => $usuarios,
+            'cadena' => $cadena
+        ]);
     }
 
     /**

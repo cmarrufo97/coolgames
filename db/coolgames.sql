@@ -99,4 +99,5 @@ INSERT INTO usuarios (login,nombre,password,email,rol_id)
     VALUES ('admin','admin',crypt('admin', gen_salt('bf',12)),'admin@admin.com',2);
 
 INSERT INTO usuarios (login,nombre,password,email)
-    VALUES ('pepe','pepe',crypt('pepe', gen_salt('bf',12)),'pepe@gmail.com');
+    VALUES ('pepe','pepe',crypt('pepe', gen_salt('bf',12)),'pepe@gmail.com')
+       ,   ('juan','juan',crypt('juan', gen_salt('bf',12)),'juan@gmail.com');
