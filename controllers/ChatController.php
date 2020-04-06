@@ -134,6 +134,79 @@ class ChatController extends Controller
         ]);
     }
 
+    public function actionInsertar()
+    {
+        if (isset($_POST['receptor_id']) && isset($_POST['mensaje'])) {
+            // var_dump($_POST['receptor_id']);
+            // var_dump($_POST['mensaje']);
+            $sent = Yii::$app->db->createCommand("INSERT INTO chat (emisor_id,receptor_id,mensaje)
+            VALUES (:emisor_id,:receptor_id,:mensaje)")
+                ->bindValue(':emisor_id', Yii::$app->user->id)
+                ->bindValue(':receptor_id', $_POST['receptor_id'])
+                ->bindValue(':mensaje', $_POST['mensaje']);
+
+            $result = $sent->execute();
+
+            if ($result) {
+                return $this->actionHistorial();
+            }
+        }
+    }
+
+    public function actionHistorial()
+    {
+        // version modificada
+        $emisor_id = Yii::$app->user->id;
+        $output = '';
+        if (isset($_POST['receptor_id'])) {
+            $receptor_id = (int) $_POST['receptor_id'];
+            $res = Yii::$app->db->createCommand("SELECT * 
+                FROM chat 
+               WHERE (emisor_id = '" . $emisor_id . "' AND receptor_id = '" . $receptor_id . "')
+               OR (emisor_id = '" . $receptor_id . "' AND receptor_id = '" . $emisor_id . "')
+               ORDER BY created_at ASC")->queryAll();
+
+
+
+            $output = '<ul class="list-unstyled">';
+
+            foreach ($res as $fila) {
+                $username = '';
+                if ($fila['emisor_id'] == $emisor_id) {
+                    $output .= '
+                    <li class="mensajes darker">
+                        <p> <b>Yo </b> - ' . $fila['mensaje'] . '
+                        <div class="float-right">
+                            <small><em>' .
+                        date('H:i', strtotime($fila['created_at']))
+                        . '</em></small>
+                        </div>
+                        </p>
+                    </li>
+                    ';
+                } else {
+                    $username = Usuarios::find()->select('nombre')->where(['=', 'id', $fila['emisor_id']])->scalar();
+                    $output .= '
+                <li class="recibidos">
+                    <p>
+                    ' . '<b>' . $username . ' - ' . '</b>'
+                        . $fila['mensaje']
+                        . '
+                        <div class="float-right">
+                            <small><em>' .
+                        date('H:i', strtotime($fila['created_at']))
+                        . '</em></small>
+                        </div>
+                    </p>
+                </li>
+                ';
+                }
+            }
+            $output .= '</ul>';
+        }
+        return $output;
+    }
+
     /**
      * Finds the Chat model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
