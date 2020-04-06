@@ -10,6 +10,14 @@ CREATE TABLE roles
   , rol varchar(255) NOT NULL UNIQUE
 );
 
+DROP TABLE IF EXISTS estados CASCADE;
+
+CREATE TABLE estados
+(
+    id bigserial PRIMARY KEY
+  , estado varchar(255) NOT NULL UNIQUE  
+);
+
 
 DROP TABLE IF EXISTS usuarios CASCADE;
 
@@ -22,6 +30,7 @@ CREATE TABLE usuarios
   , email       varchar(255) NOT NULL UNIQUE
   , auth_key    varchar(255)
   , rol_id      bigint NOT NULL REFERENCES roles (id) DEFAULT 1
+  , estado_id   bigint NOT NULL REFERENCES estados (id) DEFAULT 1
   , token       varchar(255)
   , created_at  timestamp(0) NOT NULL DEFAULT current_timestamp
 );
@@ -47,9 +56,44 @@ CREATE TABLE juegos
   , created_at      timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
+DROP TABLE IF EXISTS peticiones CASCADE;
+
+CREATE TABLE peticiones
+(
+    id          bigserial PRIMARY KEY
+  , emisor_id   bigint NOT NULL REFERENCES usuarios (id)
+  , receptor_id bigint NOT NULL REFERENCES usuarios (id)
+  , created_at  timestamp(0) NOT NULL DEFAULT current_timestamp
+);
+
+DROP TABLE IF EXISTS amigos CASCADE;
+
+CREATE TABLE amigos
+(
+    id bigserial PRIMARY KEY
+ ,  usuario_id  bigint NOT NULL REFERENCES usuarios (id)
+ ,  amigo_id    bigint NOT NULL REFERENCES usuarios (id)
+);
+
+DROP TABLE IF EXISTS chat CASCADE;
+
+CREATE TABLE chat
+(
+    id          bigserial PRIMARY KEY
+  , emisor_id   bigint NOT NULL REFERENCES usuarios (id)   
+  , receptor_id bigint NOT NULL REFERENCES usuarios (id)
+  , mensaje     text NOT NULL
+  , created_at  timestamp NOT NULL DEFAULT current_timestamp         
+);
+
+
 INSERT INTO roles (rol)
   VALUES ('usuario')
       ,  ('admin');
+
+INSERT INTO estados (estado)
+    VALUES ('desconectado')
+        ,  ('conectado');
 
 INSERT INTO usuarios (login,nombre,password,email,rol_id)
     VALUES ('admin','admin',crypt('admin', gen_salt('bf',12)),'admin@admin.com',2);

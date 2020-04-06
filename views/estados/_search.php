@@ -4,11 +4,11 @@ use yii\bootstrap4\Html;
 use yii\bootstrap4\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\UsuariosSearch */
+/* @var $model app\models\EstadosSearch */
 /* @var $form yii\bootstrap4\ActiveForm */
 ?>
 
-<div class="usuarios-search">
+<div class="estados-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,23 +17,7 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'login') ?>
-
-    <?= $form->field($model, 'nombre') ?>
-
-    <?= $form->field($model, 'password') ?>
-
-    <?= $form->field($model, 'email') ?>
-
-    <?php // echo $form->field($model, 'auth_key') ?>
-
-    <?php // echo $form->field($model, 'rol_id') ?>
-    
-    <?php // echo $form->field($model, 'estado_id') ?>
-
-    <?php // echo $form->field($model, 'token') ?>
-
-    <?php // echo $form->field($model, 'created_at') ?>
+    <?= $form->field($model, 'estado') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

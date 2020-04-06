@@ -41,12 +41,13 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['login', 'nombre', 'password', 'email'], 'required'],
-            [['rol_id'], 'default', 'value' => null],
-            [['rol_id'], 'integer'],
+            [['rol_id','estado_id'], 'default', 'value' => null],
+            [['rol_id','estado_id'], 'integer'],
             [['created_at'], 'safe'],
             [['login', 'nombre', 'password', 'email', 'auth_key', 'rol', 'token'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['login'], 'unique'],
+            [['estado_id'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado_id' => 'id']],
             [['rol_id'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::className(), 'targetAttribute' => ['rol_id' => 'id']],
             [
                 ['password'],
@@ -87,6 +88,7 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
             'email' => 'Correo electrónico',
             'auth_key' => 'Auth Key',
             'rol_id' => 'Rol ID',
+            'estado_id' => 'Estado ID',
             'token' => 'Token',
             'created_at' => 'Created At',
         ];
@@ -188,6 +190,9 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
                 $this->password = $security->generatePasswordHash($this->password);
                 // asignar rol por defecto (1 -> usuario)
                 $this->rol_id = 1;
+
+                $this->estado_id = (int) Estados::find()->select('id')->where(['=','estado','desconectado'])->scalar();
+
                 // asignar al usuario recien registrado un token
                 $this->token = $security->generateRandomString();
             }
