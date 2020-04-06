@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Amigos;
 use app\models\AmigosSearch;
+use app\models\Peticiones;
+use app\models\Usuarios;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -108,6 +110,82 @@ class AmigosController extends Controller
 
         return $this->redirect(['index']);
     }
+
+    /**
+     * Agrega a un usuario como amigo
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function actionAgregar($id)
+    {
+        $amigo_id = $id;
+        $model = new Amigos();
+        $model->usuario_id = Yii::$app->user->id;
+        $model->amigo_id = $amigo_id;
+        $nombre = Usuarios::find()->select('nombre')->where(['=', 'id', $amigo_id])->scalar();
+
+        if ($model->insert()) {
+            Yii::$app->session->setFlash('success', "El usuario con nombre <b>$nombre</b> ha sido añadido como amigo");
+
+            if (Peticiones::find()->where(['=', 'emisor_id', $model->amigo_id])
+                ->andFilterWhere(['=', 'receptor_id', $model->usuario_id])
+                ->exists()
+            ) {
+                // borrar la peticion de amistad ya que se aceptó anteriormente.abnf
+                $peticion = Peticiones::find()->where(['=', 'emisor_id', $model->amigo_id])
+                    ->andFilterWhere(['=', 'receptor_id', $model->usuario_id])->one();
+
+                $peticion->delete();
+            }
+        }
+        return $this->redirect(['chat/principal']);
+    }
+
+    public function actionEliminar($id)
+    {
+        $amigo_id = $id;
+        $nombre = Usuarios::find()->select('nombre')->where(['=', 'id', $amigo_id])->scalar();
+
+        $directa = Amigos::find()->where(['=', 'usuario_id', Yii::$app->user->id])
+            ->andFilterWhere(['=', 'amigo_id', $amigo_id])
+            ->exists();
+
+        $inversa = Amigos::find()->where(['=', 'usuario_id', $amigo_id])
+            ->andFilterWhere(['=', 'amigo_id', Yii::$app->user->id])
+            ->exists();
+
+
+        if ($directa) {
+            $modelId = Amigos::find()->select('id')->where(['=', 'usuario_id', Yii::$app->user->id])
+                ->andFilterWhere(['=', 'amigo_id', $amigo_id])
+                ->scalar();
+            $model = $this->findModel($modelId);
+
+            if ($model->delete()) {
+                Yii::$app->session->setFlash('success', "El usuario <b>$nombre</b> ha sido eliminado de tu lista de amigos correctamente");
+            }
+        }
+
+        if ($inversa) {
+            $modelId = Amigos::find()->select('id')->where(['=', 'usuario_id', $amigo_id])
+                ->andFilterWhere(['=', 'amigo_id', Yii::$app->user->id])
+                ->scalar();
+            $model = $this->findModel($modelId);
+
+            if ($model->delete()) {
+                Yii::$app->session->setFlash('success', "El usuario <b>$nombre</b> ha sido eliminado de tu lista de amigos correctamente");
+            }
+        }
+
+
+        return $this->redirect(['chat/principal']);
+    }
+
+
+
+
+
 
     /**
      * Finds the Amigos model based on its primary key value.
