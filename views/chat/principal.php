@@ -14,6 +14,96 @@ $this->title = 'Social';
 $this->params['breadcrumbs'][] = $this->title;
 
 $amigos = Usuarios::amigos(Yii::$app->user->id);
+
+$enviar = Url::to(['chat/insertar']);
+$historial = Url::to(['chat/historial']);
+
+$js = <<< EOT
+        var receptor_id;
+        var receptor_username;
+        $(document).ready(function () {
+
+            setInterval(function () {
+                actualizarHistorial();
+            }, 3500);
+
+            $(document).on('click', '.chat', function (e) {
+                e.preventDefault();
+                receptor_id = $(this).attr('id');
+                receptor_username = $(this).attr('data-username');
+        
+                ventanaChat(receptor_id, receptor_username);
+            });
+
+            $(document).on('click', '.btn-enviar', function (e) {
+                e.preventDefault();
+                var mensaje = $(`#chat_message_\${receptor_id}`).val();
+        
+                var trimeado = mensaje.trim();
+        
+                if (trimeado !== '') {
+                    // peticion ajax para insertar el mensaje en la DB
+                    $.ajax('$enviar', {
+                        method: 'POST',
+                        data: { receptor_id: receptor_id, mensaje: trimeado },
+                        success: function (data) {
+                            console.log(typeof data);
+                            // limpiar textarea
+                            $(`#chat_message_\${receptor_id}`).val('');
+                            $(`#historial_receptor_\${receptor_id}`).html(data);
+                        }
+                    });
+                }
+            });
+
+
+        });
+
+        function ventanaChat(receptor_id, receptor_username) {
+            $('body').append(`<div id='receptor_\${receptor_id}'></div>`);
+        
+            $(`#receptor_\${receptor_id}`).empty();
+            $(`#receptor_\${receptor_id}`).attr('id', `receptor_\${receptor_id}`);
+            $(`#receptor_\${receptor_id}`).attr('title', `Chat con \${receptor_username}`);
+        
+            $(`#receptor_\${receptor_id}`).append(`
+                    <div id='historial_receptor_\${receptor_id}' class='form-group historial' data-receptorid='\${receptor_id}'>
+                    \${recogerHistorial(receptor_id)}
+                    </div>
+                    <div class='form-group'>
+                    <textarea name='chat_message_\${receptor_id}' id='chat_message_\${receptor_id}' class='form-control input-chat'></textarea>
+                    <button id='\${receptor_id}' name='enviar' class='btn btn-sm btn-info btn-enviar'>Enviar</button>
+                    </div>
+                    `);
+        
+            $(`#receptor_\${receptor_id}`).dialog({
+                width: 400,
+                // modal: true,
+            });
+        
+            $(`#receptor_\${receptor_id}`).dialog();
+        }
+
+        function recogerHistorial(receptor_id) {
+            $.ajax('$historial', {
+                method: 'POST',
+                data: {receptor_id: receptor_id},
+                success: function (data) {
+                    console.log(data);
+                    \$(`#historial_receptor_\${receptor_id}`).html(data);
+                }
+            });
+        }
+
+        function actualizarHistorial() {
+            $(`.historial`).each(function () {
+                var receptor_id = $(this).data('receptorid');
+                recogerHistorial(receptor_id);
+            });
+        }
+    EOT;
+
+$this->registerJs($js);
 ?>
 
 <div class="chat-principal">

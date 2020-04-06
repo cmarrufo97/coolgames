@@ -102,6 +102,10 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            // cambiar el estado a conectado (1)
+            Yii::$app->db->createCommand("UPDATE usuarios SET estado_id = 2 WHERE id = :usuario_id")
+                ->bindValue(':usuario_id', $model->getUser()->getId())
+                ->execute();
             return $this->goBack();
         }
 
@@ -118,6 +122,11 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
+        // cambiar el estado a desconectado (0) 
+        Yii::$app->db->createCommand("UPDATE usuarios SET estado_id = 1 WHERE id = :usuario_id")
+            ->bindValue(':usuario_id', Yii::$app->user->id)
+            ->execute();
+
         Yii::$app->user->logout();
 
         return $this->goHome();
