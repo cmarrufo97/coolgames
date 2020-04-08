@@ -61,8 +61,13 @@ class LoginForm extends Model
      */
     public function login()
     {
+        if (Usuarios::tieneToken($this->login)) {
+            Yii::$app->session->setFlash('error', 'Debe confirmar su cuenta para loguearse.');
+            return false;
+        }
+
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
         return false;
     }
@@ -75,10 +80,10 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            if (filter_var($this->login,FILTER_VALIDATE_EMAIL)) {
+            if (filter_var($this->login, FILTER_VALIDATE_EMAIL)) {
                 // loguear por el email
                 $this->_user = Usuarios::findPorEmail($this->login);
-            }else {
+            } else {
                 // login por nombre de usuario
                 $this->_user = Usuarios::findPorLogin($this->login);
             }

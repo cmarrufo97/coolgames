@@ -177,6 +177,22 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
         return Yii::$app->security->validatePassword($password, $this->password);
     }
 
+    /**
+     * Método que valida si el usuario que entra tiene token.
+     * Si el usuario tiene token, es que no ha confirmado su cuenta, por lo tanto,
+     * no podrá acceder hasta que la confirme.
+     *
+     * @return boolean
+     */
+    public static function tieneToken($login)
+    {
+        return (new \yii\db\Query())
+            ->select(['login'])
+            ->from('usuarios')
+            ->where("login = '$login' and token is distinct from null")
+            ->all();
+    }
+
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {
