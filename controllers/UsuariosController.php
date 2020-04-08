@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 /**
  * UsuariosController implements the CRUD actions for Usuarios model.
@@ -128,14 +129,56 @@ class UsuariosController extends Controller
 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success','Cuenta creada correctamente.');
+
+            $url = Url::to([
+                'usuarios/confirmar',
+                'token' => $model->token,
+            ], true);
+
+            $mensaje = <<<EOT
+            <h1>Hola, $model->login, pinche en el enlace siguiente para confirmar su cuenta:</h1>
+            <a href="$url">Púlse aqui para confirmar su cuenta.</a>
+            EOT;
+
+            if ($this->actionCorreo($model->email, $mensaje)) {
+                Yii::$app->session->setFlash('success', 'Cuenta creada correctamente.
+                Se envío un email de confirmación de cuenta.');
+            } else {
+                Yii::$app->session->setFlash('error', 'No se ha podido enviar el email de confirmación');
+            }
+
             return $this->redirect(['site/login']);
         }
 
-        return $this->render('registrar',[
+        return $this->render('registrar', [
             'model' => $model,
         ]);
     }
+
+    public function actionCorreo($email, $mensaje)
+    {
+        return Yii::$app->mailer->compose()
+            ->setFrom(Yii::$app->params['smtpUsername'])
+            ->setTo($email)
+            ->setSubject('Confirmación de cuenta')
+            ->setHtmlBody($mensaje)
+            ->send();
+    }
+
+    public function actionConfirmar($token)
+    {
+        $sent = Yii::$app->db->createCommand("UPDATE usuarios SET token = null WHERE token = :valor")
+            ->bindValue(':valor', $token);
+
+        if ($sent->execute()) {
+            Yii::$app->session->setFlash('success', 'Cuenta confirmada');
+        } else {
+            Yii::$app->session->setFlash('error', 'No se pudo confirmar la cuenta');
+        }
+
+        return $this->redirect(['site/login']);
+    }
+
 
     /**
      * Deletes an existing Usuarios model.
