@@ -59,6 +59,36 @@ $js = <<< EOT
                 }
             });
 
+            // enviar mensajes cuando se presiona enter
+            $(document).on('keydown','.input-chat',function (e) {
+                e = e || window.event;
+                var keyCode = e.keyCode || e.which;
+
+                if (keyCode == 13) {
+                    var mensaje = $(`#chat_message_\${receptor_id}`).val();
+        
+                var trimeado = mensaje.trim();
+
+                if (trimeado !== '') {
+                    // peticion ajax para insertar el mensaje en la DB
+                    $.ajax('$enviar', {
+                        method: 'POST',
+                        data: { receptor_id: receptor_id, mensaje: trimeado },
+                        success: function (data) {
+                            // limpiar textarea
+                            $(`#chat_message_\${receptor_id}`).val('');
+                            $(`#historial_receptor_\${receptor_id}`).html(data);
+
+                            // auto scroll
+                            $(`.historial`).scrollTop($(`.historial`)[0].scrollHeight - 
+                            $(`.historial`)[0].clientHeight);
+
+                        }
+                    });
+                }
+                }
+            });
+
 
         });
 
