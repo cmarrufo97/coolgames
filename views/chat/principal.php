@@ -47,10 +47,13 @@ $js = <<< EOT
                         method: 'POST',
                         data: { receptor_id: receptor_id, mensaje: trimeado },
                         success: function (data) {
-                            console.log(typeof data);
                             // limpiar textarea
                             $(`#chat_message_\${receptor_id}`).val('');
                             $(`#historial_receptor_\${receptor_id}`).html(data);
+
+                            // auto scroll
+                            $(`.historial`).scrollTop($(`.historial`)[0].scrollHeight - 
+                            $(`.historial`)[0].clientHeight);
                         }
                     });
                 }
@@ -89,8 +92,11 @@ $js = <<< EOT
                 method: 'POST',
                 data: {receptor_id: receptor_id},
                 success: function (data) {
-                    console.log(data);
                     \$(`#historial_receptor_\${receptor_id}`).html(data);
+
+                    // auto scroll
+                    $(`.historial`).scrollTop($(`.historial`)[0].scrollHeight - 
+                    $(`.historial`)[0].clientHeight);
                 }
             });
         }
