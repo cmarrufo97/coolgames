@@ -6,6 +6,8 @@ use app\models\Generos;
 use Yii;
 use app\models\Juegos;
 use app\models\JuegosSearch;
+use app\models\Roles;
+use app\models\Usuarios;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -33,12 +35,17 @@ class JuegosController extends Controller
                 'class' => AccessControl::class,
                 'only' => ['index'],
                 'rules' => [
-                    // allow authenticated users
                     [
                         'allow' => true,
                         'roles' => ['@'],
+                        'matchCallback' => function ($rules, $action) {
+                            $adminId = Roles::find()->select('id')->where(['=', 'rol', 'admin'])->scalar();
+
+                            $usuario_rol_id = Usuarios::find()->select('rol_id')->where(['=', 'id', Yii::$app->user->id])->scalar();
+
+                            return $usuario_rol_id === $adminId;
+                        },
                     ],
-                    // everything else is denied by default
                 ],
             ],
         ];
