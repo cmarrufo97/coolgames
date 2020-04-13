@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Roles;
 use Yii;
 use app\models\Usuarios;
 use app\models\UsuariosSearch;
@@ -44,14 +45,19 @@ class UsuariosController extends Controller
 
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['index'],
+                'only' => ['index', 'create', 'update', 'delete'],
                 'rules' => [
-                    // allow authenticated users
                     [
                         'allow' => true,
                         'roles' => ['@'],
+                        'matchCallback' => function ($rules, $action) {
+                            $adminId = Roles::find()->select('id')->where(['=','rol','admin'])->scalar();
+
+                            $usuario_rol_id = Usuarios::find()->select('rol_id')->where(['=','id',Yii::$app->user->id])->scalar();
+
+                            return $usuario_rol_id === $adminId;
+                        },
                     ],
-                    // everything else is denied by default
                 ],
             ],
         ];
