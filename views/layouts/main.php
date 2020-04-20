@@ -62,6 +62,7 @@ AppAsset::register($this);
             'items' => [
                 ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'Social', 'url' => ['/chat/principal']],
+                ['label' => 'Mi Perfil', 'url' => ['/usuarios/perfil', 'id' => Yii::$app->user->id]],
                 ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
                 ['label' => 'Generos', 'url' => ['/generos/index']],
                 ['label' => 'Juegos', 'url' => ['/juegos/index']],

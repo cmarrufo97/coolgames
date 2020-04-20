@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\services\Util;
 use Yii;
 use yii\web\IdentityInterface;
 
@@ -26,6 +27,8 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     const SCENARIO_CREAR = 'crear';
     const SCENARIO_CREATE = 'create';
     public $password_repeat;
+
+    const IMAGEN = '@img/usuario-defecto.png';
 
 
     /**
@@ -263,5 +266,30 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
         }
 
         return false;
+    }
+
+    public function getImagen()
+    {
+        if ($this->imagen !== null) {
+            try {
+                $ruta = 'usuarios/' . $this->imagen;
+                $imagen = Util::s3GetImagenUrl($ruta, 'coolgamesyii');
+                return $imagen;
+            } catch (\Exception $exception) {
+            }
+        } else {
+            try {
+                $ruta = 'usuarios/' . basename(static::IMAGEN);
+                $imagenDefecto = Util::s3GetImagenUrl($ruta, 'coolgamesyii');
+                return $imagenDefecto;
+            } catch (\Exception $e) {
+            }
+        }
+        return false;
+    }
+
+    public function getCountAmigos()
+    {
+        return count($this->amigos($this->id));
     }
 }
