@@ -16,6 +16,7 @@ use yii\web\IdentityInterface;
  * @property string|null $auth_key
  * @property string|null $rol
  * @property string|null $token
+ * @property string|null $imagen
  * @property string $created_at
  * 
  * @property Roles $rol
@@ -44,6 +45,7 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
             [['login', 'nombre', 'password', 'email'], 'required'],
             [['rol_id', 'estado_id'], 'default', 'value' => null],
             [['rol_id', 'estado_id'], 'integer'],
+            [['imagen'], 'string'],
             [['created_at'], 'safe'],
             [['login', 'nombre', 'password', 'email', 'auth_key', 'token'], 'string', 'max' => 255],
             [['email'], 'unique'],
@@ -91,6 +93,7 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
             'rol_id' => 'Rol ID',
             'estado_id' => 'Estado ID',
             'token' => 'Token',
+            'imagen' => 'Imagen',
             'created_at' => 'Created At',
         ];
     }

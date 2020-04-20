@@ -33,6 +33,8 @@ use yii\bootstrap4\ActiveForm;
 
     <?php // echo $form->field($model, 'token') ?>
 
+    <?php // echo $form->field($model, 'imagen') ?>
+
     <?php // echo $form->field($model, 'created_at') ?>
 
     <div class="form-group">

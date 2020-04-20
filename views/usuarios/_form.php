@@ -30,6 +30,8 @@ use yii\bootstrap4\ActiveForm;
 
     <!-- <?= $form->field($model, 'token')->textInput(['maxlength' => true]) ?> -->
 
+    <!-- <?= $form->field($model, 'imagen')->textarea(['rows' => 6]) ?> -->
+
     <!-- <?= $form->field($model, 'created_at')->textInput() ?> -->
 
     <div class="form-group">

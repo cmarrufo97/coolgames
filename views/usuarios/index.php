@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'rol_id',
             //'estado_id',
             //'token',
+            //'imagen:ntext',
             //'created_at',
 
             ['class' => 'yii\grid\ActionColumn'],
