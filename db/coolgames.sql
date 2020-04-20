@@ -32,6 +32,7 @@ CREATE TABLE usuarios
   , rol_id      bigint NOT NULL REFERENCES roles (id) DEFAULT 1
   , estado_id   bigint NOT NULL REFERENCES estados (id) DEFAULT 1
   , token       varchar(255)
+  , imagen      text  DEFAULT NULL
   , created_at  timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
