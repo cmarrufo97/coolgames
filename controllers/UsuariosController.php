@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\ImagenForm;
 use app\models\Roles;
 use Yii;
 use app\models\Usuarios;
@@ -11,6 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /**
  * UsuariosController implements the CRUD actions for Usuarios model.
@@ -183,6 +185,56 @@ class UsuariosController extends Controller
         }
 
         return $this->redirect(['site/login']);
+    }
+
+    public function actionImagen($id)
+    {
+        if ($id != Yii::$app->user->id) {
+            Yii::$app->session->setFlash('error', 'No puede modificar la foto de otro usuario');
+            return $this->goBack();
+        }
+
+        $usuario_id = $id;
+        $nombre = Usuarios::find()->select('login')->where(['=', 'id', $usuario_id])->scalar();
+        $model = new ImagenForm();
+        $userModel = $this->findModel($usuario_id);
+
+        if (Yii::$app->request->isPost) {
+            $model->imagen = UploadedFile::getInstance($model, 'imagen');
+            if ($model->uploadUserImage($usuario_id, $nombre, 'coolgamesyii')) {
+                // Yii::debug('Se sube');
+
+                $filename = $usuario_id . $nombre . '.' . $model->imagen->extension;
+
+                $userModel->imagen = $filename;
+                $userModel->save();
+                Yii::$app->session->setFlash('success', 'Foto de perfil modificada correctamente.');
+                return $this->redirect(['usuarios/perfil']);
+            }
+        }
+
+        return $this->render('imagen', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionPerfil($id = null)
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
+        if ($id == null && !Yii::$app->user->isGuest) {
+            $id = Yii::$app->user->id;
+        }
+
+        // $usuario_id = Usuarios::find()->select('id')->where(['=', 'id', $id])->scalar();
+        // $model = $this->findModel($usuario_id);
+        $model = Usuarios::findOne($id);
+
+        return $this->render('perfil', [
+            'model' => $model,
+        ]);
     }
 
 
