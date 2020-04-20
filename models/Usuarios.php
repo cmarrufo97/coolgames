@@ -23,6 +23,7 @@ use yii\web\IdentityInterface;
 class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 {
     const SCENARIO_CREAR = 'crear';
+    const SCENARIO_CREATE = 'create';
     public $password_repeat;
 
 
@@ -41,10 +42,10 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['login', 'nombre', 'password', 'email'], 'required'],
-            [['rol_id','estado_id'], 'default', 'value' => null],
-            [['rol_id','estado_id'], 'integer'],
+            [['rol_id', 'estado_id'], 'default', 'value' => null],
+            [['rol_id', 'estado_id'], 'integer'],
             [['created_at'], 'safe'],
-            [['login', 'nombre', 'password', 'email', 'auth_key', 'rol', 'token'], 'string', 'max' => 255],
+            [['login', 'nombre', 'password', 'email', 'auth_key', 'token'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['login'], 'unique'],
             [['estado_id'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado_id' => 'id']],
@@ -52,24 +53,24 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
             [
                 ['password'],
                 'required',
-                'on' => [self::SCENARIO_DEFAULT, self::SCENARIO_CREAR],
+                'on' => [self::SCENARIO_DEFAULT, self::SCENARIO_CREAR, self::SCENARIO_CREATE],
             ],
             [
                 ['password'],
                 'trim',
-                'on' => [self::SCENARIO_CREAR],
+                'on' => [self::SCENARIO_CREAR, self::SCENARIO_CREATE],
             ],
             [
                 ['password_repeat'],
                 'required',
-                'on' => [self::SCENARIO_CREAR]
+                'on' => [self::SCENARIO_CREAR, self::SCENARIO_CREATE]
             ],
             [
                 ['password_repeat'],
                 'compare',
                 'compareAttribute' => 'password',
                 'skipOnEmpty' => false,
-                'on' => [self::SCENARIO_CREAR],
+                'on' => [self::SCENARIO_CREAR, self::SCENARIO_CREATE],
             ],
         ];
     }
@@ -207,10 +208,17 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
                 // asignar rol por defecto (1 -> usuario)
                 $this->rol_id = 1;
 
-                $this->estado_id = (int) Estados::find()->select('id')->where(['=','estado','desconectado'])->scalar();
+                $this->estado_id = (int) Estados::find()->select('id')->where(['=', 'estado', 'desconectado'])->scalar();
 
                 // asignar al usuario recien registrado un token
                 $this->token = $security->generateRandomString();
+            }
+
+            if ($this->scenario === self::SCENARIO_CREATE) {
+                $security = Yii::$app->security;
+                $this->auth_key = $security->generateRandomString();
+                $this->password = $security->generatePasswordHash($this->password);
+                $this->token = null;
             }
         }
         return true;
@@ -253,9 +261,4 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 
         return false;
     }
-
-
-
-
-
 }

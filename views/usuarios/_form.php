@@ -18,6 +18,8 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'password_repeat')->passwordInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
@@ -26,7 +28,7 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'estado_id')->textInput() ?>
 
-    <?= $form->field($model, 'token')->textInput(['maxlength' => true]) ?>
+    <!-- <?= $form->field($model, 'token')->textInput(['maxlength' => true]) ?> -->
 
     <!-- <?= $form->field($model, 'created_at')->textInput() ?> -->
 
