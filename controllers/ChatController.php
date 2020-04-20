@@ -7,6 +7,7 @@ use app\models\Chat;
 use app\models\ChatSearch;
 use app\models\Usuarios;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -128,6 +129,16 @@ class ChatController extends Controller
             'query' => Usuarios::find()->where('1=0'),
         ]);
 
+        $arrayAmigos = Usuarios::amigos(Yii::$app->user->id);
+        $dataProvider = new ArrayDataProvider([
+            'key' => 'id',
+            'allModels' => $arrayAmigos,
+            'sort' => [
+                'attributes' => ['id', 'nombre'],
+            ],
+            'pagination' => ['pageSize' => 10],
+        ]);
+
         if (($cadena = Yii::$app->request->get('cadena', ''))) {
             $usuarios->query->where(['ilike', 'nombre', $cadena])
                 ->andFilterWhere(['!=', 'id', Yii::$app->user->id]);
@@ -141,7 +152,8 @@ class ChatController extends Controller
 
         return $this->render('principal', [
             'usuarios' => $usuarios,
-            'cadena' => $cadena
+            'cadena' => $cadena,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

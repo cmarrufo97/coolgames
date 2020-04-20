@@ -3,6 +3,7 @@
 
 <?php
 
+use app\models\Estados;
 use app\models\Peticiones;
 use app\models\Usuarios;
 use yii\bootstrap4\Html;
@@ -259,62 +260,79 @@ $this->registerJs($js);
         ?>
 
         <h2 class="mt-4">Mis amigos:</h2>
-        <table class="table w-100 usuarios">
-            <thead>
-                <tr>
-                    <th>Usuario</th>
-                    <th>Estado</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody class="cuerpo-usuarios">
-                <?php
-                foreach ($amigos as $amigo) {
-                ?>
-                    <tr>
-                        <td scope="row"><?= $amigo['nombre'] ?></td>
-                        <td>
-                            <?php
-                            $estado = Yii::$app->db->createCommand("SELECT estado FROM estados WHERE id = :estado_id")
-                                ->bindValue(':estado_id', $amigo['estado_id'])
-                                ->queryScalar();
+        <?=
+            GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    [
+                        'attribute' => 'imagen',
+                        'label' => 'Imagen',
+                        'value' => function ($model, $widget) {
+                            $modelAmigo = Usuarios::findOne($model['id']);
+                            $fotoAmigo = $modelAmigo->getImagen();
+                            return Html::img($fotoAmigo, ['alt' => 'Imagen de Amigo', 'class' => 'imagen-amigos img-fluid rounded']);
+                        },
+                        'format' => 'html',
+                    ],
+                    'nombre',
+                    [
+                        'attribute' => 'estado',
+                        'value' => function ($model, $widget) {
+                            $estado = Estados::find()->select('estado')
+                                ->where(['=', 'id', $model['estado_id']])->scalar();
 
-                            if ($estado == 'desconectado') {
-                            ?>
-                                <div class="btn btn-sm btn-danger">
-                                    <?= $estado ?>
-                                </div>
-                            <?php
+                            if ($estado === 'desconectado') {
+                                return Html::button('desconectado', [
+                                    'class' => 'btn btn-danger',
+                                ]);
                             } else {
-                            ?>
-                                <div class="btn btn-sm btn-success">
-                                    <?= $estado ?>
-                                </div>
-                            <?php
+                                return Html::button('conectado', [
+                                    'class' => 'btn btn-success',
+                                ]);
                             }
-                            ?>
-                        </td>
-                        <td>
-                            <a href=""><span id="<?= $amigo['id'] ?>" role="button" class="btn btn-sm btn-primary chat" data-username="<?= $amigo['nombre'] ?>">Chat</span></a>
-
-                            <span>
-                                <?=
-                                    Html::a(
-                                        'Eliminar amigo',
-                                        Url::to([
-                                            'amigos/eliminar',
-                                            'id' => $amigo['id']
-                                        ]),
-                                        ['class' => 'btn btn-sm btn-danger']
-                                    );
-                                ?>
-                            </span>
-                        </td>
-                    </tr>
-                <?php
-                }
-                ?>
-            </tbody>
-        </table>
+                        },
+                        'format' => 'raw'
+                    ],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{chat} {ver} {eliminar}',
+                        'buttons' => [
+                            'chat' => function ($url, $model) {
+                                return Html::a('Chat', null, [
+                                    'id' => $model['id'],
+                                    'role' => 'button',
+                                    'class' => 'text-white btn btn-sm btn-primary chat',
+                                    'data-username' => $model['nombre'],
+                                ]);
+                            },
+                            'ver' => function ($url, $model) {
+                                return Html::a(
+                                    'Ver Perfil',
+                                    Url::to(['usuarios/perfil', 'id' => $model['id']]),
+                                    [
+                                        'class' => 'btn btn-sm btn-info',
+                                    ],
+                                );
+                            },
+                            'eliminar' => function ($url, $model) {
+                                return Html::a(
+                                    'Eliminar amigo',
+                                    Url::to([
+                                        'amigos/eliminar',
+                                        'id' => $model['id']
+                                    ]),
+                                    [
+                                        'class' => 'btn btn-sm btn-danger',
+                                        'data' => [
+                                            'confirm' => '¿Estás seguro de que desea eliminar a este usuario?'
+                                        ],
+                                    ]
+                                );
+                            },
+                        ],
+                    ],
+                ],
+            ]);
+        ?>
     </div>
 </div>
