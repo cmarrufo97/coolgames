@@ -188,8 +188,9 @@ $this->registerJs($js);
                                             Url::to(['amigos/eliminar', 'id' => $key]),
                                             [
                                                 'data-method' => 'POST',
-                                                'class' => 'btn btn-sm btn-danger'
-                                            ]
+                                                'class' => 'btn btn-sm btn-danger',
+                                                'data-confirm' => '¿Estás seguro de que desea eliminar a este usuario como amigo?',
+                                            ],
                                         );
                                     }
                                 },
@@ -283,11 +284,11 @@ $this->registerJs($js);
 
                             if ($estado === 'desconectado') {
                                 return Html::button('desconectado', [
-                                    'class' => 'btn btn-danger',
+                                    'class' => 'btn btn-sm btn-danger',
                                 ]);
                             } else {
                                 return Html::button('conectado', [
-                                    'class' => 'btn btn-success',
+                                    'class' => 'btn btn-sm btn-success',
                                 ]);
                             }
                         },
@@ -324,7 +325,7 @@ $this->registerJs($js);
                                     [
                                         'class' => 'btn btn-sm btn-danger',
                                         'data' => [
-                                            'confirm' => '¿Estás seguro de que desea eliminar a este usuario?'
+                                            'confirm' => '¿Estás seguro de que desea eliminar a este usuario como amigo?'
                                         ],
                                     ]
                                 );

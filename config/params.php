@@ -8,8 +8,8 @@ return [
     'amazon' => [
         'region' => 'eu-west-3',
         'credentials' => [
-            'key' => 'AKIAJY6SY6QCTADRD7WA',
-            'secret' => '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',
+            'key' => getenv('S3_KEY_'),
+            'secret' => getenv('S3_SECRET'),
         ],
     ],
 ];

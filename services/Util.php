@@ -17,10 +17,10 @@ class Util
         $s3 = S3Client::factory([
             'credentials' => [
                 'key' => Yii::$app->params['amazon']['credentials']['key'],
-                'secret' => Yii::$app->params['amazon']['credentials']['secret']
+                'secret' => Yii::$app->params['amazon']['credentials']['secret'],
             ],
             'version' => 'latest',
-            'region' => Yii::$app->params['amazon']['region'],
+            'region' => 'eu-west-3',
         ]);
 
         return $s3;
