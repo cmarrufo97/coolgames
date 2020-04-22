@@ -32,6 +32,8 @@ use yii\bootstrap4\ActiveForm;
     <?php // echo $form->field($model, 'estado_id') ?>
 
     <?php // echo $form->field($model, 'token') ?>
+    
+    <?php // echo $form->field($model, 'cod_verificacion') ?>
 
     <?php // echo $form->field($model, 'imagen') ?>
 
