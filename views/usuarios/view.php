@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'rol_id',
             'estado_id',
             'token',
+            // 'cod_verificacion',
             // 'imagen:ntext',
             'created_at',
         ],

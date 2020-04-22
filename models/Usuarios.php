@@ -17,6 +17,7 @@ use yii\web\IdentityInterface;
  * @property string|null $auth_key
  * @property string|null $rol
  * @property string|null $token
+ * @property string|null $cod_verificacion
  * @property string|null $imagen
  * @property string $created_at
  * 
@@ -26,6 +27,7 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 {
     const SCENARIO_CREAR = 'crear';
     const SCENARIO_CREATE = 'create';
+    const SCENARIO_RECUPERAR = 'recuperar';
     public $password_repeat;
 
     const IMAGEN = '@img/usuario-defecto.png';
@@ -50,7 +52,7 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
             [['rol_id', 'estado_id'], 'integer'],
             [['imagen'], 'string'],
             [['created_at'], 'safe'],
-            [['login', 'nombre', 'password', 'email', 'auth_key', 'token'], 'string', 'max' => 255],
+            [['login', 'nombre', 'password', 'email', 'auth_key', 'token', 'cod_verificacion'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['login'], 'unique'],
             [['estado_id'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado_id' => 'id']],
@@ -58,24 +60,35 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
             [
                 ['password'],
                 'required',
-                'on' => [self::SCENARIO_DEFAULT, self::SCENARIO_CREAR, self::SCENARIO_CREATE],
+                'on' => [
+                    self::SCENARIO_DEFAULT,
+                    self::SCENARIO_CREAR,
+                    self::SCENARIO_CREATE,
+                    self::SCENARIO_RECUPERAR,
+                ],
             ],
             [
                 ['password'],
                 'trim',
-                'on' => [self::SCENARIO_CREAR, self::SCENARIO_CREATE],
+                'on' => [
+                    self::SCENARIO_CREAR, self::SCENARIO_CREATE,                    self::SCENARIO_RECUPERAR,
+                ],
             ],
             [
                 ['password_repeat'],
                 'required',
-                'on' => [self::SCENARIO_CREAR, self::SCENARIO_CREATE]
+                'on' => [
+                    self::SCENARIO_CREAR, self::SCENARIO_CREATE,                    self::SCENARIO_RECUPERAR,
+                ]
             ],
             [
                 ['password_repeat'],
                 'compare',
                 'compareAttribute' => 'password',
                 'skipOnEmpty' => false,
-                'on' => [self::SCENARIO_CREAR, self::SCENARIO_CREATE],
+                'on' => [
+                    self::SCENARIO_CREAR, self::SCENARIO_CREATE,                    self::SCENARIO_RECUPERAR,
+                ],
             ],
         ];
     }
@@ -96,6 +109,7 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
             'rol_id' => 'Rol ID',
             'estado_id' => 'Estado ID',
             'token' => 'Token',
+            'cod_verificacion' => 'Cod Verificacion',
             'imagen' => 'Imagen',
             'created_at' => 'Created At',
         ];

@@ -23,17 +23,18 @@ DROP TABLE IF EXISTS usuarios CASCADE;
 
 CREATE TABLE usuarios
 (
-    id          bigserial PRIMARY KEY
-  , login       varchar(255) NOT NULL UNIQUE
-  , nombre      varchar(255) NOT NULL
-  , password    varchar(255) NOT NULL
-  , email       varchar(255) NOT NULL UNIQUE
-  , auth_key    varchar(255)
-  , rol_id      bigint NOT NULL REFERENCES roles (id) DEFAULT 1
-  , estado_id   bigint NOT NULL REFERENCES estados (id) DEFAULT 1
-  , token       varchar(255)
-  , imagen      text  DEFAULT NULL
-  , created_at  timestamp(0) NOT NULL DEFAULT current_timestamp
+    id                bigserial PRIMARY KEY
+  , login             varchar(255) NOT NULL UNIQUE
+  , nombre            varchar(255) NOT NULL
+  , password          varchar(255) NOT NULL
+  , email             varchar(255) NOT NULL UNIQUE
+  , auth_key          varchar(255)
+  , rol_id            bigint NOT NULL REFERENCES roles (id) DEFAULT 1
+  , estado_id         bigint NOT NULL REFERENCES estados (id) DEFAULT 1
+  , token             varchar(255)
+  , cod_verificacion  varchar(255)  
+  , imagen            text  DEFAULT NULL
+  , created_at        timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
 DROP TABLE IF EXISTS generos CASCADE;
