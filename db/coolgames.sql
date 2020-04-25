@@ -55,6 +55,7 @@ CREATE TABLE juegos
   , genero_id       bigint NOT NULL REFERENCES generos (id)
   , flanzamiento    date
   , precio          numeric(6,2)
+  , imagen          varchar(255)
   , created_at      timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 

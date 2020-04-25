@@ -27,7 +27,8 @@ class ImagenForm extends Model
             $origen = Yii::getAlias('@uploads/' . $filename);
             $this->imagen->saveAs($origen);
             //subir a S3
-            Util::s3SubirUsuarios($origen, $filename, $bucketName, $imagenAntigua);
+            // Util::s3SubirUsuarios($origen, $filename, $bucketName, $imagenAntigua);
+            Util::s3SubirImagen($origen,$filename,$bucketName,$imagenAntigua);
 
             unlink($origen);
 

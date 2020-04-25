@@ -11,7 +11,6 @@ $this->title = 'Juegos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="juegos-index">
-
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
@@ -38,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'flanzamiento',
             'precio:currency',
+            //'imagen',
             //'created_at',
 
             ['class' => 'yii\grid\ActionColumn'],
