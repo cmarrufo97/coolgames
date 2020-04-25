@@ -76,9 +76,12 @@ class Juegos extends \yii\db\ActiveRecord
     {
         $this->imgUpload = UploadedFile::getInstance($this, 'imgUpload');
 
+        $origen = Yii::getAlias('@uploads/' . $this->imgUpload->name);
+
         if ($this->imgUpload !== null) {
-            $this->imagen = Util::s3SubirImagen($this->imgUpload,$this->titulo, 'coolgamesyii', $this->imagen, true);
+            $this->imagen = Util::s3SubirImagen($this->imgUpload, $this->titulo, 'coolgamesyii', $this->imagen, true);
             $this->imgUpload = null;
+            unlink($origen);
         }
     }
     public function getImagen()
