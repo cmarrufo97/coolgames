@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+use app\services\Util;
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "juegos".
@@ -18,6 +20,8 @@ use Yii;
  */
 class Juegos extends \yii\db\ActiveRecord
 {
+    public $imgUpload;
+
     /**
      * {@inheritdoc}
      */
@@ -37,7 +41,7 @@ class Juegos extends \yii\db\ActiveRecord
             [['genero_id'], 'integer'],
             [['flanzamiento', 'created_at'], 'safe'],
             [['precio'], 'number'],
-            [['titulo'], 'string', 'max' => 255],
+            [['titulo', 'imagen'], 'string', 'max' => 255],
             [['genero_id'], 'exist', 'skipOnError' => true, 'targetClass' => Generos::className(), 'targetAttribute' => ['genero_id' => 'id']],
         ];
     }
@@ -53,6 +57,7 @@ class Juegos extends \yii\db\ActiveRecord
             'genero_id' => 'Genero ID',
             'flanzamiento' => 'Flanzamiento',
             'precio' => 'Precio',
+            'imagen' => 'Imagen',
             'created_at' => 'Created At',
         ];
     }
@@ -65,5 +70,27 @@ class Juegos extends \yii\db\ActiveRecord
     public function getGenero()
     {
         return $this->hasOne(Generos::className(), ['id' => 'genero_id']);
+    }
+
+    public function uploadImage()
+    {
+        $this->imgUpload = UploadedFile::getInstance($this, 'imgUpload');
+
+        if ($this->imgUpload !== null) {
+            $this->imagen = Util::s3SubirImagen($this->imgUpload,$this->titulo, 'coolgamesyii', $this->imagen, true);
+            $this->imgUpload = null;
+        }
+    }
+    public function getImagen()
+    {
+        if ($this->imagen !== null) {
+            try {
+                $ruta = 'juegos/' . $this->imagen;
+                $imagen = Util::s3GetImagenUrl($ruta, 'coolgamesyii');
+                return $imagen;
+            } catch (\Exception $exception) {
+            }
+        }
+        return false;
     }
 }

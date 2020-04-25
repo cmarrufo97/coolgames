@@ -18,7 +18,7 @@ class JuegosSearch extends Juegos
     {
         return [
             [['id', 'genero_id'], 'integer'],
-            [['titulo', 'flanzamiento', 'created_at','genero.denom'], 'safe'],
+            [['titulo', 'flanzamiento', 'imagen', 'created_at', 'genero.denom'], 'safe'],
             [['precio'], 'number'],
         ];
     }
@@ -76,7 +76,8 @@ class JuegosSearch extends Juegos
             'created_at' => $this->created_at,
         ]);
 
-        $query->andFilterWhere(['ilike', 'titulo', $this->titulo]);
+        $query->andFilterWhere(['ilike', 'titulo', $this->titulo])
+            ->andFilterWhere(['ilike', 'imagen', $this->imagen]);
 
         return $dataProvider;
     }

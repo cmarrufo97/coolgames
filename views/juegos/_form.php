@@ -10,7 +10,7 @@ use yii\bootstrap4\ActiveForm;
 
 <div class="juegos-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'titulo')->textInput(['maxlength' => true]) ?>
 
@@ -19,6 +19,10 @@ use yii\bootstrap4\ActiveForm;
     <?= $form->field($model, 'flanzamiento')->textInput() ?>
 
     <?= $form->field($model, 'precio')->textInput() ?>
+
+    <?= $form->field($model, 'imgUpload')->fileInput() ?>
+
+    <!-- <?= $form->field($model, 'imagen')->textInput(['maxlength' => true]) ?> -->
 
     <!-- <?= $form->field($model, 'created_at')->textInput() ?> -->
 

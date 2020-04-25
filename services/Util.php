@@ -26,87 +26,158 @@ class Util
         return $s3;
     }
 
-
-    public static function s3SubirUsuarios($archivo, $key, $bucketName, $archivoAntiguo = null)
+    // Sube o fotos de usuarios o de juegos
+    public static function s3SubirImagen($archivo, $key, $bucketName, $archivoAntiguo = null, $esJuego = false)
     {
-        \yii\imagine\Image::resize($archivo, 200, 200)->save($archivo);
 
         $s3 = static::inicializar();
 
-        try {
+        if ($esJuego === true) {
+            $nombreArchivo = Yii::getAlias('@uploads/' . $archivo->baseName . '.' . $archivo->extension);
+            $archivo->saveAs($nombreArchivo);
 
-            if (!file_exists('/tmp/tmpfile')) {
-                mkdir('/tmp/tmpfile');
-            }
+            $imagine = new Imagine();
+            $image = $imagine->open($nombreArchivo);
+            $image->resize(new Box(600, 400))->save($nombreArchivo);
 
             if ($archivoAntiguo !== null) {
-                static::s3EliminarArchivoUsuarios($archivoAntiguo, $bucketName);
+                $s3->deleteObject([
+                    'Bucket' => $bucketName,
+                    'Key' => "juegos/$archivo",
+                ]);
             }
 
-            $tempFilePath = '/tmp/tmpfile/' . basename($archivo);
-            $tempFile = fopen($tempFilePath, "w") or die("Error: Unable to open file.");
-            $fileContents = file_get_contents($archivo);
-            $tempFile = file_put_contents($tempFilePath, $fileContents);
+            $key .= '.' . $archivo->extension;
 
-            $s3->putObject([
-                'Bucket' => $bucketName,
-                'Key' => "usuarios/$key",
-                'SourceFile' => $tempFilePath,
-            ]);
-        } catch (S3Exception $e) {
-            echo $e->getMessage();
-        } catch (Exception $e) {
-            echo $e->getMessage();
+            try {
+                $s3->putObject([
+                    'Bucket' => $bucketName,
+                    'Key' => "juegos/$key",
+                    'Body' => $archivo,
+                    'ACL' => 'public-read',
+                ]);
+            } catch (S3Exception $e) {
+                echo $e->getMessage();
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+            return Util::s3SubirJuegos(file_get_contents($nombreArchivo), $key, $bucketName);
+        } else {
+            \yii\imagine\Image::resize($archivo, 200, 200)->save($archivo);
+            try {
+
+                if (!file_exists('/tmp/tmpfile')) {
+                    mkdir('/tmp/tmpfile');
+                }
+
+                if ($archivoAntiguo !== null) {
+                    $s3->deleteObject([
+                        'Bucket' => $bucketName,
+                        'Key' => "usuarios/$archivoAntiguo"
+                    ]);
+                }
+
+                $tempFilePath = '/tmp/tmpfile/' . basename($archivo);
+                $tempFile = fopen($tempFilePath, "w") or die("Error: Unable to open file.");
+                $fileContents = file_get_contents($archivo);
+                $tempFile = file_put_contents($tempFilePath, $fileContents);
+
+                $s3->putObject([
+                    'Bucket' => $bucketName,
+                    'Key' => "usuarios/$key",
+                    'SourceFile' => $tempFilePath,
+                    'ACL' => 'public-read',
+                ]);
+            } catch (S3Exception $e) {
+                echo $e->getMessage();
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
         }
     }
 
     public static function s3GetImagenUrl($key, $bucketName)
     {
         $s3 = static::inicializar();
-
-        try {
-            $cmd = $s3->getCommand('GetObject', [
-                'Bucket' => $bucketName,
-                'Key'    => $key,
-            ]);
-
-            $request = $s3->createPresignedRequest($cmd, '+30 minutes');
-            $signedUrl = (string) $request->getUri();
-        } catch (S3Exception $e) {
-        }
-
-        return $signedUrl;
+        return $s3->getObjectUrl($bucketName, $key);
     }
 
-    public static function s3GetImagenUsuarioDefecto($key, $bucketName)
+    public static function s3SubirJuegos($archivo, $key, $bucketName)
     {
         $s3 = static::inicializar();
 
         try {
-            $cmd = $s3->getCommand('GetObject', [
+            $s3->putObject([
                 'Bucket' => $bucketName,
-                'Key'    => $key,
-            ]);
-
-            $request = $s3->createPresignedRequest($cmd, '+30 minutes');
-            $signedUrl = (string) $request->getUri();
-        } catch (S3Exception $e) {
-        }
-
-        return $signedUrl;
-    }
-
-    public static function s3EliminarArchivoUsuarios($archivo, $bucketName)
-    {
-        $s3 = static::inicializar();
-
-        try {
-
-            $s3->deleteObject([
-                'Bucket' => $bucketName,
-                'Key' => "usuarios/$archivo"
+                'Key' => "juegos/$key",
+                'Body' => $archivo,
+                'ACL' => 'public-read',
             ]);
         } catch (S3Exception $e) {
+            echo $e->getMessage();
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
+
+        return $key;
     }
+
+    // Funciones antiguas
+    // public static function s3UploadJuegos($archivo, $key, $bucketName, $archivoAntiguo = null)
+    // {
+    //     $s3 = static::inicializar();
+
+    //     $nombreArchivo = Yii::getAlias('@uploads/' . $archivo->baseName . '.' . $archivo->extension);
+    //     $archivo->saveAs($nombreArchivo);
+
+    //     $imagine = new Imagine();
+    //     $image = $imagine->open($nombreArchivo);
+    //     $image->resize(new Box(600, 400))->save($nombreArchivo);
+
+    //     if ($archivoAntiguo !== null) {
+    //         $s3->deleteObject([
+    //             'Bucket' => $bucketName,
+    //             'Key' => "juegos/$archivo",
+    //         ]);
+    //     }
+
+    //     $key .= '.' . $archivo->extension;
+
+    //     return Util::s3SubirJuegos(file_get_contents($nombreArchivo), $key, $bucketName);
+    // }
+
+    // public static function s3SubirUsuarios($archivo, $key, $bucketName, $archivoAntiguo = null)
+    // {
+    //     \yii\imagine\Image::resize($archivo, 200, 200)->save($archivo);
+
+    //     $s3 = static::inicializar();
+
+    //     try {
+
+    //         if (!file_exists('/tmp/tmpfile')) {
+    //             mkdir('/tmp/tmpfile');
+    //         }
+
+    //         if ($archivoAntiguo !== null) {
+    //             static::s3EliminarArchivoUsuarios($archivoAntiguo, $bucketName);
+    //         }
+
+    //         $tempFilePath = '/tmp/tmpfile/' . basename($archivo);
+    //         $tempFile = fopen($tempFilePath, "w") or die("Error: Unable to open file.");
+    //         $fileContents = file_get_contents($archivo);
+    //         $tempFile = file_put_contents($tempFilePath, $fileContents);
+
+    //         $s3->putObject([
+    //             'Bucket' => $bucketName,
+    //             'Key' => "usuarios/$key",
+    //             'SourceFile' => $tempFilePath,
+    //             'ACL' => 'public-read',
+    //         ]);
+    //     } catch (S3Exception $e) {
+    //         echo $e->getMessage();
+    //     } catch (Exception $e) {
+    //         echo $e->getMessage();
+    //     }
+    // }
+
 }
