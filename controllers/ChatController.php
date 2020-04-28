@@ -32,7 +32,7 @@ class ChatController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['principal','index','create','update'],
+                'only' => ['principal', 'index', 'create', 'update'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -160,18 +160,18 @@ class ChatController extends Controller
     public function actionInsertar()
     {
         if (isset($_POST['receptor_id']) && isset($_POST['mensaje'])) {
-            // var_dump($_POST['receptor_id']);
-            // var_dump($_POST['mensaje']);
-            $sent = Yii::$app->db->createCommand("INSERT INTO chat (emisor_id,receptor_id,mensaje)
-            VALUES (:emisor_id,:receptor_id,:mensaje)")
-                ->bindValue(':emisor_id', Yii::$app->user->id)
-                ->bindValue(':receptor_id', $_POST['receptor_id'])
-                ->bindValue(':mensaje', $_POST['mensaje']);
+            $receptor_id = $_POST['receptor_id'];
+            $mensaje = $_POST['mensaje'];
 
-            $result = $sent->execute();
+            if ($mensaje != '') {
+                $model = new Chat();
+                $model->emisor_id = Yii::$app->user->id;
+                $model->receptor_id = $receptor_id;
+                $model->mensaje = $mensaje;
 
-            if ($result) {
-                return $this->actionHistorial();
+                if ($model->save()) {
+                    return $this->actionHistorial();
+                }
             }
         }
     }
