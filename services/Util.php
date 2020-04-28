@@ -38,7 +38,7 @@ class Util
 
             $imagine = new Imagine();
             $image = $imagine->open($nombreArchivo);
-            $image->resize(new Box(600, 400))->save($nombreArchivo);
+            $image->resize(new Box(100, 150))->save($nombreArchivo);
 
             if ($archivoAntiguo !== null) {
                 $s3->deleteObject([
