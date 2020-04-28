@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Generos;
-use app\models\GenerosSearch;
+use app\models\Deseados;
+use app\models\DeseadosSearch;
 use app\models\Roles;
 use app\models\Usuarios;
 use yii\filters\AccessControl;
@@ -13,9 +13,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * GenerosController implements the CRUD actions for Generos model.
+ * DeseadosController implements the CRUD actions for Deseados model.
  */
-class GenerosController extends Controller
+class DeseadosController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -29,12 +29,10 @@ class GenerosController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['index','create','update'],
+                'only' => ['index', 'create', 'update'],
                 'rules' => [
-                    // allow authenticated users
                     [
                         'allow' => true,
                         'roles' => ['@'],
@@ -46,30 +44,28 @@ class GenerosController extends Controller
                             return $usuario_rol_id === $adminId;
                         },
                     ],
-                    // everything else is denied by default
                 ],
             ],
         ];
     }
 
     /**
-     * Lists all Generos models.
+     * Lists all Deseados models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new GenerosSearch();
+        $searchModel = new DeseadosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            // 'lista' => Generos::lista(),
         ]);
     }
 
     /**
-     * Displays a single Generos model.
+     * Displays a single Deseados model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -82,13 +78,13 @@ class GenerosController extends Controller
     }
 
     /**
-     * Creates a new Generos model.
+     * Creates a new Deseados model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Generos();
+        $model = new Deseados();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -100,7 +96,7 @@ class GenerosController extends Controller
     }
 
     /**
-     * Updates an existing Generos model.
+     * Updates an existing Deseados model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -120,7 +116,7 @@ class GenerosController extends Controller
     }
 
     /**
-     * Deletes an existing Generos model.
+     * Deletes an existing Deseados model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -130,19 +126,46 @@ class GenerosController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['juegos/deseados']);
+    }
+
+    public function actionCrear($id = null)
+    {
+        if ($id === null && Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
+        $model = new Deseados();
+        $usuario_id = Yii::$app->user->id;
+        $juego_id = $id;
+
+        $model->usuario_id = $usuario_id;
+        $model->juego_id = $juego_id;
+
+        $existeDeseado = Deseados::find()->select('id')->where(['=', 'juego_id', $juego_id])
+            ->exists();
+
+        if (!$existeDeseado) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Juego añadido a deseados correctamente.');
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            Yii::$app->session->setFlash('warning', 'El juego ya existe en tu lista de deseados.');
+        }
+        return $this->redirect(['juegos/tienda']);
     }
 
     /**
-     * Finds the Generos model based on its primary key value.
+     * Finds the Deseados model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Generos the loaded model
+     * @return Deseados the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Generos::findOne($id)) !== null) {
+        if (($model = Deseados::findOne($id)) !== null) {
             return $model;
         }
 

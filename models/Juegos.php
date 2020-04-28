@@ -96,4 +96,12 @@ class Juegos extends \yii\db\ActiveRecord
         }
         return false;
     }
+
+    public static function lista()
+    {
+        return static::find()
+            ->select('*')
+            ->indexBy('id')
+            ->all();
+    }
 }
