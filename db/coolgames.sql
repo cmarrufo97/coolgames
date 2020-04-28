@@ -69,6 +69,16 @@ CREATE TABLE peticiones
   , created_at  timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
+DROP TABLE IF EXISTS deseados CASCADE;
+
+CREATE TABLE deseados
+(
+    id  bigserial PRIMARY KEY
+  , usuario_id  bigint  NOT NULL  REFERENCES usuarios (id)
+  , juego_id  bigint  NOT NULL  REFERENCES juegos (id)
+  , created_at  timestamp NOT NULL DEFAULT current_timestamp
+);
+
 DROP TABLE IF EXISTS amigos CASCADE;
 
 CREATE TABLE amigos

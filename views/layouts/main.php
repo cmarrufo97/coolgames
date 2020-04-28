@@ -61,6 +61,8 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav'],
             'items' => [
                 ['label' => 'Home', 'url' => ['/site/index']],
+                ['label' => 'Tienda', 'url' => ['/juegos/tienda']],
+                ['label' => 'Deseados', 'url' => ['/juegos/deseados','id' => Yii::$app->user->id]],
                 ['label' => 'Social', 'url' => ['/chat/principal']],
                 ['label' => 'Mi Perfil', 'url' => ['/usuarios/perfil', 'id' => Yii::$app->user->id]],
                 ['label' => 'Usuarios', 'url' => ['/usuarios/index']],

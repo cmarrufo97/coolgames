@@ -2,12 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\Deseados;
 use app\models\Generos;
 use Yii;
 use app\models\Juegos;
 use app\models\JuegosSearch;
 use app\models\Roles;
 use app\models\Usuarios;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -33,7 +35,7 @@ class JuegosController extends Controller
 
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['index'],
+                'only' => ['index', 'create', 'update'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -136,6 +138,37 @@ class JuegosController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionTienda()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
+        return $this->render('tienda', [
+            'juegos' => Juegos::lista(),
+        ]);
+    }
+
+    public function actionDeseados($id = null)
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
+        if (!Yii::$app->user->isGuest) {
+            $id = Yii::$app->user->id;
+        }
+        $usuario_id = $id;
+
+        $deseados = new ActiveDataProvider([
+            'query' => Deseados::find()->where(['=', 'usuario_id', $usuario_id]),
+        ]);
+
+        return $this->render('deseados', [
+            'deseados' => $deseados,
+        ]);
     }
 
     /**

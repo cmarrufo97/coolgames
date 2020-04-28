@@ -220,7 +220,7 @@ class UsuariosController extends Controller
 
     public function actionPerfil($id = null)
     {
-        if (Yii::$app->user->isGuest) {
+        if ($id === null && Yii::$app->user->isGuest) {
             return $this->redirect(['site/login']);
         }
 
