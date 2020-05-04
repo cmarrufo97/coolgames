@@ -12,4 +12,5 @@ return [
             'secret' => getenv('S3_SECRET'),
         ],
     ],
+    'bsVersion' => '4.x',
 ];

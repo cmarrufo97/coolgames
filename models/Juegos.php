@@ -97,6 +97,24 @@ class Juegos extends \yii\db\ActiveRecord
         return false;
     }
 
+    public function getValoracionGlobal()
+    {
+        $votaciones = (float) Valoraciones::find()
+            ->where(['=', 'juego_id', $this->id])
+            ->sum('estrellas');
+
+        $usuarios = (float) Valoraciones::find()
+            ->where(['=', 'juego_id', $this->id])
+            ->count('usuario_id');
+
+        if ($usuarios > 0) {
+            $resultado = $votaciones / $usuarios;
+            return ((float) number_format($resultado, 1));
+        }
+
+        return false;
+    }
+
     public static function lista()
     {
         return static::find()
