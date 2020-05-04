@@ -79,6 +79,17 @@ CREATE TABLE deseados
   , created_at  timestamp NOT NULL DEFAULT current_timestamp
 );
 
+DROP TABLE IF EXISTS valoraciones CASCADE;
+
+CREATE TABLE valoraciones
+(
+    id          bigserial PRIMARY KEY
+  , usuario_id  bigint NOT NULL REFERENCES usuarios (id)
+  , juego_id    bigint NOT NULL REFERENCES juegos (id)
+  , estrellas   numeric(2,1)
+  , created_at  timestamp NOT NULL DEFAULT current_timestamp 
+);
+
 DROP TABLE IF EXISTS amigos CASCADE;
 
 CREATE TABLE amigos
