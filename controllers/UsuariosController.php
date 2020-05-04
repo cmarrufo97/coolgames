@@ -228,9 +228,14 @@ class UsuariosController extends Controller
             $id = Yii::$app->user->id;
         }
 
-        // $usuario_id = Usuarios::find()->select('id')->where(['=', 'id', $id])->scalar();
-        // $model = $this->findModel($usuario_id);
-        $model = Usuarios::findOne($id);
+        $model = $this->findModel($id);
+        $model->scenario = Usuarios::SCENARIO_MODIFICAR;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Perfil modificado correctamente.');
+        }
+
+        $model->password = '';
 
         return $this->render('perfil', [
             'model' => $model,
