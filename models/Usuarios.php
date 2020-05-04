@@ -28,6 +28,7 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     const SCENARIO_CREAR = 'crear';
     const SCENARIO_CREATE = 'create';
     const SCENARIO_RECUPERAR = 'recuperar';
+    const SCENARIO_MODIFICAR = 'modificar';
     public $password_repeat;
 
     const IMAGEN = '@img/usuario-defecto.png';
@@ -65,20 +66,27 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
                     self::SCENARIO_CREAR,
                     self::SCENARIO_CREATE,
                     self::SCENARIO_RECUPERAR,
+                    self::SCENARIO_MODIFICAR,
                 ],
             ],
             [
                 ['password'],
                 'trim',
                 'on' => [
-                    self::SCENARIO_CREAR, self::SCENARIO_CREATE,                    self::SCENARIO_RECUPERAR,
+                    self::SCENARIO_CREAR,
+                    self::SCENARIO_CREATE,
+                    self::SCENARIO_RECUPERAR,
+                    self::SCENARIO_MODIFICAR,
                 ],
             ],
             [
                 ['password_repeat'],
                 'required',
                 'on' => [
-                    self::SCENARIO_CREAR, self::SCENARIO_CREATE,                    self::SCENARIO_RECUPERAR,
+                    self::SCENARIO_CREAR,
+                    self::SCENARIO_CREATE,
+                    self::SCENARIO_RECUPERAR,
+                    self::SCENARIO_MODIFICAR,
                 ]
             ],
             [
@@ -87,7 +95,10 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
                 'compareAttribute' => 'password',
                 'skipOnEmpty' => false,
                 'on' => [
-                    self::SCENARIO_CREAR, self::SCENARIO_CREATE,                    self::SCENARIO_RECUPERAR,
+                    self::SCENARIO_CREAR,
+                    self::SCENARIO_CREATE,
+                    self::SCENARIO_RECUPERAR,
+                    self::SCENARIO_MODIFICAR,
                 ],
             ],
         ];
@@ -218,6 +229,12 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     {
         if (!parent::beforeSave($insert)) {
             return false;
+        }
+
+        if ($this->scenario === self::SCENARIO_MODIFICAR) {
+            $security = Yii::$app->security;
+            $this->password = $security->generatePasswordHash($this->password);
+            $this->token = null;
         }
 
         if ($insert) {

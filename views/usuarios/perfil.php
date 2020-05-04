@@ -50,6 +50,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         <!-- Pasar aqui los comentarios recibidos de otros usuarios -->
                     </div>
                     <div class="tab-pane" id="editar">
+                        <?php Yii::debug($model) ?>
+
+                        <?=
+                            $this->render('_modificar', [
+                                'model' => $model,
+                            ])
+                        ?>
                     </div>
                 </div>
             </div>
