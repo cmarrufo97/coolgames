@@ -112,31 +112,31 @@ class ValoracionesController extends Controller
 
     public function actionValorar()
     {
-
+        $usuario_id = Yii::$app->request->post('Valoraciones')['usuario_id'];
+        $juego_id = Yii::$app->request->post('Valoraciones')['juego_id'];
+        $estrellas = Yii::$app->request->post('Valoraciones')['estrellas'];
 
         $existeValoracionPrevia = Valoraciones::find()
-            ->where(['=', 'usuario_id', $_POST['id']])
-            ->andFilterWhere(['=', 'juego_id', $_POST['juego_id']])
+            ->where(['=', 'usuario_id', $usuario_id])
+            ->andFilterWhere(['=', 'juego_id', $juego_id])
             ->exists();
 
         if ($existeValoracionPrevia) {
             $id = Valoraciones::find()
                 ->select('id')
-                ->where(['=', 'usuario_id', $_POST['id']])
-                ->andFilterWhere(['=', 'juego_id', $_POST['juego_id']])
+                ->where(['=', 'usuario_id', $usuario_id])
+                ->andFilterWhere(['=', 'juego_id', $juego_id])
                 ->scalar();
 
             $model = $this->findModel($id);
-            $model->estrellas = $_POST['estrellas'];
+            $model->estrellas = $estrellas;
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Valoración enviada con éxito.');
             }
         } else {
             $model = new Valoraciones();
-            $model->usuario_id = $_POST['id'];
-            $model->juego_id = $_POST['juego_id'];
-            $model->estrellas = $_POST['estrellas'];
-            if ($model->save()) {
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 Yii::$app->session->setFlash('success', 'Valoración enviada con éxito.');
             }
         }

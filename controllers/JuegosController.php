@@ -9,6 +9,7 @@ use app\models\Juegos;
 use app\models\JuegosSearch;
 use app\models\Roles;
 use app\models\Usuarios;
+use app\models\Valoraciones;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -142,12 +143,16 @@ class JuegosController extends Controller
 
     public function actionTienda()
     {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect(['site/login']);
-        }
+        // if (Yii::$app->user->isGuest) {
+        //     return $this->redirect(['site/login']);
+        // }
+        
+        $model = new Valoraciones();
+
 
         return $this->render('tienda', [
             'juegos' => Juegos::lista(),
+            'model' => $model,
         ]);
     }
 

@@ -42,41 +42,20 @@ foreach ($juegos as $juego) {
                 </h5>
                 <div class="bg-white">
                     <?php
-                    $valoracion = Valoraciones::find()
+                    $miValoracion = Valoraciones::find()
                         ->select('estrellas')
                         ->where(['=', 'usuario_id', $id])
                         ->andFilterWhere(['=', 'juego_id', $juego->id])
                         ->scalar();
                     ?>
-                    <!-- Valoracion -->
+
                     <?=
-                        StarRating::widget([
-                            'name' => 'rating_19',
-                            'value' => $valoracion,
-                            'pluginOptions' => [
-                                'stars' => 5,
-                                'min' => 0,
-                                'max' => 5,
-                                'step' => 0.5,
-                                'filledStar' => '<i class="glyphicon glyphicon-star"></i>',
-                                'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
-                                'defaultCaption' => '{rating} estrellas',
-                                'starCaptions' => new JsExpression("function(val){return val == 1 ? 'Una estrella' : val + ' estrellas';}")
-                            ],
-                            'pluginEvents' => [
-                                'rating:change' => "function (event,value,caption) {
-                                    $.ajax('$valorar',{
-                                        type: 'POST',
-                                        data: { id: $id, juego_id: $juego->id, estrellas: value},
-                                        success: function (data) {
-                                            console.log(data);
-                                        },
-                                    });
-                                }",
-                            ],
+                        $this->render('../valoraciones/_valorar', [
+                            'valoracion' => $model,
+                            'juego_id' => $juego->id,
+                            'votos' => $miValoracion,
                         ]);
                     ?>
-                    <!-- Valoración Global -->
                     <p class="lead">Valoración Global/General:</p>
                     <?php
                     echo StarRating::widget([
@@ -92,17 +71,6 @@ foreach ($juegos as $juego) {
                             'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
                             'defaultCaption' => '{rating} estrellas',
                             'starCaptions' => new JsExpression("function(val){return val == 1 ? 'Una estrella' : val + ' estrellas';}")
-                        ],
-                        'pluginEvents' => [
-                            'rating:change' => "function (event,value,caption) {
-                                    $.ajax('$valorar',{
-                                        type: 'POST',
-                                        data: { id: $id, juego_id: $juego->id, estrellas: value},
-                                        success: function (data) {
-                                            console.log(data);
-                                        },
-                                    });
-                                }",
                         ],
                     ]);
                     ?>
