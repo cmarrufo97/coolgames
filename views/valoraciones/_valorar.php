@@ -19,30 +19,36 @@ $miValoracion = Valoraciones::find()
     ->where(['=', 'usuario_id', $id])
     ->andFilterWhere(['=', 'juego_id', $juego_id])
     ->scalar();
+
+Yii::debug($miValoracion);
 ?>
 
 <div class="valoraciones-form">
 
     <?php $form = ActiveForm::begin([
-        'id' => 'valorarForm',
+        'id' => 'valorarForm' . $juego_id,
         'action' => ['valoraciones/valorar'],
     ]); ?>
 
     <?= $form->field($valoracion, 'usuario_id')->hiddenInput([
+        'id' => Yii::$app->security->generateRandomString(),
         'value' => Yii::$app->user->id,
     ])->label(false) ?>
 
     <?= $form->field($valoracion, 'juego_id')->hiddenInput([
+        'id' => Yii::$app->security->generateRandomString(),
         'value' => $juego_id,
     ])->label(false) ?>
-
-
 
     <?php
     if (!Yii::$app->user->isGuest) {
 
         if ($miValoracion != false) {
-            echo $form->field($valoracion, 'estrellas')->widget(StarRating::class, [
+            echo $form->field($valoracion, 'estrellas', [
+                'inputOptions' => [
+                    'id' => "" . $juego_id,
+                ],
+            ])->widget(StarRating::class, [
                 'name' => 'rating_19',
                 'pluginOptions' => [
                     'stars' => 5,
@@ -56,14 +62,18 @@ $miValoracion = Valoraciones::find()
                 ],
                 'pluginEvents' => [
                     'rating:change' => "function (event,value,caption) {
-                        $('#enviar-votacion').trigger('click');
+                        $('.enviar-votacion').trigger('click');
                     }",
                 ],
             ])->label(false)->hiddenInput([
                 'value' => $miValoracion,
             ]);
         } else {
-            echo $form->field($valoracion, 'estrellas')->widget(StarRating::class, [
+            echo $form->field($valoracion, 'estrellas', [
+                'inputOptions' => [
+                    'id' => "" . $juego_id,
+                ],
+            ])->widget(StarRating::class, [
                 'name' => 'rating_19',
                 'pluginOptions' => [
                     'stars' => 5,
@@ -77,7 +87,7 @@ $miValoracion = Valoraciones::find()
                 ],
                 'pluginEvents' => [
                     'rating:change' => "function (event,value,caption) {
-                        $('#enviar-votacion').trigger('click');
+                        $('.enviar-votacion').trigger('click');
                     }",
                 ],
             ])->label(false);
@@ -86,7 +96,7 @@ $miValoracion = Valoraciones::find()
     ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Enviar', ['class' => 'btn btn-sm btn-success d-none', 'id' => 'enviar-votacion']) ?>
+        <?= Html::submitButton('Enviar', ['class' => 'btn btn-sm btn-success d-none enviar-votacion']) ?>
     </div>
 
 
