@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Comentarios;
 use app\models\Deseados;
 use app\models\Generos;
 use Yii;
@@ -173,6 +174,23 @@ class JuegosController extends Controller
 
         return $this->render('deseados', [
             'deseados' => $deseados,
+        ]);
+    }
+
+    public function actionVer($id)
+    {
+        $model = $this->findModel($id);
+        $comentario = new Comentarios();
+
+        $comentarios = Comentarios::find()->where(['=','juego_id',$model->id])
+        ->orderBy(['created_at' => SORT_DESC])
+        ->all();
+
+
+        return $this->render('ver', [
+            'model' => $model,
+            'comentario' => $comentario,    // modelo de Comentario
+            'comentarios' => $comentarios,
         ]);
     }
 
