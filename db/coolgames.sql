@@ -90,6 +90,17 @@ CREATE TABLE valoraciones
   , created_at  timestamp NOT NULL DEFAULT current_timestamp 
 );
 
+DROP TABLE IF EXISTS comentarios CASCADE;
+
+CREATE TABLE comentarios
+(
+    id          bigserial PRIMARY KEY
+  , usuario_id  bigint NOT NULL REFERENCES usuarios (id)
+  , juego_id    bigint NOT NULL REFERENCES juegos (id)
+  , comentario  varchar(255) NOT NULL
+  , created_at  timestamp NOT NULL DEFAULT current_timestamp
+);
+
 DROP TABLE IF EXISTS amigos CASCADE;
 
 CREATE TABLE amigos

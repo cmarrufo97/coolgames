@@ -82,6 +82,9 @@ foreach ($juegos as $juego) {
                     'class' => 'btn btn-sm btn-primary'
                 ]) ?>
                 <button class="btn btn-sm btn-info">Añadir al carrito</button>
+                <?= Html::a('Ver', Url::to(['juegos/ver', 'id' => $juego->id]), [
+                    'class' => 'btn btn-sm btn-secondary btn-comprar'
+                ]) ?>
                 <button class="btn btn-sm btn-success btn-comprar">Comprar</button>
             </div>
         </div>
