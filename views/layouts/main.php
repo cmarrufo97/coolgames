@@ -40,29 +40,12 @@ AppAsset::register($this);
         ],
     ]);
     echo Nav::widget([
-        // 'options' => ['class' => 'navbar-nav'],
-        // 'items' => [
-        //     ['label' => 'Home', 'url' => ['/site/index']],
-        //     ['label' => 'About', 'url' => ['/site/about']],
-        //     ['label' => 'Contact', 'url' => ['/site/contact']],
-        //     Yii::$app->user->isGuest ? (
-        //         ['label' => 'Login', 'url' => ['/site/login']]
-        //     ) : (
-        //         '<li class="nav-item">'
-        //         . Html::beginForm(['/site/logout'], 'post')
-        //         . Html::submitButton(
-        //             'Logout (' . Yii::$app->user->identity->nombre . ')',
-        //             ['class' => 'btn btn-dark nav-link logout']
-        //         )
-        //         . Html::endForm()
-        //         . '</li>'
-        //     )
-        // ],
         'options' => ['class' => 'navbar-nav'],
             'items' => [
                 ['label' => 'Home', 'url' => ['/site/index']],
                 ['label' => 'Tienda', 'url' => ['/juegos/tienda']],
                 ['label' => 'Deseados', 'url' => ['/juegos/deseados','id' => Yii::$app->user->id]],
+                ['label' => 'Carrito', 'url' => ['/carrito/lista']],
                 ['label' => 'Social', 'url' => ['/chat/principal']],
                 ['label' => 'Mi Perfil', 'url' => ['/usuarios/perfil', 'id' => Yii::$app->user->id]],
                 ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
@@ -77,7 +60,6 @@ AppAsset::register($this);
                             ['class' => 'dropdown-item'],
                         )
                         . Html::endForm()) : (Html::beginForm() . Html::a('Login',['/site/login'],['class' => 'dropdown-item']) .Html::a('Registrarse', Url::to(['/usuarios/registrar']),['class' => 'dropdown-item'])),
-                        // ['label' => 'Registrarse', 'url' => ['usuarios/registrar']]
                     ],
                 ],
             ],

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Carrito;
 use app\models\Comentarios;
 use app\models\Deseados;
 use app\models\Generos;
@@ -149,11 +150,13 @@ class JuegosController extends Controller
         // }
         
         $model = new Valoraciones();
+        $modelCarrito = new Carrito();
 
 
         return $this->render('tienda', [
             'juegos' => Juegos::lista(),
             'model' => $model,
+            'modelCarrito' => $modelCarrito,
         ]);
     }
 

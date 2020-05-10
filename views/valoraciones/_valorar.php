@@ -19,8 +19,6 @@ $miValoracion = Valoraciones::find()
     ->where(['=', 'usuario_id', $id])
     ->andFilterWhere(['=', 'juego_id', $juego_id])
     ->scalar();
-
-Yii::debug($miValoracion);
 ?>
 
 <div class="valoraciones-form">
@@ -55,6 +53,7 @@ Yii::debug($miValoracion);
                     'min' => 0,
                     'max' => 5,
                     'step' => 0.5,
+                    'showCaption' => false,
                     'filledStar' => '<i class="glyphicon glyphicon-star"></i>',
                     'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
                     'defaultCaption' => '{rating} estrellas',
@@ -80,6 +79,7 @@ Yii::debug($miValoracion);
                     'min' => 0,
                     'max' => 5,
                     'step' => 0.5,
+                    'showCaption' => false,
                     'filledStar' => '<i class="glyphicon glyphicon-star"></i>',
                     'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
                     'defaultCaption' => '{rating} estrellas',
