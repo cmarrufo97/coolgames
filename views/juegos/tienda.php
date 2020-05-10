@@ -24,10 +24,11 @@ $js = <<<EOT
     });
 EOT;
 
-
-foreach ($juegos as $juego) {
 ?>
-    <div class="card-deck mt-5">
+<div class="card-deck mt-4">
+    <?php
+    foreach ($juegos as $juego) {
+    ?>
         <div class="card bg-dark">
             <div class="text-center mt-4">
                 <?= Html::img($juego->getImagen()) ?>
@@ -48,7 +49,6 @@ foreach ($juegos as $juego) {
                         ->andFilterWhere(['=', 'juego_id', $juego->id])
                         ->scalar();
                     ?>
-
                     <?=
                         $this->render('../valoraciones/_valorar', [
                             'valoracion' => $model,
@@ -56,6 +56,7 @@ foreach ($juegos as $juego) {
                             'votos' => $miValoracion,
                         ]);
                     ?>
+                    <!-- Valoración Global -->
                     <p class="lead">Valoración Global/General:</p>
                     <?php
                     echo StarRating::widget([
@@ -67,6 +68,7 @@ foreach ($juegos as $juego) {
                             'min' => 0,
                             'max' => 5,
                             'step' => 0.1,
+                            'showCaption' => false,
                             'filledStar' => '<i class="glyphicon glyphicon-star"></i>',
                             'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
                             'defaultCaption' => '{rating} estrellas',
@@ -75,20 +77,31 @@ foreach ($juegos as $juego) {
                     ]);
                     ?>
                 </div>
+                <div>
+                    <h5>Precio: <?= Yii::$app->formatter->asCurrency($juego->precio) ?></h5>
+                </div>
 
             </div>
             <div class="card-footer bg-white">
                 <?= Html::a('Añadir a deseados', Url::to(['deseados/crear', 'id' => $juego->id]), [
-                    'class' => 'btn btn-sm btn-primary'
+                    'class' => 'btn btn-sm btn-primary form-control'
                 ]) ?>
-                <button class="btn btn-sm btn-info">Añadir al carrito</button>
+                <!-- <button class="btn btn-sm btn-info btn-comprar">Añadir al carrito</button> -->
+
+                <?=
+                    $this->render('../carrito/_crear', [
+                        'model' => $modelCarrito,
+                        'juego_id' => $juego->id,
+                    ]);
+                ?>
+
                 <?= Html::a('Ver', Url::to(['juegos/ver', 'id' => $juego->id]), [
-                    'class' => 'btn btn-sm btn-secondary btn-comprar'
+                    'class' => 'btn btn-sm btn-secondary btn-comprar form-control'
                 ]) ?>
-                <button class="btn btn-sm btn-success btn-comprar">Comprar</button>
+                <button class="btn btn-sm btn-success btn-comprar form-control mt-3">Comprar</button>
             </div>
         </div>
-    </div>
-<?php
-}
-?>
+    <?php
+    }
+    ?>
+</div>
