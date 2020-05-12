@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\ComentariosPerfil;
 use app\models\ImagenForm;
 use app\models\Roles;
 use Yii;
@@ -230,6 +231,11 @@ class UsuariosController extends Controller
 
         $model = $this->findModel($id);
         $model->scenario = Usuarios::SCENARIO_MODIFICAR;
+        $modelPerfil = new ComentariosPerfil();
+
+        $comentariosRecibidos = ComentariosPerfil::find()->where(['=', 'receptor_id', $id])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Perfil modificado correctamente.');
@@ -239,6 +245,8 @@ class UsuariosController extends Controller
 
         return $this->render('perfil', [
             'model' => $model,
+            'modelPerfil' => $modelPerfil,
+            'comentariosRecibidos' => $comentariosRecibidos,
         ]);
     }
 
