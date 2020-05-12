@@ -101,6 +101,20 @@ CREATE TABLE comentarios
   , created_at  timestamp NOT NULL DEFAULT current_timestamp
 );
 
+DROP TABLE IF EXISTS comentarios_perfil CASCADE;
+
+CREATE TABLE comentarios_perfil
+(
+    id          bigserial PRIMARY KEY
+  , emisor_id   bigint NOT NULL REFERENCES usuarios (id)
+                ON DELETE CASCADE ON UPDATE CASCADE
+  , receptor_id bigint NOT NULL REFERENCES usuarios (id) 
+  , comentario  text  NOT NULL
+  , edited_at   timestamp
+  , padre_id    bigint  REFERENCES comentarios_perfil (id)
+  , created_at  timestamp NOT NULL DEFAULT current_timestamp
+);
+
 DROP TABLE IF EXISTS carrito CASCADE;
 
 CREATE TABLE carrito
