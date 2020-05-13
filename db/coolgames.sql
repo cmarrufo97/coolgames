@@ -75,7 +75,7 @@ CREATE TABLE deseados
 (
     id  bigserial PRIMARY KEY
   , usuario_id  bigint  NOT NULL  REFERENCES usuarios (id)
-  , juego_id  bigint  NOT NULL  REFERENCES juegos (id)
+  , juego_id  bigint  NOT NULL  REFERENCES juegos (id) ON DELETE CASCADE
   , created_at  timestamp NOT NULL DEFAULT current_timestamp
 );
 
@@ -85,7 +85,7 @@ CREATE TABLE valoraciones
 (
     id          bigserial PRIMARY KEY
   , usuario_id  bigint NOT NULL REFERENCES usuarios (id)
-  , juego_id    bigint NOT NULL REFERENCES juegos (id)
+  , juego_id    bigint NOT NULL REFERENCES juegos (id) ON DELETE CASCADE
   , estrellas   numeric(2,1)
   , created_at  timestamp NOT NULL DEFAULT current_timestamp 
 );
@@ -96,7 +96,7 @@ CREATE TABLE comentarios
 (
     id          bigserial PRIMARY KEY
   , usuario_id  bigint NOT NULL REFERENCES usuarios (id)
-  , juego_id    bigint NOT NULL REFERENCES juegos (id)
+  , juego_id    bigint NOT NULL REFERENCES juegos (id) ON DELETE CASCADE
   , comentario  varchar(255) NOT NULL
   , created_at  timestamp NOT NULL DEFAULT current_timestamp
 );
@@ -111,7 +111,7 @@ CREATE TABLE comentarios_perfil
   , receptor_id bigint NOT NULL REFERENCES usuarios (id) 
   , comentario  text  NOT NULL
   , edited_at   timestamp
-  , padre_id    bigint  REFERENCES comentarios_perfil (id)
+  , padre_id    bigint  REFERENCES comentarios_perfil (id) ON DELETE CASCADE
   , created_at  timestamp NOT NULL DEFAULT current_timestamp
 );
 
@@ -121,7 +121,7 @@ CREATE TABLE carrito
 (
     id          bigserial PRIMARY KEY
   , usuario_id  bigint NOT NULL REFERENCES usuarios (id)
-  , juego_id    bigint NOT NULL REFERENCES juegos (id)
+  , juego_id    bigint NOT NULL REFERENCES juegos (id) ON DELETE CASCADE
   , created_at  timestamp NOT NULL DEFAULT current_timestamp
 );
 
