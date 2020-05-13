@@ -148,7 +148,7 @@ class DeseadosController extends Controller
         if (!$existeDeseado) {
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Juego añadido a deseados correctamente.');
-                return $this->redirect(['view', 'id' => $model->id]);
+                // return $this->redirect(['juegos/deseados', 'id' => $usuario_id]);
             }
         } else {
             Yii::$app->session->setFlash('warning', 'El juego ya existe en tu lista de deseados.');
