@@ -9,13 +9,32 @@ use yii\bootstrap4\ActiveForm;
 /* @var $model app\models\ComentariosPerfil */
 /* @var $form yii\bootstrap4\ActiveForm */
 
-// $comentario = ComentariosPerfil::findOne($padre_id);
-// $usuarioId = $comentario->emisor_id;
 $comentario = ComentariosPerfil::findOne($padre_id);
-// $usuario = Usuarios::findOne(ComentariosPerfil::findOne($padre_id)->emisor_id);
+$usuario = Usuarios::findOne($comentario->emisor_id);
 ?>
 
 <h1>Responder al siguiente comentario: </h1>
+
+<div class="card mt-2 pb-4">
+    <div>
+        <div class="float-left mt-3 ml-3">
+            <?= Html::img($usuario->getImagen(), ['class' => 'rounded img-fluid']) ?>
+        </div>
+        <div class="float-left meta">
+            <div class="title h5 mt-3 ml-3">
+                <a href="#"><b><?= $usuario->nombre ?></b></a>
+            </div>
+            <h6 class="text-muted time ml-3">
+                <?=
+                    date('m-d-Y H:i', strtotime($comentario->created_at));
+                ?>
+            </h6>
+            <div class="mt-4 ml-3">
+                <p><?= $comentario->comentario ?></p>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="comentarios-perfil-form">
