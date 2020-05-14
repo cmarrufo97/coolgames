@@ -64,6 +64,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php procesarComentarios($comentariosRecibidos); ?>
                     </div>
                     <div class="tab-pane" id="editar">
+                        <?=
+                            $this->render('_modificar', [
+                                'model' => $model,
+                            ])
+                        ?>
                     </div>
                 </div>
             </div>
