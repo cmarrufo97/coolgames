@@ -161,7 +161,7 @@ class ChatController extends Controller
     {
         if (isset($_POST['receptor_id']) && isset($_POST['mensaje'])) {
             $receptor_id = $_POST['receptor_id'];
-            $mensaje = $_POST['mensaje'];
+            $mensaje = htmlspecialchars($_POST['mensaje'], ENT_QUOTES | ENT_SUBSTITUTE);
 
             if ($mensaje != '') {
                 $model = new Chat();

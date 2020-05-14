@@ -20,11 +20,11 @@ $enviar = Url::to(['chat/insertar']);
 $historial = Url::to(['chat/historial']);
 
 $js = <<< EOT
-        var receptor_id;
-        var receptor_username;
+        let receptor_id;
+        let receptor_username;
         $(document).ready(function () {
 
-            setInterval(function () {
+            setInterval(() => {
                 actualizarHistorial();
             }, 3500);
 
@@ -36,12 +36,12 @@ $js = <<< EOT
                 ventanaChat(receptor_id, receptor_username);
             });
 
-            $(document).on('click', '.btn-enviar', function (e) {
+            $(document).on('click', '.btn-enviar', (e) => {
                 e.preventDefault();
-                var mensaje = $(`#chat_message_\${receptor_id}`).val();
+                const mensaje = $(`#chat_message_\${receptor_id}`).val();
         
-                var trimeado = mensaje.trim();
-        
+                const trimeado = mensaje.trim();
+
                 if (trimeado !== '') {
                     // peticion ajax para insertar el mensaje en la DB
                     $.ajax('$enviar', {
@@ -55,20 +55,21 @@ $js = <<< EOT
                             // auto scroll
                             $(`.historial`).scrollTop($(`.historial`)[0].scrollHeight - 
                             $(`.historial`)[0].clientHeight);
+
                         }
                     });
                 }
             });
 
             // enviar mensajes cuando se presiona enter
-            $(document).on('keydown','.input-chat',function (e) {
+            $(document).on('keydown','.input-chat', (e) => {
                 e = e || window.event;
-                var keyCode = e.keyCode || e.which;
+                const keyCode = e.keyCode || e.which;
 
                 if (keyCode == 13) {
-                    var mensaje = $(`#chat_message_\${receptor_id}`).val();
+                    const mensaje = $(`#chat_message_\${receptor_id}`).val();
         
-                var trimeado = mensaje.trim();
+                const trimeado = mensaje.trim();
 
                 if (trimeado !== '') {
                     // peticion ajax para insertar el mensaje en la DB
@@ -101,7 +102,7 @@ $js = <<< EOT
             $(`#receptor_\${receptor_id}`).attr('title', `Chat con \${receptor_username}`);
         
             $(`#receptor_\${receptor_id}`).append(`
-                    <div id='historial_receptor_\${receptor_id}' class='form-group historial' data-receptorid='\${receptor_id}'>
+                    <div id='historial_receptor_\${receptor_id}' class='form-group historial text-break' data-receptorid='\${receptor_id}'>
                     \${recogerHistorial(receptor_id)}
                     </div>
                     <div class='form-group'>
@@ -126,15 +127,15 @@ $js = <<< EOT
                     \$(`#historial_receptor_\${receptor_id}`).html(data);
 
                     // auto scroll
-                    $(`.historial`).scrollTop($(`.historial`)[0].scrollHeight - 
-                    $(`.historial`)[0].clientHeight);
+                            $(`.historial`).scrollTop($(`.historial`)[0].scrollHeight - 
+                            $(`.historial`)[0].clientHeight);
                 }
             });
         }
 
         function actualizarHistorial() {
             $(`.historial`).each(function () {
-                var receptor_id = $(this).data('receptorid');
+                const receptor_id = $(this).data('receptorid');
                 recogerHistorial(receptor_id);
             });
         }
