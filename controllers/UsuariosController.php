@@ -132,6 +132,11 @@ class UsuariosController extends Controller
         ]);
     }
 
+    /**
+     * Acción que permite el registro de un usuario. Envía tambien un email de 
+     * verificación al email proporcionado por el usuario.
+     * @return void
+     */
     public function actionRegistrar()
     {
         $model = new Usuarios(['scenario' => Usuarios::SCENARIO_CREAR]);
@@ -164,6 +169,14 @@ class UsuariosController extends Controller
         ]);
     }
 
+    /**
+     * Acción para enviar un email.
+     *
+     * @param [type] $email
+     * @param [type] $asunto
+     * @param [type] $mensaje
+     * @return void
+     */
     public function actionCorreo($email, $asunto, $mensaje)
     {
         return Yii::$app->mailer->compose()
@@ -174,6 +187,12 @@ class UsuariosController extends Controller
             ->send();
     }
 
+    /**
+     * Acción que valida la cuenta de un usuario.
+     *
+     * @param [type] $token
+     * @return void
+     */
     public function actionConfirmar($token)
     {
         $sent = Yii::$app->db->createCommand("UPDATE usuarios SET token = null WHERE token = :valor")
@@ -188,6 +207,12 @@ class UsuariosController extends Controller
         return $this->redirect(['site/login']);
     }
 
+    /**
+     * Acción que renderiza una vista para que los usuarios puedan subir sus imagenes de perfil.
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function actionImagen($id)
     {
         if ($id != Yii::$app->user->id) {
@@ -219,6 +244,13 @@ class UsuariosController extends Controller
         ]);
     }
 
+    /**
+     * Acción que renderiza una vista en la cual se muestra datos del perfil del usuario
+     * logueado, tales como, la foto de perfil, los comentarios, datos de la cuenta.
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function actionPerfil($id = null)
     {
         if ($id === null && Yii::$app->user->isGuest) {

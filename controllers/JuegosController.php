@@ -143,6 +143,12 @@ class JuegosController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * Acción que renderiza una vista en la cual aparecen todos los juegos disponibles
+     * en la aplicación.
+     *
+     * @return void
+     */
     public function actionTienda()
     {
         // if (Yii::$app->user->isGuest) {
@@ -160,6 +166,12 @@ class JuegosController extends Controller
         ]);
     }
 
+    /**
+     * Acción que renderiza una vista con todos los juegos deseados de un usuario concreto.
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function actionDeseados($id = null)
     {
         if (Yii::$app->user->isGuest) {
@@ -180,6 +192,13 @@ class JuegosController extends Controller
         ]);
     }
 
+    /**
+     * Acción que renderiza una vista en la cual se ven todos los comentarios de los
+     * usuarios sobre un juego concreto.
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function actionVer($id)
     {
         $model = $this->findModel($id);

@@ -114,6 +114,11 @@ class CarritoController extends Controller
         return $this->redirect(['carrito/lista']);
     }
 
+    /**
+     * Acción para añadir un juego al carrito.
+     *
+     * @return void
+     */
     public function actionCrear()
     {
         $model = new Carrito();
@@ -138,6 +143,12 @@ class CarritoController extends Controller
         return $this->redirect(['juegos/tienda', 'id' => $juego_id]);
     }
 
+    /**
+     * Muestra todos los juegos que hay en el carrito segun el id del usuario logueado.
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function actionLista($id = null)
     {
         if (Yii::$app->user->isGuest) {

@@ -110,6 +110,12 @@ class ValoracionesController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * Acción que permite realizar la valoración sobre un juego concreto.
+     * Si ya existe una valoración previa, se actualiza.
+     *
+     * @return void
+     */
     public function actionValorar()
     {
         $usuario_id = Yii::$app->request->post('Valoraciones')['usuario_id'];

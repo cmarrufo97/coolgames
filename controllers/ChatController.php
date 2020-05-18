@@ -123,6 +123,11 @@ class ChatController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * Acción que renderiza la vista en la que se ve los amigos del usuario,
+     * el buscador de usuarios, etc.
+     * @return void
+     */
     public function actionPrincipal()
     {
         $logueado = Usuarios::findOne(Yii::$app->user->id);
@@ -159,6 +164,11 @@ class ChatController extends Controller
         ]);
     }
 
+    /**
+     * Inserta mensaje en la tabla de chat.
+     *
+     * @return void
+     */
     public function actionInsertar()
     {
         if (isset($_POST['receptor_id']) && isset($_POST['mensaje'])) {
@@ -178,6 +188,11 @@ class ChatController extends Controller
         }
     }
 
+    /**
+     * Acción que recoge el historial de chat.
+     *
+     * @return string
+     */
     public function actionHistorial()
     {
         // version modificada

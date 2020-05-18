@@ -124,6 +124,11 @@ class ComentariosPerfilController extends Controller
         return $this->redirect(['usuarios/perfil', 'id' => $model->receptor_id]);
     }
 
+    /**
+     * Añade un comentario en el perfil de un usuario a otro.
+     *
+     * @return void
+     */
     public function actionCrear()
     {
         $model = new ComentariosPerfil();
@@ -137,6 +142,11 @@ class ComentariosPerfilController extends Controller
         return $this->redirect(['usuarios/perfil', 'id' => $receptor_id]);
     }
 
+    /**
+     * Acción que renderiza una vista para responder a un comentario concreto de
+     * un usuario.
+     * @return void
+     */
     public function actionResponder()
     {
         $model = new ComentariosPerfil();
@@ -156,6 +166,12 @@ class ComentariosPerfilController extends Controller
         ]);
     }
 
+    /**
+     * Acción que renderiza una vista para editar un comentario de perfil concreto,
+     * siempre y cuando el comentario pertenezca al autor del mismo.
+     *
+     * @return void
+     */
     public function actionEditar()
     {
         $id = Yii::$app->request->get('id');

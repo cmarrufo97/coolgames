@@ -129,6 +129,12 @@ class DeseadosController extends Controller
         return $this->redirect(['juegos/deseados']);
     }
 
+    /**
+     * Añade un juego a la lista de deseados de un usuario.
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function actionCrear($id = null)
     {
         if ($id === null && Yii::$app->user->isGuest) {

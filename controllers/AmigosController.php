@@ -123,7 +123,8 @@ class AmigosController extends Controller
     }
 
     /**
-     * Agrega a un usuario como amigo
+     * Agrega a un usuario como amigo, al agregar a un usuario como amigo,
+     * la petición se borra ya que se inserta los datos en la tabla de amigos.
      *
      * @param [type] $id
      * @return void
@@ -153,6 +154,12 @@ class AmigosController extends Controller
         return $this->redirect(['chat/principal']);
     }
 
+    /**
+     * Acción para eliminar un usuario como amigo.
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function actionEliminar($id)
     {
         $amigo_id = $id;
@@ -192,12 +199,7 @@ class AmigosController extends Controller
 
         return $this->redirect(['chat/principal']);
     }
-
-
-
-
-
-
+    
     /**
      * Finds the Amigos model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

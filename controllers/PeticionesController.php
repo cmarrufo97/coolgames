@@ -110,6 +110,12 @@ class PeticionesController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * Acción que permite crear una peticion de amistad de un usuario a otro.
+     *
+     * @param [type] $receptor_id
+     * @return void
+     */
     public function actionCrear($receptor_id)
     {
         $model = new Peticiones();
@@ -135,6 +141,13 @@ class PeticionesController extends Controller
         return $this->redirect(['chat/principal']);
     }
 
+    /**
+     * Acción que rechaza una peticion de un usuario, al rechazarla se borra la petición en la
+     * base de datos.
+     *
+     * @param [type] $emisor_id
+     * @return void
+     */
     public function actionRechazar($emisor_id)
     {
         $receptor_id = Yii::$app->user->id;

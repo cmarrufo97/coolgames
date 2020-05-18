@@ -123,6 +123,11 @@ class ComentariosController extends Controller
         return $this->redirect(['juegos/ver', 'id' => $juego_id]);
     }
 
+    /**
+     * Añade comentarios de usuarios a un juego concreto.
+     *
+     * @return void
+     */
     public function actionComentar()
     {
         $model = new Comentarios();
