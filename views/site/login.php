@@ -57,10 +57,6 @@ if ($model->errors) {
                     <h3 class="text-center text-info">Login</h3>
                     <?php $form = ActiveForm::begin([
                         'id' => 'login-form',
-                        // 'layout' => 'horizontal',
-                        // 'fieldConfig' => [
-                        //     'horizontalCssClasses' => ['wrapper' => 'col-sm-5'],
-                        // ],
                     ]); ?>
 
                     <?= $form->field($model, 'login')->textInput([

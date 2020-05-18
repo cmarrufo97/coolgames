@@ -57,10 +57,6 @@ if ($model->errors) {
           <p class="text-center">Introduzca los siguientes datos para registrarse:</p>
           <?php $form = ActiveForm::begin([
             'id' => 'login-form',
-            // 'layout' => 'horizontal',
-            // 'fieldConfig' => [
-            //     'horizontalCssClasses' => ['wrapper' => 'col-sm-5'],
-            // ],
           ]); ?>
 
           <?= $form->field($model, 'login')->textInput(['autofocus' => true]) ?>

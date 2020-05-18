@@ -14,8 +14,6 @@ use yii\helpers\Url;
 $this->title = 'Social';
 $this->params['breadcrumbs'][] = $this->title;
 
-$amigos = Usuarios::amigos(Yii::$app->user->id);
-
 $enviar = Url::to(['chat/insertar']);
 $historial = Url::to(['chat/historial']);
 

@@ -218,8 +218,8 @@ function dibujarComentario($comentario, $nivel = 0)
 }
 function procesarComentarios($comentariosRecibidos)
 {
-    $workingMemory = []; //a place to store our objects
-    $unprocessedRows = []; //a place to store unprocessed records
+    $workingMemory = [];
+    $unprocessedRows = [];
 
     $unprocessedRows = $comentariosRecibidos;
 

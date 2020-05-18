@@ -261,22 +261,22 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
         return true;
     }
 
-    public static function amigos($usuario_id)
+    public function getAmigos()
     {
-        $amigos = Yii::$app->db->createCommand("SELECT * 
+        $directa = Yii::$app->db->createCommand("SELECT * 
         FROM usuarios WHERE id IN (SELECT amigo_id FROM amigos WHERE usuario_id = :usuario_id)")
-            ->bindValue(':usuario_id', $usuario_id)
+            ->bindValue(':usuario_id', $this->id)
             ->queryAll();
 
         $inversa = Yii::$app->db->createCommand("SELECT * 
             FROM usuarios WHERE id IN (SELECT usuario_id FROM amigos WHERE amigo_id = :amigo_id)")
-            ->bindValue(':amigo_id', $usuario_id)
+            ->bindValue(':amigo_id', $this->id)
             ->queryAll();
 
-        $prueba = array_unique(array_merge($amigos, $inversa), SORT_REGULAR);
+        $amigos = array_unique(array_merge($directa, $inversa), SORT_REGULAR);
 
-        if (!empty($prueba)) {
-            return $prueba;
+        if (!empty($amigos)) {
+            return $amigos;
         }
 
         return [];

@@ -125,11 +125,12 @@ class ChatController extends Controller
 
     public function actionPrincipal()
     {
+        $logueado = Usuarios::findOne(Yii::$app->user->id);
         $usuarios = new ActiveDataProvider([
             'query' => Usuarios::find()->where('1=0'),
         ]);
 
-        $arrayAmigos = Usuarios::amigos(Yii::$app->user->id);
+        $arrayAmigos = $logueado->getAmigos();
         $dataProvider = new ArrayDataProvider([
             'key' => 'id',
             'allModels' => $arrayAmigos,
@@ -154,6 +155,7 @@ class ChatController extends Controller
             'usuarios' => $usuarios,
             'cadena' => $cadena,
             'dataProvider' => $dataProvider,
+            'logueado' => $logueado,
         ]);
     }
 
