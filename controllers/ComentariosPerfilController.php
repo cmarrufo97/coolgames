@@ -155,7 +155,7 @@ class ComentariosPerfilController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Comentario respondido con éxito.');
-            return $this->redirect(['usuarios/perfil', 'id' => Yii::$app->user->id]);
+            return $this->redirect(['usuarios/perfil', 'id' => $model->receptor_id]);
         }
 
 
