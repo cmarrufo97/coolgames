@@ -42,6 +42,30 @@ $js = <<<EOT
     });
 EOT;
 
+$css = <<<EOT
+@keyframes animacion {
+    0% {
+
+        transform: translateY(700px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.modal-dialog {
+    animation-name: animacion;
+    -webkit-animation: animacion;
+    -moz-animation: animacion;
+    -o-animation: animacion;
+    animation-duration: 1s;
+    transition-property: all;
+    transition-duration: 2s;
+    transition-timing-function: linear;
+}
+EOT;
+
+$this->registerCss($css);
 
 if (!isset($_COOKIE['aceptar'])) {
     $this->registerJs($js);
