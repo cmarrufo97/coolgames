@@ -10,36 +10,84 @@ use yii\helpers\Url;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
+
+$sinFallos = <<<EOT
+#login .container #login-row #login-column #login-box {
+    margin-top: 120px;
+    max-width: 600px;
+    height: 330px;
+    border: 1px solid #9C9C9C;
+    background-color: #EAEAEA;
+  }
+  #login .container #login-row #login-column #login-box #login-form {
+    padding: 20px;
+  }
+  #login .container #login-row #login-column #login-box #login-form #register-link {
+    margin-top: -85px;
+  }
+EOT;
+
+$conFallos = <<<EOT
+#login .container #login-row #login-column #login-box {
+    margin-top: 120px;
+    max-width: 600px;
+    height: 375px;
+    border: 1px solid #9C9C9C;
+    background-color: #EAEAEA;
+  }
+  #login .container #login-row #login-column #login-box #login-form {
+    padding: 20px;
+  }
+  #login .container #login-row #login-column #login-box #login-form #register-link {
+    margin-top: -85px;
+  }
+EOT;
+
+if ($model->errors) {
+    $this->registerCss($conFallos);
+} else {
+    $this->registerCss($sinFallos);
+}
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div id="login" class="site-login">
+    <div class="container pt-5">
+        <div id="login-row" class="row justify-content-center align-items-center">
+            <div id="login-column" class="col-md-6">
+                <div id="login-box" class="col-md-12">
+                    <h3 class="text-center text-info">Login</h3>
+                    <?php $form = ActiveForm::begin([
+                        'id' => 'login-form',
+                        // 'layout' => 'horizontal',
+                        // 'fieldConfig' => [
+                        //     'horizontalCssClasses' => ['wrapper' => 'col-sm-5'],
+                        // ],
+                    ]); ?>
 
-    <!-- <p>Rellene el siguiente formulario para hacer login:</p> -->
+                    <?= $form->field($model, 'login')->textInput([
+                        'autofocus' => true,
+                    ])->label('Usuario o e-mail') ?>
 
-    <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'layout' => 'horizontal',
-        'fieldConfig' => [
-            'horizontalCssClasses' => ['wrapper' => 'col-sm-5'],
-        ],
-    ]); ?>
+                    <?= $form->field($model, 'password')->passwordInput() ?>
 
-    <?= $form->field($model, 'login')->textInput(['autofocus' => true])->label('Usuario o e-mail') ?>
 
-    <?= $form->field($model, 'password')->passwordInput() ?>
+                    <?= Html::a(
+                        '¿Ha olvidado su contraseña?',
+                        Url::to(['/usuarios/resetear']),
+                    ) ?>
+                    <?= Html::a('Regístrate aquí', ['usuarios/registrar'], [
+                        'class' => 'float-right',
+                    ]) ?>
+                    <div class="form-group">
+                        <span>
+                            <?= $form->field($model, 'rememberMe')->checkbox()->label('Recordarme') ?>
+                        </span>
+                    </div>
 
-    <?= Html::a('¿Ha olvidado su contraseña?', 
-    Url::to(['/usuarios/resetear']),[
-        'class' => 'offset-sm-2', 
-    ]) ?>
+                    <?= Html::submitButton('Login', ['class' => 'form-control bg-primary text-white', 'name' => 'login-button']) ?>
 
-    <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-    <div class="form-group">
-        <div class="offset-sm-2">
-            <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    <?php ActiveForm::end(); ?>
+                </div>
+            </div>
         </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
 </div>
