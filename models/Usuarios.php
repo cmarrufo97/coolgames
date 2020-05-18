@@ -321,6 +321,6 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 
     public function getCountAmigos()
     {
-        return count($this->amigos($this->id));
+        return count($this->getAmigos());
     }
 }
