@@ -18,9 +18,11 @@ $cookie = Url::to(['site/cookie']);
 
 $js = <<<EOT
     $(document).ready(function() {
+        localStorage.setItem('mensajeCookies','Este sitio web utiliza cookies para recoger datos de los usuarios con el fin de mejorar la experiencia.');
+
         bootbox.confirm({
             title: "Política de Cookies",
-            message: "Este sitio web utiliza cookies para recoger datos de los usuarios con el fin de mejorar la experiencia.",
+            message: localStorage.getItem('mensajeCookies'),
             buttons: {
                 confirm: {
                     label: 'Aceptar',

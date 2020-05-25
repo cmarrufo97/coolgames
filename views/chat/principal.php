@@ -19,7 +19,7 @@ $historial = Url::to(['chat/historial']);
 
 $js = <<< EOT
         let receptor_id;
-        let receptor_username;
+        // let receptor_username;
         $(document).ready(function () {
 
             setInterval(() => {
@@ -29,9 +29,10 @@ $js = <<< EOT
             $(document).on('click', '.chat', function (e) {
                 e.preventDefault();
                 receptor_id = $(this).attr('id');
-                receptor_username = $(this).attr('data-username');
+                // receptor_username = $(this).attr('data-username');
+                sessionStorage.setItem('receptor_username',$(this).attr('data-username'));
         
-                ventanaChat(receptor_id, receptor_username);
+                ventanaChat(receptor_id, sessionStorage.getItem('receptor_username'));
             });
 
             $(document).on('click', '.btn-enviar', (e) => {
