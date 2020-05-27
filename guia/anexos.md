@@ -1,8 +1,8 @@
 # Anexos
 
-Documentos específicos vinculados a determinados requisitos funcionales o
-técnicos ("prueba del seis" y similares).
+---
+### **([R25](https://github.com/cmarrufo97/coolgames/issues/25)) Codeception**
 
-Poner cada uno en un apartado separado, indicando en el título de cada apartado
-el código y la descripción corta del requisito asociado (por ejemplo,
-**(RF24) Prueba del seis**).
+![Pruebas Codeception](images/anexos/codeception.png)
+
+---
