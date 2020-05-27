@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Usuarios;
+
 class LoginFormCest
 {
     public function _before(\FunctionalTester $I)
@@ -9,14 +11,14 @@ class LoginFormCest
 
     public function openLoginPage(\FunctionalTester $I)
     {
-        $I->see('Login', 'h1');
+        $I->see('Usuario o e-mail', 'label');
 
     }
 
     // demonstrates `amLoggedInAs` method
     public function internalLoginById(\FunctionalTester $I)
     {
-        $I->amLoggedInAs(100);
+        $I->amLoggedInAs(Usuarios::findOne(1));
         $I->amOnPage('/');
         $I->see('Logout (admin)');
     }
@@ -24,7 +26,7 @@ class LoginFormCest
     // demonstrates `amLoggedInAs` method
     public function internalLoginByInstance(\FunctionalTester $I)
     {
-        $I->amLoggedInAs(\app\models\User::findByUsername('admin'));
+        $I->amLoggedInAs(\app\models\Usuarios::findPorLogin('admin'));
         $I->amOnPage('/');
         $I->see('Logout (admin)');
     }
@@ -33,24 +35,24 @@ class LoginFormCest
     {
         $I->submitForm('#login-form', []);
         $I->expectTo('see validations errors');
-        $I->see('Username no puede estar vacío.');
+        $I->see('Login no puede estar vacío.');
         $I->see('Password no puede estar vacío.');
     }
 
     public function loginWithWrongCredentials(\FunctionalTester $I)
     {
         $I->submitForm('#login-form', [
-            'LoginForm[username]' => 'admin',
+            'LoginForm[login]' => 'admin',
             'LoginForm[password]' => 'wrong',
         ]);
         $I->expectTo('see validations errors');
-        $I->see('Incorrect username or password.');
+        $I->see('Usuario o contraseña incorrectos');
     }
 
     public function loginSuccessfully(\FunctionalTester $I)
     {
         $I->submitForm('#login-form', [
-            'LoginForm[username]' => 'admin',
+            'LoginForm[login]' => 'admin',
             'LoginForm[password]' => 'admin',
         ]);
         $I->see('Logout (admin)');
