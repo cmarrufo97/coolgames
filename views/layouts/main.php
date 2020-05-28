@@ -42,7 +42,8 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
             'items' => [
-                ['label' => 'Home', 'url' => ['/site/index']],
+                // ['label' => 'Home', 'url' => ['/site/index']],
+                ['label' => 'Mi Biblioteca', 'url' => ['/usuarios/biblioteca']],
                 ['label' => 'Tienda', 'url' => ['/juegos/tienda']],
                 ['label' => 'Deseados', 'url' => ['/juegos/deseados','id' => Yii::$app->user->id]],
                 ['label' => 'Carrito', 'url' => ['/carrito/lista']],

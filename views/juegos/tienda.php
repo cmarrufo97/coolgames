@@ -111,9 +111,9 @@ EOT;
                 <div class="text-center mt-2">
                     <?php
                     if ($estaComprado) {
-                        // echo Html::a('¡Lo tengo!', ['usuarios/biblioteca'], [
-                        //     'class' => 'text-success d-inline'
-                        // ]);
+                        echo Html::a('¡Lo tengo!', ['usuarios/biblioteca'], [
+                            'class' => 'text-success d-inline'
+                        ]);
                     } else {
                         $juegos = [];
                         $juegos['juegos'] = [$juego->id];
