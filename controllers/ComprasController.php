@@ -3,19 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Deseados;
-use app\models\DeseadosSearch;
-use app\models\Roles;
-use app\models\Usuarios;
-use yii\filters\AccessControl;
+use app\models\Compras;
+use app\models\ComprasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DeseadosController implements the CRUD actions for Deseados model.
+ * ComprasController implements the CRUD actions for Compras model.
  */
-class DeseadosController extends Controller
+class ComprasController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -50,12 +47,12 @@ class DeseadosController extends Controller
     }
 
     /**
-     * Lists all Deseados models.
+     * Lists all Compras models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DeseadosSearch();
+        $searchModel = new ComprasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -65,7 +62,7 @@ class DeseadosController extends Controller
     }
 
     /**
-     * Displays a single Deseados model.
+     * Displays a single Compras model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -78,13 +75,13 @@ class DeseadosController extends Controller
     }
 
     /**
-     * Creates a new Deseados model.
+     * Creates a new Compras model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Deseados();
+        $model = new Compras();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -96,7 +93,7 @@ class DeseadosController extends Controller
     }
 
     /**
-     * Updates an existing Deseados model.
+     * Updates an existing Compras model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -116,7 +113,7 @@ class DeseadosController extends Controller
     }
 
     /**
-     * Deletes an existing Deseados model.
+     * Deletes an existing Compras model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -126,54 +123,19 @@ class DeseadosController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['juegos/deseados']);
+        return $this->redirect(['index']);
     }
 
     /**
-     * Añade un juego a la lista de deseados de un usuario.
-     *
-     * @param [type] $id
-     * @return void
-     */
-    public function actionCrear($id = null)
-    {
-        if ($id === null && Yii::$app->user->isGuest) {
-            return $this->redirect(['site/login']);
-        }
-
-        $model = new Deseados();
-        $usuario_id = Yii::$app->user->id;
-        $juego_id = $id;
-
-        $model->usuario_id = $usuario_id;
-        $model->juego_id = $juego_id;
-
-        $existeDeseado = Deseados::find()->select('id')
-            ->where(['usuario_id' => $usuario_id])
-            ->andFilterWhere(['=', 'juego_id', $juego_id])
-            ->exists();
-
-        if (!$existeDeseado) {
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Juego añadido a deseados correctamente.');
-                // return $this->redirect(['juegos/deseados', 'id' => $usuario_id]);
-            }
-        } else {
-            Yii::$app->session->setFlash('warning', 'El juego ya existe en tu lista de deseados.');
-        }
-        return $this->redirect(['juegos/tienda']);
-    }
-
-    /**
-     * Finds the Deseados model based on its primary key value.
+     * Finds the Compras model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Deseados the loaded model
+     * @return Compras the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Deseados::findOne($id)) !== null) {
+        if (($model = Compras::findOne($id)) !== null) {
             return $model;
         }
 

@@ -166,7 +166,7 @@ class CarritoController extends Controller
         $precioTotal = null;
 
         foreach ($juegos as $juego) {
-            $precioTotal += (int) Juegos::find()->select('precio')
+            $precioTotal += (float) Juegos::find()->select('precio')
                 ->where(['=', 'id', $juego->juego_id])->scalar();
         }
 
@@ -179,6 +179,7 @@ class CarritoController extends Controller
         return $this->render('lista', [
             'lista' => $lista,
             'precioTotal' => $precioTotal,
+            'juegos' => $juegos,
         ]);
     }
 
