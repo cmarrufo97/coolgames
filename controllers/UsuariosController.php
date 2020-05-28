@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\ComentariosPerfil;
+use app\models\Compras;
 use app\models\ImagenForm;
 use app\models\Roles;
 use Yii;
@@ -279,6 +280,26 @@ class UsuariosController extends Controller
             'model' => $model,
             'modelPerfil' => $modelPerfil,
             'comentariosRecibidos' => $comentariosRecibidos,
+        ]);
+    }
+
+    public function actionBiblioteca($id = null)
+    {
+        if ($id === null && Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
+        if ($id == null && !Yii::$app->user->isGuest) {
+            $id = Yii::$app->user->id;
+        }
+        
+        $modelUsuario = Usuarios::findOne($id);
+        $juegosComprados = Compras::find()->select('juego_id')->where(['usuario_id' => $modelUsuario->id])->all();
+
+
+        return $this->render('biblioteca', [
+            // 'model' => $modelUsuario,
+            'juegos' => $juegosComprados,
         ]);
     }
 

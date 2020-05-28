@@ -38,7 +38,7 @@ class JuegosController extends Controller
 
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['index', 'create', 'update','deseados'],
+                'only' => ['index', 'create', 'update'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -50,10 +50,6 @@ class JuegosController extends Controller
 
                             return $usuario_rol_id === $adminId;
                         },
-                    ],
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
                     ],
                 ],
             ],
