@@ -38,7 +38,7 @@ class JuegosController extends Controller
 
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['index', 'create', 'update'],
+                'only' => ['index', 'create', 'update','deseados'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -50,6 +50,10 @@ class JuegosController extends Controller
 
                             return $usuario_rol_id === $adminId;
                         },
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -178,7 +182,7 @@ class JuegosController extends Controller
             return $this->redirect(['site/login']);
         }
 
-        if (!Yii::$app->user->isGuest) {
+        if ($id === null && !Yii::$app->user->isGuest) {
             $id = Yii::$app->user->id;
         }
         $usuario_id = $id;

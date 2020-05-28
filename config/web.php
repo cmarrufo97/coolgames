@@ -47,21 +47,23 @@ $config = [
                 'port' => '587',
                 'encryption' => 'tls',
             ],
-            
+
         ],
         'log' => $log,
         'db' => $db,
         'formatter' => [
             'timeZone' => 'Europe/Madrid',
         ],
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => [],
         ],
-        */
+        'PayPalRestApi' => [
+            'class' => 'bitcko\paypalrestapi\PayPalRestApi',
+            'redirectUrl' => '/site/make-payment', // Redirect Url after payment
+        ],
     ],
     'container' => [
         'definitions' => [

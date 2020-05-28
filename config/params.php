@@ -13,4 +13,6 @@ return [
         ],
     ],
     'bsVersion' => '4.x',
+    'payPalClientId' => getenv('PAYPAL_ID'),
+    'payPalClientSecret' => getenv('PAYPAL_SECRET'),
 ];

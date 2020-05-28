@@ -101,11 +101,20 @@ if ($lista->totalCount > 0) {
     ?>
 <?php
 
+    $listaJuegos = [];
+
+    foreach ($juegos as $juego) {
+        $listaJuegos[] = $juego['juego_id'];
+    }
+
     echo Html::a('Continuar comprando', ['juegos/tienda'], [
         'class' => 'btn btn-sm btn-info text-white',
     ]);
 
-    echo Html::a('Realizar Pago', null, [
+    echo Html::a('Realizar Pago', [
+        'site/checkout',
+        'juegos' => serialize($listaJuegos),
+    ], [
         'class' => 'btn btn-sm btn-primary text-white ml-1',
     ]);
 }

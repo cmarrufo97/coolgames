@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Carrito;
+use app\models\Compras;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -24,10 +26,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout','checkout','make-payment'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','checkout','make-payment'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -165,5 +167,90 @@ class SiteController extends Controller
         setcookie('aceptar', '1', time() + 3600 * 24 * 365, '/');
 
         $this->goBack();
+    }
+
+    public function actionCheckout($juegos)
+    {
+        // Setup order information array with all items
+        $juegos = unserialize($juegos);
+        $total = 0.00;
+        $total = number_format((float) $total, 2, '.', '');
+        $items = [];
+        foreach ($juegos as $juego) {
+            $model = Juegos::findOne($juego);
+            $total += number_format((float) $model->precio, 2);
+            $items[] = [
+                'name' => $model->titulo,
+                'price' => $model->precio,
+                'quantity' => '1',
+                'currency' => 'EUR',
+            ];
+        }
+        $params = [
+            'method' => 'paypal',
+            'intent' => 'sale',
+            'order' => [
+                'description' => 'Descripción del pago',
+                'subtotal' => $total,
+                'shippingCost' => 0,
+                'total' => $total,
+                'currency' => 'EUR',
+                'items' => $items,
+            ]
+        ];
+
+        // In this action you will redirect to the PayPpal website to login with you buyer account and complete the payment
+
+        if (Yii::$app->PayPalRestApi->checkout($params)) {
+            $_SESSION['params'] = [
+                'order' => [
+                    'description' => $params['order']['description'],
+                    'subtotal' => $params['order']['subtotal'],
+                    'shippingCost' => $params['order']['shippingCost'],
+                    'total' => $params['order']['total'],
+                    'currency' => $params['order']['currency'],
+                ],
+                'juegos' => $juegos,
+            ];
+        }
+    }
+
+    public function actionMakePayment()
+    {
+        $params = [];
+        $params = $_SESSION['params'];
+        $juegos = $_SESSION['params']['juegos'];
+
+        Yii::$app->PayPalRestApi->processPayment($params);
+        $response = Yii::$app->response;
+
+        if (!empty($response->data) && $response->data->state === 'approved') {
+            foreach ($juegos as $juego) {
+                $usuario_id = Yii::$app->user->id;
+                $modelJuego = Juegos::findOne($juego);
+
+                $estaEnCarrito = Carrito::find()->where(['usuario_id' => $usuario_id])
+                    ->andFilterWhere(['juego_id' => $modelJuego->id])->exists();
+
+                if ($estaEnCarrito) {
+                    $modelCarrito = Carrito::find()->select('id')
+                        ->where(['usuario_id' => $usuario_id])
+                        ->andFilterWhere(['juego_id' => $modelJuego->id])->one();
+                    $modelCarrito->delete();
+                }
+
+                $modelCompras = new Compras();
+                $modelCompras->usuario_id = $usuario_id;
+                $modelCompras->juego_id = $modelJuego->id;
+                $modelCompras->subtotal = $modelJuego->precio;
+                $modelCompras->total = $modelJuego->precio;
+
+                $modelCompras->save();
+            }
+            unset($_SESSION['params']);
+            unset($_SESSION['params']['juegos']);
+            Yii::$app->session->setFlash('success', 'Pago realizado con éxito.');
+            return $this->redirect(['juegos/tienda']);
+        }
     }
 }

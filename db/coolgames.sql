@@ -145,6 +145,17 @@ CREATE TABLE chat
   , created_at  timestamp NOT NULL DEFAULT current_timestamp         
 );
 
+DROP TABLE IF EXISTS compras CASCADE;
+
+CREATE TABLE compras
+(
+    id          bigserial PRIMARY KEY
+  , usuario_id  bigint NOT NULL REFERENCES usuarios (id)
+  , juego_id    bigint NOT NULL REFERENCES juegos (id)
+  , subtotal    numeric(5,2)
+  , total       numeric(5,2)
+  , created_at  timestamp NOT NULL DEFAULT current_timestamp
+);
 
 INSERT INTO roles (rol)
   VALUES ('usuario')

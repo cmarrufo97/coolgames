@@ -28,7 +28,8 @@
         "xtetis/yii2-bootstrap4-glyphicons": "dev-master",
         "aws/aws-sdk-php": "^3.135",
         "yiisoft/yii2-imagine": "^2.2",
-        "kartik-v/yii2-widget-rating": "dev-master"
+        "kartik-v/yii2-widget-rating": "dev-master",
+        "bitcko/yii2-bitcko-paypal-api": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
