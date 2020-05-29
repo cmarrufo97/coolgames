@@ -24,7 +24,13 @@ use yii\web\JsExpression;
 <div class="bg-white">
     <div class="text-center">
         <div>
-            <p>Tu Valoración:</p>
+            <?php
+            if (!Yii::$app->user->isGuest) {
+            ?>
+                <p>Tu Valoración:</p>
+            <?php
+            }
+            ?>
             <?php
             $miValoracion = Valoraciones::find()
                 ->select('estrellas')
