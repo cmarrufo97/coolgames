@@ -155,14 +155,20 @@ class JuegosController extends Controller
         //     return $this->redirect(['site/login']);
         // }
         
-        $model = new Valoraciones();
+        $valoraciones = new Valoraciones();
         $modelCarrito = new Carrito();
+
+        $searchModel = new JuegosSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->defaultPageSize = 12;
 
 
         return $this->render('tienda', [
-            'juegos' => Juegos::lista(),
-            'model' => $model,
-            'modelCarrito' => $modelCarrito,
+            // 'juegos' => Juegos::lista(),
+            // 'valoraciones' => $valoraciones,
+            // 'modelCarrito' => $modelCarrito,
+            'dataProvider' => $dataProvider,
+            'attributes' => $searchModel->attributes(),
         ]);
     }
 
