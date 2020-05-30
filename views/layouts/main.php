@@ -9,6 +9,9 @@ use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 use yii\bootstrap4\Breadcrumbs;
 use app\assets\AppAsset;
+use app\models\Carrito;
+use app\models\Roles;
+use app\models\Usuarios;
 use yii\helpers\Url;
 
 AppAsset::register($this);
@@ -16,6 +19,7 @@ AppAsset::register($this);
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
+
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,68 +28,101 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
-<?php $this->beginBody() ?>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'CoolGames',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-dark bg-dark navbar-expand-md fixed-top',
-        ],
-        'collapseOptions' => [
-            'class' => 'justify-content-end',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
+<body>
+    <?php $this->beginBody() ?>
+
+    <?php 
+        function getcountCarrito() {
+            if (!Yii::$app->user->isGuest) {
+                $usuario = Usuarios::findOne(Yii::$app->user->id);
+                if ($usuario->getItemsCarrito() > 0) {
+                    return ' ('.$usuario->getItemsCarrito() . ')'; 
+                }
+            }
+            // return '';
+        }
+    ?>
+
+    <div class="wrap">
+        <?php
+        NavBar::begin([
+            'brandLabel' => 'CoolGames',
+            'brandUrl' => Yii::$app->homeUrl,
+            'options' => [
+                'class' => 'navbar-dark bg-dark navbar-expand-md fixed-top',
+            ],
+            'collapseOptions' => [
+                'class' => 'justify-content-end',
+            ],
+        ]);
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav'],
             'items' => [
                 // ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'Mi Biblioteca', 'url' => ['/usuarios/biblioteca']],
-                ['label' => 'Tienda', 'url' => ['/juegos/tienda']],
-                ['label' => 'Deseados', 'url' => ['/juegos/deseados','id' => Yii::$app->user->id]],
-                ['label' => 'Carrito', 'url' => ['/carrito/lista']],
-                ['label' => 'Social', 'url' => ['/chat/principal']],
-                ['label' => 'Mi Perfil', 'url' => ['/usuarios/perfil', 'id' => Yii::$app->user->id]],
-                ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
-                ['label' => 'Generos', 'url' => ['/generos/index']],
-                ['label' => 'Juegos', 'url' => ['/juegos/index']],
                 [
-                    'label' => 'Usuarios',
+                    'label' => 'Mi Biblioteca', 'url' => ['/usuarios/biblioteca'],
+                    'visible' => !Yii::$app->user->isGuest
+                ],
+                ['label' => 'Tienda', 'url' => ['/juegos/tienda']],
+                // ['label' => 'Deseados', 'url' => ['/juegos/deseados']],
+                ['label' => 'Carrito' . getcountCarrito(), 'url' => ['/carrito/lista']],
+                // . '('..')'
+                ['label' => 'Social', 'url' => ['/chat/principal']],
+                [
+                    'label' => 'Mi Perfil', 'url' => ['/usuarios/perfil', 'id' => Yii::$app->user->id],
+                    'visible' => !Yii::$app->user->isGuest
+                ],
+                // Visible solo para los Admins
+                [
+                    'label' => 'Usuarios', 'url' => ['/usuarios/index'],
+                    'visible' => Usuarios::find()->select('rol_id')->where(['id' => Yii::$app->user->id])->scalar() === Roles::find()->select('id')->where(['rol' => 'admin'])->scalar(),
+                ],
+                [
+                    'label' => 'Generos', 'url' => ['/generos/index'],
+                    'visible' => Usuarios::find()->select('rol_id')->where(['id' => Yii::$app->user->id])->scalar() === Roles::find()->select('id')->where(['rol' => 'admin'])->scalar(),
+                ],
+                [
+                    'label' => 'Juegos', 'url' => ['/juegos/index'],
+                    'visible' => Usuarios::find()->select('rol_id')->where(['id' => Yii::$app->user->id])->scalar() === Roles::find()->select('id')->where(['rol' => 'admin'])->scalar(),
+                ],
+                [
+                    'label' => 'Acceso',
                     'items' => [
-                        !Yii::$app->user->isGuest ? (Html::beginForm(['/site/logout'], 'post')
-                        . Html::submitButton(
-                            'Logout (' . Yii::$app->user->identity->nombre . ')',
-                            ['class' => 'dropdown-item'],
-                        )
-                        . Html::endForm()) : (Html::beginForm() . Html::a('Login',['/site/login'],['class' => 'dropdown-item']) .Html::a('Registrarse', Url::to(['/usuarios/registrar']),['class' => 'dropdown-item'])),
+                        !Yii::$app->user->isGuest ? ['label' => 'Deseados', 'url' => ['/juegos/deseados']] : '',
+                        !Yii::$app->user->isGuest ?
+                            (Html::beginForm(['/site/logout'], 'post')
+                                . Html::submitButton(
+                                    'Logout (' . Yii::$app->user->identity->nombre . ')',
+                                    ['class' => 'dropdown-item'],
+                                )
+                                . Html::endForm()) : (Html::beginForm() . Html::a('Login', ['/site/login'], ['class' => 'dropdown-item']) . Html::a('Registrarse', Url::to(['/usuarios/registrar']), ['class' => 'dropdown-item'])),
                     ],
                 ],
             ],
-    ]);
-    NavBar::end();
-    ?>
+        ]);
+        NavBar::end();
+        ?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+        <div class="container">
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
+            <?= Alert::widget() ?>
+            <?= $content ?>
+        </div>
     </div>
-</div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="float-left">&copy; My Company <?= date('Y') ?></p>
+    <footer class="footer">
+        <div class="container">
+            <p class="float-left">&copy; CoolGames <?= date('Y') ?></p>
 
-        <p class="float-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+            <p class="float-right">Desarollado por Christian Marrufo Rodríguez</p>
+        </div>
+    </footer>
 
-<?php $this->endBody() ?>
+    <?php $this->endBody() ?>
 </body>
+
 </html>
 <?php $this->endPage() ?>

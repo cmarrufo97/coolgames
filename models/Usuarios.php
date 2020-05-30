@@ -323,4 +323,9 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return count($this->getAmigos());
     }
+
+    public function getItemsCarrito()
+    {
+        return Carrito::find()->where(['usuario_id' => $this->id])->count('juego_id');
+    }
 }
