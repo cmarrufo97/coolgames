@@ -11,13 +11,17 @@ use yii\web\JsExpression;
 ?>
 
 <div class="text-center mt-4">
-    <?= Html::img($juego->getImagen()) ?>
+    <?= Html::img($juego->getImagen(),[
+        'alt' => $juego->titulo,
+        'itemprop' => 'image',
+    ]) ?>
 </div>
 <div class="card-body bg-white mt-4">
     <h5 class="card-title">
         <?= Html::a(
             $juego->titulo,
-            Url::to(['juegos/view', 'id' => $juego->id])
+            Url::to(['juegos/view', 'id' => $juego->id]),
+            ['itemprop' => 'name']
         )
         ?>
     </h5>
@@ -76,8 +80,12 @@ use yii\web\JsExpression;
             </h5>
         </div>
 
-        <div>
-            <h5>Precio: <?= Yii::$app->formatter->asCurrency($juego->precio) ?></h5>
+        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+            <h5>Precio:
+                <span itemprop="price">
+                    <?= Yii::$app->formatter->asCurrency($juego->precio) ?>
+                </span>
+            </h5>
         </div>
     </div>
 </div>

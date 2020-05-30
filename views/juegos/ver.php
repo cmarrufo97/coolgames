@@ -14,13 +14,17 @@ $usuario_id = Yii::$app->user->id;
 $juego_id = $model->id;
 ?>
 
-<div class="card bg-dark">
+<div itemscope itemtype="http://schema.org/Game/VideoGame" class="card bg-dark">
     <div class="card-body">
         <?= Html::img($model->getImagen(), [
+            'alt' => $model->titulo,
             'class' => 'mx-auto d-block',
+            'itemprop' => 'image',
         ]) ?>
         <h1 class="lead text-center text-white">
-            <?= $model->titulo ?>
+            <span itemprop="name">
+                <?= $model->titulo ?>
+            </span>
         </h1>
     </div>
 </div>
@@ -40,6 +44,7 @@ echo  $this->render('../comentarios/_comentar', [
     'summary' => '',
     'itemOptions' => [
         'class' => 'card mt-2 pb-4',
+        'itemprop' => 'comment'
     ],
     'itemView' => function ($model, $key, $index, $widget) {
         $usuario = Usuarios::findOne($model->usuario_id);
