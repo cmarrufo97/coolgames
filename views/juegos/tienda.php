@@ -42,7 +42,8 @@ $this->registerJs($js);
         'options' => ['class' => 'card-deck mt-4', 'tag' => 'section'],
         'layout' => '{items}',
         'summary' => '',
-        'itemOptions' => ['class' => 'card bg-dark', 'tag' => 'article'],
+        'itemOptions' => ['class' => 'card bg-dark', 'tag' => 'article',
+        'itemscope itemtype' => 'http://schema.org/Game/VideoGame'],
         'itemView' => function ($model, $key, $index, $widget) {
             $modelValoracion = new Valoraciones();
             $modelCarrito = new Carrito();
