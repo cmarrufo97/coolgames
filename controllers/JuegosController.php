@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Carrito;
 use app\models\Comentarios;
+use app\models\ComentariosSearch;
 use app\models\Deseados;
 use app\models\Generos;
 use Yii;
@@ -150,11 +151,7 @@ class JuegosController extends Controller
      * @return void
      */
     public function actionTienda()
-    {
-        // if (Yii::$app->user->isGuest) {
-        //     return $this->redirect(['site/login']);
-        // }
-        
+    {   
         $valoraciones = new Valoraciones();
         $modelCarrito = new Carrito();
 
@@ -164,9 +161,6 @@ class JuegosController extends Controller
 
 
         return $this->render('tienda', [
-            // 'juegos' => Juegos::lista(),
-            // 'valoraciones' => $valoraciones,
-            // 'modelCarrito' => $modelCarrito,
             'dataProvider' => $dataProvider,
             'attributes' => $searchModel->attributes(),
         ]);
@@ -210,15 +204,21 @@ class JuegosController extends Controller
         $model = $this->findModel($id);
         $comentario = new Comentarios();
 
-        $comentarios = Comentarios::find()->where(['=','juego_id',$model->id])
-        ->orderBy(['created_at' => SORT_DESC])
-        ->all();
+        $searchModel = new ComentariosSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->defaultPageSize = 5;
+        $dataProvider->sort->attributes['created_at'] = [
+            'desc' => [
+                'created_at' => SORT_DESC,
+            ],
+        ];
+        $dataProvider->sort->defaultOrder = ['created_at' => SORT_DESC];
 
 
         return $this->render('ver', [
             'model' => $model,
             'comentario' => $comentario,    // modelo de Comentario
-            'comentarios' => $comentarios,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
