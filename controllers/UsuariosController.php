@@ -283,6 +283,13 @@ class UsuariosController extends Controller
         ]);
     }
 
+    /**
+     * Acción que renderiza la vista en la cual se muestra los juegos comprados por un
+     * usuario.
+     *
+     * @param [type] $id
+     * @return void
+     */
     public function actionBiblioteca($id = null)
     {
         if ($id === null && Yii::$app->user->isGuest) {

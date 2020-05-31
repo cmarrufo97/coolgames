@@ -6,6 +6,9 @@ use app\services\Util;
 use Yii;
 use yii\base\Model;
 
+/**
+ * Clase encarga de subir la foto de perfil de un usuario.
+ */
 class ImagenForm extends Model
 {
     public $imagen;
@@ -17,6 +20,14 @@ class ImagenForm extends Model
         ];
     }
 
+    /**
+     * Función para subir la foto de perfil de un usuario. En primer lugar se sube a local, pero luego se sube al bucket disponible en Amazon S3. Finalmente cuando la foto es subida a Amazon S3, es eliminada del local.
+     *
+     * @param [type] $id
+     * @param [type] $nombre
+     * @param [type] $bucketName
+     * @return void
+     */
     public function uploadUserImage($id, $nombre, $bucketName)
     {
         $imagenAntigua = Usuarios::find()

@@ -58,6 +58,11 @@ class Generos extends \yii\db\ActiveRecord
         return $this->hasMany(Juegos::className(), ['genero_id' => 'id']);
     }
 
+    /**
+     * Devuelve la lista con las denominaciones de los géneros.
+     *
+     * @return ActiveQuery
+     */
     public static function lista()
     {
         return static::find()

@@ -169,6 +169,12 @@ class SiteController extends Controller
         $this->goBack();
     }
 
+    /**
+     * Lanza el proceso de checkout de PayPal.
+     *
+     * @param [] $juegos
+     * @return void
+     */
     public function actionCheckout($juegos)
     {
         // Setup order information array with all items
@@ -199,8 +205,6 @@ class SiteController extends Controller
             ]
         ];
 
-        // In this action you will redirect to the PayPpal website to login with you buyer account and complete the payment
-
         if (Yii::$app->PayPalRestApi->checkout($params)) {
             $_SESSION['params'] = [
                 'order' => [
@@ -215,6 +219,13 @@ class SiteController extends Controller
         }
     }
 
+    /**
+     * Realiza el pago de Paypal y inserta datos (es decir, los juegos) que ha comprado
+     * el usuario en la tabla de Compras. Si existen en el carrito, los borrará ya que han sido
+     * comprados.
+     *
+     * @return void
+     */
     public function actionMakePayment()
     {
         $params = [];

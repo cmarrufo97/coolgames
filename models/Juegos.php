@@ -20,6 +20,11 @@ use yii\web\UploadedFile;
  */
 class Juegos extends \yii\db\ActiveRecord
 {
+    /**
+     * Imagen del juego a subir en Amazon S3.
+     *
+     * @var [type]
+     */
     public $imgUpload;
 
     /**
@@ -72,6 +77,11 @@ class Juegos extends \yii\db\ActiveRecord
         return $this->hasOne(Generos::className(), ['id' => 'genero_id']);
     }
 
+    /**
+     * Sube la foto del juego a Amazon S3. Cuando la sube, la borra del local.
+     *
+     * @return void
+     */
     public function uploadImage()
     {
         $this->imgUpload = UploadedFile::getInstance($this, 'imgUpload');
@@ -84,6 +94,12 @@ class Juegos extends \yii\db\ActiveRecord
             unlink($origen);
         }
     }
+
+    /**
+     * Obtiene la url de la foto del juego.
+     *
+     * @return string
+     */
     public function getImagen()
     {
         if ($this->imagen !== null) {
@@ -97,6 +113,12 @@ class Juegos extends \yii\db\ActiveRecord
         return false;
     }
 
+    /**
+     * Obtiene la valoración Media/Global de un juego. Para ello se obtiene todos los votos del juego
+     * y se dividen entre los usuarios que han votado.
+     *
+     * @return float
+     */
     public function getValoracionGlobal()
     {
         $votaciones = (float) Valoraciones::find()
@@ -115,6 +137,11 @@ class Juegos extends \yii\db\ActiveRecord
         return false;
     }
 
+    /**
+     * Devuelve la lista de los juegos.
+     *
+     * @return ActiveQuery
+     */
     public static function lista()
     {
         return static::find()
