@@ -43,6 +43,7 @@
 <a class="list-group-item" href="./app-controllers-chatcontroller.html">ChatController</a>
 <a class="list-group-item" href="./app-controllers-comentarioscontroller.html">ComentariosController</a>
 <a class="list-group-item" href="./app-controllers-comentariosperfilcontroller.html">ComentariosPerfilController</a>
+<a class="list-group-item" href="./app-controllers-comprascontroller.html">ComprasController</a>
 <a class="list-group-item" href="./app-controllers-deseadoscontroller.html">DeseadosController</a>
 <a class="list-group-item" href="./app-controllers-estadoscontroller.html">EstadosController</a>
 <a class="list-group-item" href="./app-controllers-generoscontroller.html">GenerosController</a>
@@ -62,6 +63,8 @@
 <a class="list-group-item" href="./app-models-comentariosperfil.html">ComentariosPerfil</a>
 <a class="list-group-item" href="./app-models-comentariosperfilsearch.html">ComentariosPerfilSearch</a>
 <a class="list-group-item" href="./app-models-comentariossearch.html">ComentariosSearch</a>
+<a class="list-group-item" href="./app-models-compras.html">Compras</a>
+<a class="list-group-item" href="./app-models-comprassearch.html">ComprasSearch</a>
 <a class="list-group-item" href="./app-models-contactform.html">ContactForm</a>
 <a class="list-group-item" href="./app-models-deseados.html">Deseados</a>
 <a class="list-group-item" href="./app-models-deseadossearch.html">DeseadosSearch</a>
@@ -262,6 +265,12 @@ in the request.</td>
         <td><a href="yii-base-component.html#__unset()-detail">__unset()</a></td>
         <td>Sets a component property to be null.</td>
         <td><a href="yii-base-component.html">yii\base\Component</a></td>
+    </tr>
+            <tr id="actionBiblioteca()">
+        <td><a href="app-controllers-usuarioscontroller.html#actionBiblioteca()-detail">actionBiblioteca()</a></td>
+        <td>Acción que renderiza la vista en la cual se muestra los juegos comprados por un
+usuario.</td>
+        <td><a href="app-controllers-usuarioscontroller.html">app\controllers\UsuariosController</a></td>
     </tr>
             <tr id="actionConfirmar()">
         <td><a href="app-controllers-usuarioscontroller.html#actionConfirmar()-detail">actionConfirmar()</a></td>
@@ -563,7 +572,7 @@ de la contraseña de la cuenta</td>
 <tr>
   <th>Method</th><th>Description</th><th>Defined By</th>
 </tr>
-                                                                                                                                                        <tr id="findModel()">
+                                                                                                                                                            <tr id="findModel()">
         <td><a href="app-controllers-usuarioscontroller.html#findModel()-detail">findModel()</a></td>
         <td>Finds the Usuarios model based on its primary key value.</td>
         <td><a href="app-controllers-usuarioscontroller.html">app\controllers\UsuariosController</a></td>
@@ -609,6 +618,35 @@ de la contraseña de la cuenta</td>
 <h2>Method Details</h2>
 
 <div class="method-doc">
+
+    <div class="detail-header h3" id="actionBiblioteca()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="app-controllers-usuarioscontroller.html#actionBiblioteca()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        actionBiblioteca()
+        <span class="detail-header-tag small">
+            public                                    method
+                    </span>
+    </div>
+
+    
+    <div class="doc-description">
+        <p><strong>Acción que renderiza la vista en la cual se muestra los juegos comprados por un
+usuario.</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><span class="signature-defs">public</span> <span class="signature-type">void</span> <strong><a href="app-controllers-usuarioscontroller.html#actionBiblioteca()-detail">actionBiblioteca</a></strong> ( <span style="color: #0000BB">$id&nbsp;</span><span style="color: #007700">=&nbsp;</span><span style="color: #0000BB">null</span> )</td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$id</span></td>
+                  <td class="param-type-col">\app\controllers\[type]</td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
 
     <div class="detail-header h3" id="actionConfirmar()-detail">
         <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
@@ -1087,7 +1125,7 @@ or be detached using <a href="yii-base-component.html#detachBehavior()-detail">d
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Mon, 18 May 2020 23:20:29 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Sun, 31 May 2020 19:31:49 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script>jQuery(function ($) {
