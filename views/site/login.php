@@ -11,11 +11,11 @@ use yii\helpers\Url;
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 
-$sinFallos = <<<EOT
+$css = <<<EOT
 #login .container #login-row #login-column #login-box {
     margin-top: 120px;
     max-width: 600px;
-    height: 330px;
+    // height: 330px;
     border: 1px solid #9C9C9C;
     background-color: #EAEAEA;
   }
@@ -26,28 +26,8 @@ $sinFallos = <<<EOT
     margin-top: -85px;
   }
 EOT;
+$this->registerCss($css);
 
-$conFallos = <<<EOT
-#login .container #login-row #login-column #login-box {
-    margin-top: 120px;
-    max-width: 600px;
-    height: 375px;
-    border: 1px solid #9C9C9C;
-    background-color: #EAEAEA;
-  }
-  #login .container #login-row #login-column #login-box #login-form {
-    padding: 20px;
-  }
-  #login .container #login-row #login-column #login-box #login-form #register-link {
-    margin-top: -85px;
-  }
-EOT;
-
-if ($model->errors) {
-    $this->registerCss($conFallos);
-} else {
-    $this->registerCss($sinFallos);
-}
 ?>
 <div id="login" class="site-login">
     <div class="container pt-5">

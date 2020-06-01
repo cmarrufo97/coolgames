@@ -10,11 +10,11 @@ use yii\bootstrap4\ActiveForm;
 $this->title = 'Registrar usuario';
 $this->params['breadcrumbs'][] = $this->title;
 
-$conFallos = <<<EOT
+$css = <<<EOT
 #login .container #login-row #login-column #login-box {
     margin-top: 120px;
     max-width: 600px;
-    height: 700px;
+    // height: 700px;
     border: 1px solid #9C9C9C;
     background-color: #EAEAEA;
   }
@@ -26,27 +26,7 @@ $conFallos = <<<EOT
   }
 EOT;
 
-$sinFallos = <<<EOT
-#login .container #login-row #login-column #login-box {
-    margin-top: 120px;
-    max-width: 600px;
-    height: 580px;
-    border: 1px solid #9C9C9C;
-    background-color: #EAEAEA;
-  }
-  #login .container #login-row #login-column #login-box #login-form {
-    padding: 20px;
-  }
-  #login .container #login-row #login-column #login-box #login-form #register-link {
-    margin-top: -85px;
-  }
-EOT;
-
-if ($model->errors) {
-  $this->registerCss($conFallos);
-} else {
-  $this->registerCss($sinFallos);
-}
+$this->registerCss($css);
 ?>
 <div id="login" class="site-login">
   <div class="container">

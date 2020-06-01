@@ -96,7 +96,8 @@ AppAsset::register($this);
                                     'Logout (' . Yii::$app->user->identity->nombre . ')',
                                     ['class' => 'dropdown-item'],
                                 )
-                                . Html::endForm()) : (Html::beginForm() . Html::a('Login', ['/site/login'], ['class' => 'dropdown-item']) . Html::a('Registrarse', Url::to(['/usuarios/registrar']), ['class' => 'dropdown-item'])),
+                                . Html::endForm()) : (Html::beginForm() . Html::a('Login', ['/site/login'], ['class' => 'dropdown-item']) . Html::a('Registrarse',
+                                ['/usuarios/registrar'], ['class' => 'dropdown-item']) . Html::endForm()),
                     ],
                 ],
             ],
