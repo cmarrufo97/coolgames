@@ -78,12 +78,15 @@ if (!isset($_COOKIE['aceptar'])) {
 
     <div class="jumbotron">
         <h1>Busque lo que quiera</h1>
-        <p class="lead">Busque usuarios y juegos por título o género </p>
+        <label class="lead" for="cadena">Busque usuarios y juegos por título o género </label>
 
         <div>
             <?= Html::beginForm(['site/index'], 'get') ?>
             <div class="form-group">
-                <?= Html::textInput('cadena', $cadena, ['class' => 'form-control']) ?>
+                <?= Html::textInput('cadena', $cadena, [
+                    'class' => 'form-control',
+                    'id' => 'cadena'
+                ]) ?>
             </div>
             <div class="form-group">
                 <?= Html::submitButton('Buscar', ['class' => 'btn btn-primary']) ?>
