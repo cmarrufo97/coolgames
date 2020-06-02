@@ -100,3 +100,38 @@ TODO: SEGUIR EXPLICANDOLO
 </ul>
 </ol>
 
+---
+
+### **([R38](https://github.com/cmarrufo97/coolgames/issues/38)) Despliegue en un servidor local**
+
+SERVIDOR
+
+![NETPLAN](images/anexos/fotos-maquinas/netplan-server.png)
+
+![ZONA](images/anexos/fotos-maquinas/zona-dns.png)
+
+![DIRECTA](images/anexos/fotos-maquinas/directa-dns.png)
+
+![SERVER1](images/anexos/fotos-maquinas/server-ssl-conf1.png)
+
+![SERVER2](images/anexos/fotos-maquinas/server-ssl-conf2.png)
+
+![DIG](images/anexos/fotos-maquinas/dig-server.png)
+
+![SERVER LOGIN](images/anexos/fotos-maquinas/servidor-login.png)
+
+CLIENTE
+
+![CLIENTE LOGIN](images/anexos/fotos-maquinas/cliente-login.png)
+
+![CLIENTE BIBLIOTECA](images/anexos/fotos-maquinas/cliente-biblioteca.png)
+
+![CLIENTE SOCIAL](images/anexos/fotos-maquinas/cliente-social.png)
+
+MÁQUINAS
+
+![SERVER-CLIENTE](images/anexos/fotos-maquinas/server-cliente.png)
+
+
+
+
