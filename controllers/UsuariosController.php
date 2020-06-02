@@ -4,7 +4,9 @@ namespace app\controllers;
 
 use app\models\ComentariosPerfil;
 use app\models\Compras;
+use app\models\ComprasSearch;
 use app\models\ImagenForm;
+use app\models\Juegos;
 use app\models\Roles;
 use Yii;
 use app\models\Usuarios;
@@ -299,14 +301,31 @@ class UsuariosController extends Controller
         if ($id == null && !Yii::$app->user->isGuest) {
             $id = Yii::$app->user->id;
         }
-        
-        $modelUsuario = Usuarios::findOne($id);
-        $juegosComprados = Compras::find()->select('juego_id')->where(['usuario_id' => $modelUsuario->id])->all();
 
+        $modelUsuario = Usuarios::findOne($id);
+
+        $searchModel = new ComprasSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->where(['=', 'usuario_id', $modelUsuario->id]);
+        $dataProvider->pagination->defaultPageSize = 6;
+
+        $buscar = Yii::$app->request->get('buscar', null);
+        $buscar = trim($buscar);
+
+        $tieneJuegos = Compras::find()->where(['usuario_id' => $modelUsuario->id])->exists();
+
+        if (isset($buscar) && !empty($buscar)) {
+            $modelJuego = Juegos::find()->select('id')->where(['ilike', 'titulo', $buscar])->one();
+            if ($modelJuego) {
+                $dataProvider->query->where(['=', 'juego_id', $modelJuego->id])
+                ->andFilterWhere(['=','usuario_id',$modelUsuario->id]);
+            }
+        }
 
         return $this->render('biblioteca', [
-            // 'model' => $modelUsuario,
-            'juegos' => $juegosComprados,
+            'dataProvider' => $dataProvider,
+            'buscar' => $buscar,
+            'tieneJuegos' => $tieneJuegos,
         ]);
     }
 

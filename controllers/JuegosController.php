@@ -159,10 +159,25 @@ class JuegosController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->pagination->defaultPageSize = 12;
 
+        $buscar = Yii::$app->request->get('buscar', null);
+        $buscar = trim($buscar);
+
+        if (isset($buscar) && !empty($buscar)) {
+            $dataProvider->query->where(['ilike', 'titulo', $buscar]);
+            $esGenero = Generos::find()->where(['ilike', 'denom', $buscar])->exists();
+
+            if ($esGenero) {
+                $generoId = Generos::find()->select('id')->where(['ilike', 'denom', $buscar])
+                    ->scalar();
+                $dataProvider->query->where(['=', 'genero_id', $generoId]);
+            }
+        }
+
 
         return $this->render('tienda', [
             'dataProvider' => $dataProvider,
             'attributes' => $searchModel->attributes(),
+            'buscar' => $buscar,
         ]);
     }
 

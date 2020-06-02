@@ -24,26 +24,46 @@ EOT;
 
 $this->registerJs($js);
 ?>
-
-<div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Ordenar Por:
-        <span class="caret"></span></button>
-    <?= LinkSorter::widget([
-        'sort' => $dataProvider->sort,
-        'attributes' => $attributes,
-        'options' => [
-            'class' => 'linksorter-container dropdown-menu'
-        ]
-    ]) ?>
-</div>
 <main>
+    <?= Html::beginForm(['juegos/tienda'], 'get', [
+        'class' => 'form-inline',
+    ]) ?>
+
+    <div class="form-group">
+        <label for="buscar" class="sr-only">Buscar</label>
+        <?= Html::textInput('buscar', $buscar, [
+            'class' => 'form-control',
+            'placeholder' => 'Buscar'
+        ]) ?>
+    </div>
+
+    <?= Html::submitButton('Buscar', [
+        'class' => 'btn btn-primary ml-2'
+    ]) ?>
+
+    <div class="dropdown ml-4">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Ordenar Por:
+            <span class="caret"></span></button>
+        <?= LinkSorter::widget([
+            'sort' => $dataProvider->sort,
+            'attributes' => $attributes,
+            'options' => [
+                'class' => 'linksorter-container dropdown-menu'
+            ]
+        ]) ?>
+    </div>
+
+    <?= Html::endForm() ?>
+
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'options' => ['class' => 'card-deck mt-4', 'tag' => 'section'],
         'layout' => '{items}',
         'summary' => '',
-        'itemOptions' => ['class' => 'card bg-dark', 'tag' => 'article',
-        'itemscope itemtype' => 'http://schema.org/Game/VideoGame'],
+        'itemOptions' => [
+            'class' => 'card bg-dark', 'tag' => 'article',
+            'itemscope itemtype' => 'http://schema.org/Game/VideoGame',
+        ],
         'itemView' => function ($model, $key, $index, $widget) {
             $modelValoracion = new Valoraciones();
             $modelCarrito = new Carrito();
