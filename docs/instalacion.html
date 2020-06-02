@@ -52,8 +52,78 @@
         <h1>Instrucciones de instalación y despliegue <span id="instrucciones-de-instalacion-y-despliegue"></span><a href="#instrucciones-de-instalacion-y-despliegue" class="hashlink">&para;</a></h1>
 <div class="toc"><ol><li><a href="#en-local">En local</a></li>
 <li><a href="#en-la-nube">En la nube</a></li></ol></div>
-<h2>En local <span id="en-local"></span><a href="#en-local" class="hashlink">&para;</a></h2><p>Explicar.</p>
-<h2>En la nube <span id="en-la-nube"></span><a href="#en-la-nube" class="hashlink">&para;</a></h2><p>Explicar.</p>
+<h2>En local <span id="en-local"></span><a href="#en-local" class="hashlink">&para;</a></h2><p>Debes disponer de:</p>
+<ul>
+<li>PHP 7.4</li>
+<li>PostgreSQL</li>
+<li>Composer</li>
+<li>Cuenta de Amazon S3 disponible.</li>
+<li>Email.</li>
+<li>Cuenta de PayPal para recibir los pagos.</li>
+</ul>
+<p>Instalación:</p>
+<ol>
+<li><p>Creamos un directorio <code>coolgames</code> y vamos a él.</p>
+</li>
+<li><p>Ejecutar los siguientes comandos:
+<code>`</code>
+git clone <a href="https://github.com/cmarrufo97/coolgames.git">https://github.com/cmarrufo97/coolgames.git</a> .</p>
+</li>
+</ol>
+<p>composer install</p>
+<pre><code class="hljs twig"><span class="xml">
+3. Cambiamos el email en el <span class="hljs-tag">&lt;<span class="hljs-name">code</span>&gt;</span>./config/params.php<span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+
+</span></code></pre>
+<p>'smtpUsername' =&gt; 'Asignamos aqui el correo que mandará los emails de registro, etc.'
+<code>`</code></p>
+<ol>
+<li><p>Crear las variables de entorno en el archivo <code>.env</code>:</p>
+<ul>
+<li>SMT_PASS con la clave de aplicación de correo.</li>
+<li>S3<em>KEY</em> la key de Amazon S3.</li>
+<li>S3_SECRET la secret de Amazon S3.</li>
+<li>PAYPAL_ID El ID que nos da PayPal.</li>
+<li>PAYPAL_SECRET El SECRET que nos da PayPal.</li>
+</ul>
+</li>
+<li><p>Creamos y volcamos la base de datos:
+<code>db/create.sh
+db/load.sh</code></p>
+</li>
+<li><p>Ejecutamos make serve para desplegar servidor local.</p>
+</li>
+<li><p>Accedemos al servidor en el navegador poniendo en la url <code>localhost:8080</code></p>
+</li>
+</ol>
+<h2>En la nube <span id="en-la-nube"></span><a href="#en-la-nube" class="hashlink">&para;</a></h2><p>Para desplegar la aplicación necesitas como requisito el Heroku Cli</p>
+<p>Despliegue:</p>
+<ol>
+<li><p>Realizamos el forkeo del repositorio:
+<a href="https://github.com/cmarrufo97/coolgames">https://github.com/cmarrufo97/coolgames</a></p>
+</li>
+<li><p>Creamos una app en heroku y la enlazamos con el repositorio.</p>
+</li>
+<li><p>Añadimos el addon de Postgres de Heroku.</p>
+</li>
+<li><p>Mediante la terminal logueamos con heroku y volcamos la base de datos del proyecto a la base de datos postgres de heroku.
+<code>heroku login
+heroku pg:psql &lt; db/coolgames.git</code></p>
+</li>
+<li><p>Configuramos las variables de entorno (como hicimos anteriormente en local):</p>
+<ul>
+<li>DATABASE_URL la URL de la base de datos del 3er paso.</li>
+<li>YII_ENV a prod. (producción) o el modo que queramos.</li>
+<li>SMT_PASS con la clave de aplicación de correo.</li>
+<li>S3<em>KEY</em> la key de Amazon S3.</li>
+<li>S3_SECRET la secret de Amazon S3.</li>
+<li>PAYPAL_ID El ID que nos da PayPal.</li>
+<li>PAYPAL_SECRET El SECRET que nos da PayPal.</li>
+</ul>
+</li>
+<li><p>La aplicación ya está lista para usarse.</p>
+</li>
+</ol>
         <div class="toplink"><a href="#" class="h1" title="go to top"><span class="glyphicon glyphicon-arrow-up"></a></div>
     </div>
 </div>
@@ -62,7 +132,7 @@
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Sun, 31 May 2020 19:32:12 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Tue, 02 Jun 2020 20:38:34 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script>jQuery(function ($) {

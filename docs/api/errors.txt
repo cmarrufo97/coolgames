@@ -87,14 +87,14 @@ Array
 
     [14] => Array
         (
-            [line] => 320
+            [line] => 339
             [file] => ./controllers/UsuariosController.php
             [message] => Undefined parameter documented: $id in actionResetear().
         )
 
     [15] => Array
         (
-            [line] => 320
+            [line] => 339
             [file] => ./controllers/UsuariosController.php
             [message] => Undefined parameter documented: $codigoVerificacion in actionResetear().
         )

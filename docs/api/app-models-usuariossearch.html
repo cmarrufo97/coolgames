@@ -145,7 +145,7 @@
     </tr>
             <tr class="inherited" id="$amigos">
         <td><a href="app-models-usuarios.html#$amigos-detail">$amigos</a></td>
-        <td></td>
+        <td><a href="http://www.php.net/language.types.array">array</a></td>
         <td></td>
         <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
     </tr>
@@ -169,7 +169,7 @@
     </tr>
             <tr class="inherited" id="$countAmigos">
         <td><a href="app-models-usuarios.html#$countAmigos-detail">$countAmigos</a></td>
-        <td></td>
+        <td><a href="http://www.php.net/language.types.integer">integer</a></td>
         <td></td>
         <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
     </tr>
@@ -199,8 +199,8 @@
     </tr>
             <tr class="inherited" id="$imagen">
         <td><a href="app-models-usuarios.html#$imagen-detail">$imagen</a></td>
-        <td></td>
-        <td></td>
+        <td><a href="http://www.php.net/language.types.string">string</a></td>
+        <td>| false</td>
         <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
     </tr>
             <tr class="inherited" id="$isNewRecord">
@@ -211,7 +211,7 @@
     </tr>
             <tr class="inherited" id="$itemsCarrito">
         <td><a href="app-models-usuarios.html#$itemsCarrito-detail">$itemsCarrito</a></td>
-        <td></td>
+        <td>\app\models\ActiveQuery</td>
         <td></td>
         <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
     </tr>
@@ -235,7 +235,7 @@
     </tr>
             <tr class="inherited" id="$password_repeat">
         <td><a href="app-models-usuarios.html#$password_repeat-detail">$password_repeat</a></td>
-        <td></td>
+        <td>\app\models\[type]</td>
         <td></td>
         <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
     </tr>
@@ -395,7 +395,7 @@
     </tr>
             <tr class="inherited" id="beforeSave()">
         <td><a href="app-models-usuarios.html#beforeSave()-detail">beforeSave()</a></td>
-        <td></td>
+        <td>Realiza acciones antes de insertar datos en la tabla de la base datos.</td>
         <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
     </tr>
             <tr class="inherited" id="beforeValidate()">
@@ -465,7 +465,7 @@
     </tr>
             <tr class="inherited" id="esAmigo()">
         <td><a href="app-models-usuarios.html#esAmigo()-detail">esAmigo()</a></td>
-        <td></td>
+        <td>Comprueba si el usuario es amigo del usuario que se pasa por parametro.</td>
         <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
     </tr>
             <tr class="inherited" id="extraFields()">
@@ -540,7 +540,7 @@
     </tr>
             <tr class="inherited" id="getAmigos()">
         <td><a href="app-models-usuarios.html#getAmigos()-detail">getAmigos()</a></td>
-        <td></td>
+        <td>Obtiene todos los amigos de un usuario.</td>
         <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
     </tr>
             <tr class="inherited" id="getAttribute()">
@@ -580,7 +580,7 @@
     </tr>
             <tr class="inherited" id="getCountAmigos()">
         <td><a href="app-models-usuarios.html#getCountAmigos()-detail">getCountAmigos()</a></td>
-        <td></td>
+        <td>Obtiene el numero total de amigos del usuario.</td>
         <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
     </tr>
             <tr class="inherited" id="getDb()">
@@ -620,7 +620,7 @@
     </tr>
             <tr class="inherited" id="getImagen()">
         <td><a href="app-models-usuarios.html#getImagen()-detail">getImagen()</a></td>
-        <td></td>
+        <td>Obtiene la url de la imagen del usuario</td>
         <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
     </tr>
             <tr class="inherited" id="getIsNewRecord()">
@@ -630,7 +630,7 @@
     </tr>
             <tr class="inherited" id="getItemsCarrito()">
         <td><a href="app-models-usuarios.html#getItemsCarrito()-detail">getItemsCarrito()</a></td>
-        <td></td>
+        <td>Obtiene los juegos añadidos al carrito del usuario</td>
         <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
     </tr>
             <tr class="inherited" id="getIterator()">
@@ -1196,7 +1196,7 @@ The previous example would extract "id".</td>
             <tr class="inherited" id="IMAGEN">
           <td id="IMAGEN-detail">IMAGEN</td>
           <td>'@img/usuario-defecto.png'</td>
-          <td>
+          <td>Imagen por defecto.
                         </td>
           <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
         </tr>
@@ -1231,14 +1231,14 @@ This is a shortcut of the expression: OP_INSERT | OP_UPDATE | OP_DELETE.        
             <tr class="inherited" id="SCENARIO_CREAR">
           <td id="SCENARIO_CREAR-detail">SCENARIO_CREAR</td>
           <td>'crear'</td>
-          <td>
+          <td>Escenario de registro de usuario
                         </td>
           <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
         </tr>
             <tr class="inherited" id="SCENARIO_CREATE">
           <td id="SCENARIO_CREATE-detail">SCENARIO_CREATE</td>
           <td>'create'</td>
-          <td>
+          <td>Escenario para el create.php
                         </td>
           <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
         </tr>
@@ -1252,14 +1252,14 @@ This is a shortcut of the expression: OP_INSERT | OP_UPDATE | OP_DELETE.        
             <tr class="inherited" id="SCENARIO_MODIFICAR">
           <td id="SCENARIO_MODIFICAR-detail">SCENARIO_MODIFICAR</td>
           <td>'modificar'</td>
-          <td>
+          <td>Escenario para modificar datos de la cuenta del usuario.
                         </td>
           <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
         </tr>
             <tr class="inherited" id="SCENARIO_RECUPERAR">
           <td id="SCENARIO_RECUPERAR-detail">SCENARIO_RECUPERAR</td>
           <td>'recuperar'</td>
-          <td>
+          <td>Escenario para recuperar la contraseña del usuario.
                         </td>
           <td><a href="app-models-usuarios.html">app\models\Usuarios</a></td>
         </tr>
@@ -1456,7 +1456,7 @@ are being validated by the validation rules that apply to the scenario.</p>
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Sun, 31 May 2020 19:31:50 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Tue, 02 Jun 2020 20:38:11 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script>jQuery(function ($) {
