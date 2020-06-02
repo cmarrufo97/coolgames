@@ -25,12 +25,37 @@ use yii\web\IdentityInterface;
  */
 class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
 {
+    /**
+     * Escenario de registro de usuario
+     */
     const SCENARIO_CREAR = 'crear';
+
+    /**
+     * Escenario para el create.php
+     */
     const SCENARIO_CREATE = 'create';
+
+    /**
+     * Escenario para recuperar la contraseña del usuario.
+     */
     const SCENARIO_RECUPERAR = 'recuperar';
+
+    /**
+     * Escenario para modificar datos de la cuenta del usuario.
+     */
     const SCENARIO_MODIFICAR = 'modificar';
+
+    /**
+     * Atributo virtual para confirmar que coinciden las contraseñas a la hora
+     * de editar datos de la cuenta.
+     *
+     * @var [type]
+     */
     public $password_repeat;
 
+    /**
+     * Imagen por defecto.
+     */
     const IMAGEN = '@img/usuario-defecto.png';
 
 
@@ -225,6 +250,12 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
             ->all();
     }
 
+    /**
+     * Realiza acciones antes de insertar datos en la tabla de la base datos.
+     *
+     * @param [type] $insert
+     * @return void
+     */
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {
@@ -261,6 +292,11 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
         return true;
     }
 
+    /**
+     * Obtiene todos los amigos de un usuario.
+     *
+     * @return array
+     */
     public function getAmigos()
     {
         $directa = Yii::$app->db->createCommand("SELECT * 
@@ -282,6 +318,12 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
         return [];
     }
 
+    /**
+     * Comprueba si el usuario es amigo del usuario que se pasa por parametro.
+     *
+     * @param [type] $amigo_id
+     * @return true | false
+     */
     public static function esAmigo($amigo_id)
     {
         $directa = Amigos::find()->where(['=', 'usuario_id', Yii::$app->user->id])
@@ -299,6 +341,11 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
         return false;
     }
 
+    /**
+     * Obtiene la url de la imagen del usuario
+     *
+     * @return string | false
+     */
     public function getImagen()
     {
         if ($this->imagen !== null) {
@@ -319,11 +366,21 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
         return false;
     }
 
+    /**
+     * Obtiene el numero total de amigos del usuario.
+     *
+     * @return integer
+     */
     public function getCountAmigos()
     {
         return count($this->getAmigos());
     }
 
+    /**
+     * Obtiene los juegos añadidos al carrito del usuario
+     *
+     * @return ActiveQuery
+     */
     public function getItemsCarrito()
     {
         return Carrito::find()->where(['usuario_id' => $this->id])->count('juego_id');

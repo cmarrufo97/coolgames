@@ -95,7 +95,7 @@ En la seccion Social los usuarios pueden buscar a otros usuarios y añadirlos co
 <li>¿Cómo busco algo?</li>
 <ul>
 <li>
-TODO: SEGUIR EXPLICANDOLO
+Cada sección tiene su buscador propio. Excepto en Mi Perfil, Carrito y Deseados.
 </li>
 </ul>
 </ol>
@@ -131,7 +131,3 @@ CLIENTE
 MÁQUINAS
 
 ![SERVER-CLIENTE](images/anexos/fotos-maquinas/server-cliente.png)
-
-
-
-

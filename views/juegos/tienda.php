@@ -55,7 +55,7 @@ $this->registerJs($js);
 
     <?= Html::endForm() ?>
 
-    <div class="row">
+    <div class="row justify-content-center">
         <?= ListView::widget([
             'dataProvider' => $dataProvider,
             'options' => ['class' => 'card-deck mt-4 justify-content-center', 'tag' => 'section'],
