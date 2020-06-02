@@ -38,7 +38,7 @@ if ($tieneJuegos) {
                 'layout' => '{items}',
                 'summary' => '',
                 'itemOptions' => [
-                    'class' => 'card bg-dark',
+                    'class' => 'card mt-2 bg-dark tarjeta',
                 ],
                 'itemView' => function ($model, $key, $index, $widget) {
                     $juego = Juegos::findOne($model->juego_id);

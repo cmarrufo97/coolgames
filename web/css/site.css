@@ -141,3 +141,8 @@ a.desc:after {
 .imagen-amigos {
     width: 20%;
 }
+
+.tarjeta {
+    min-width: 18rem;
+    max-width: 18rem;
+}

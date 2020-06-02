@@ -55,30 +55,32 @@ $this->registerJs($js);
 
     <?= Html::endForm() ?>
 
-    <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'options' => ['class' => 'card-deck mt-4', 'tag' => 'section'],
-        'layout' => '{items}',
-        'summary' => '',
-        'itemOptions' => [
-            'class' => 'card bg-dark', 'tag' => 'article',
-            'itemscope itemtype' => 'http://schema.org/Game/VideoGame',
-        ],
-        'itemView' => function ($model, $key, $index, $widget) {
-            $modelValoracion = new Valoraciones();
-            $modelCarrito = new Carrito();
-            $id = Yii::$app->user->id;
-            $estaComprado = Compras::find()->where(['usuario_id' => $id])
-                ->andFilterWhere(['juego_id' => $model->id])->exists();
-            return $this->render('_juegos.php', [
-                'juego' => $model,
-                'modelValoracion' => $modelValoracion,
-                'modelCarrito' => $modelCarrito,
-                'id' => $id,
-                'estaComprado' => $estaComprado,
-            ]);
-        },
-    ]) ?>
+    <div class="row">
+        <?= ListView::widget([
+            'dataProvider' => $dataProvider,
+            'options' => ['class' => 'card-deck mt-4 justify-content-center', 'tag' => 'section'],
+            'layout' => '{items}',
+            'summary' => '',
+            'itemOptions' => [
+                'class' => 'card bg-dark mt-2 tarjeta', 'tag' => 'article',
+                'itemscope itemtype' => 'http://schema.org/Game/VideoGame',
+            ],
+            'itemView' => function ($model, $key, $index, $widget) {
+                $modelValoracion = new Valoraciones();
+                $modelCarrito = new Carrito();
+                $id = Yii::$app->user->id;
+                $estaComprado = Compras::find()->where(['usuario_id' => $id])
+                    ->andFilterWhere(['juego_id' => $model->id])->exists();
+                return $this->render('_juegos.php', [
+                    'juego' => $model,
+                    'modelValoracion' => $modelValoracion,
+                    'modelCarrito' => $modelCarrito,
+                    'id' => $id,
+                    'estaComprado' => $estaComprado,
+                ]);
+            },
+        ]) ?>
+    </div>
 
     <div class="mt-2">
         <?= LinkPager::widget([
