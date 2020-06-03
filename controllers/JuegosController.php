@@ -13,6 +13,7 @@ use app\models\JuegosSearch;
 use app\models\Roles;
 use app\models\Usuarios;
 use app\models\Valoraciones;
+use app\services\Util;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -151,7 +152,7 @@ class JuegosController extends Controller
      * @return void
      */
     public function actionTienda()
-    {   
+    {
         $valoraciones = new Valoraciones();
         $modelCarrito = new Carrito();
 
@@ -235,6 +236,15 @@ class JuegosController extends Controller
             'comentario' => $comentario,    // modelo de Comentario
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionDescargar()
+    {
+        $juegoId = Yii::$app->request->post('Juegos')['id'];
+        $model = Juegos::findOne($juegoId);
+        $fileName = $model->imagen;
+        
+        Util::s3Descargar('juegos/' . $model->imagen, $fileName, 'coolgamesyii');
     }
 
     /**

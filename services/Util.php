@@ -151,4 +151,18 @@ class Util
 
         return $key;
     }
+
+    public static function s3Descargar($key, $fileName, $bucketName)
+    {
+        $s3 = static::inicializar();
+        // TODO: HACER QUE SE DESCARGUE EL JUEGO
+        $result = $s3->getObject(array(
+            'Bucket' => $bucketName,
+            'Key'    => $key,
+        ));
+
+        header("Content-Type: {$result['ContentType']}");
+        header("Content-Disposition: attachment; filename=$fileName");
+        echo $result['Body'];
+    }
 }

@@ -33,5 +33,10 @@ use yii\helpers\Url;
     </div>
 </div>
 <div class="card-footer bg-white">
-    <!-- <?= Html::button('Descargar', ['class' => 'btn btn-primary']) ?> -->
+    <?=
+        $this->render('../juegos/_descargar', [
+            'model' => $juego,
+            'id' => $juego->id,
+        ]);
+    ?>
 </div>
