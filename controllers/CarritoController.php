@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Carrito;
 use app\models\CarritoSearch;
+use app\models\Compras;
 use app\models\Juegos;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -131,14 +132,20 @@ class CarritoController extends Controller
             ->andFilterWhere(['=', 'juego_id', $juego_id])
             ->exists();
 
-        if (!$existe) {
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                Yii::$app->session->setFlash('success', 'Juego añadido al carrito.');
+        $estaComprado = Compras::find()->where(['usuario_id' => $usuario_id])
+            ->andFilterWhere(['juego_id' => $juego_id])->exists();
+
+        if (!$estaComprado) {
+            if (!$existe) {
+                if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                    Yii::$app->session->setFlash('success', 'Juego añadido al carrito.');
+                }
+            } else {
+                Yii::$app->session->setFlash('warning', 'Este juego ya ha sido añadido al carrito.');
             }
         } else {
-            Yii::$app->session->setFlash('warning', 'Este juego ya ha sido añadido al carrito.');
+            Yii::$app->session->setFlash('error', 'Ya has realizado la compra de este juego.');
         }
-
 
         return $this->redirect(['juegos/tienda', 'id' => $juego_id]);
     }
