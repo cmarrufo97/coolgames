@@ -6,4 +6,4 @@ Incluir.
 
 ## Diagramas de estructura lógica de datos
 
-![Diagrama de estructura lógica de datos](images/diagramas/diagrama-estructura-datos.png)
+![Diagrama2](images/diagramas/diagrama-estructura-datos.png)
