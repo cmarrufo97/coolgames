@@ -2,6 +2,10 @@
 
 namespace app\services;
 
+use app\models\Carrito;
+use app\models\Compras;
+use app\models\Juegos;
+use app\models\Usuarios;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use Exception;
@@ -164,5 +168,109 @@ class Util
         header("Content-Type: {$result['ContentType']}");
         header("Content-Disposition: attachment; filename=$fileName");
         echo $result['Body'];
+    }
+
+    public static function realizarCompra()
+    {
+        $params = [];
+        $params = $_SESSION['params'];
+        $juegos = $_SESSION['params']['juegos'];
+        $usuario_id = Yii::$app->user->id;
+        $usuario = Usuarios::findOne($usuario_id);
+
+        Yii::$app->PayPalRestApi->processPayment($params);
+        $response = Yii::$app->response;
+
+        if (!empty($response->data) && $response->data->state === 'approved') {
+            if (count($juegos) > 0) {
+                $tabla = "<table id='customers'>
+                    <tr>
+                        <th>Cantidad</th>
+                        <th>Producto</th>
+                        <th>Fecha de compra</th>
+                        <th>Subtotal</th>
+                        <th>Total</th>
+                      </tr>";
+                $totalDeducir = (float) 0;
+                foreach ($juegos as $juego) {
+                    $modelJuego = Juegos::findOne($juego);
+                    $fecha = Yii::$app->formatter->asDate(date('d-m-Y'));
+                    $precio = Yii::$app->formatter->asCurrency($modelJuego->precio);
+
+                    $estaEnCarrito = Carrito::find()->where(['usuario_id' => $usuario_id])
+                        ->andFilterWhere(['juego_id' => $modelJuego->id])->exists();
+
+                    $tabla .=
+                        "
+                            <tr>
+                            <td>1</td>
+                            <td>$modelJuego->titulo</td>
+                            <td>$fecha</td>
+                            <td>$precio</td>
+                            <td>$precio</td>
+                            </tr>";
+                    $totalDeducir += (float) $modelJuego->precio;
+
+                    $modelCompras = new Compras();
+                    $modelCompras->usuario_id = $usuario_id;
+                    $modelCompras->juego_id = $modelJuego->id;
+                    $modelCompras->subtotal = $modelJuego->precio;
+                    $modelCompras->total = $modelJuego->precio;
+                    if ($modelCompras->save()) {
+                        if ($estaEnCarrito) {
+                            $modelCarrito = Carrito::find()->select('id')
+                                ->where(['usuario_id' => $usuario_id])
+                                ->andFilterWhere(['juego_id' => $modelJuego->id])->one();
+                            $modelCarrito->delete();
+                        }
+                    }
+                }
+                $tabla .= '</table>';
+                $mensaje = <<<EOT
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                    <style>
+                    #customers {
+                      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                      border-collapse: collapse;
+                      width: 100%;
+                    }
+                    
+                    #customers td, #customers th {
+                      border: 1px solid #ddd;
+                      padding: 8px;
+                    }
+                    
+                    #customers tr:nth-child(even){background-color: #f2f2f2;}
+                    
+                    #customers tr:hover {background-color: #ddd;}
+                    
+                    #customers th {
+                      padding-top: 12px;
+                      padding-bottom: 12px;
+                      text-align: left;
+                      background-color: #4CAF50;
+                      color: white;
+                    }
+                    </style>
+                    </head>
+                    <body>
+                    <h1>Hola, $usuario->login</h1>
+                    <p>Muchisimas gracias por su compra, aqui tiene los detalles de su compra:</p>
+                    $tabla
+                    </body>
+                    </html>
+                    EOT;
+                Yii::$app->mailer->compose()
+                    ->setFrom(Yii::$app->params['smtpUsername'])
+                    ->setTo($usuario->email)
+                    ->setSubject('Factura de compra')
+                    ->setHtmlBody($mensaje)
+                    ->send();
+            }
+            unset($_SESSION['params']);
+            Yii::$app->session->setFlash('success', 'Pago realizado con éxito.');
+        }
     }
 }

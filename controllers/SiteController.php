@@ -14,6 +14,7 @@ use app\models\ContactForm;
 use app\models\Generos;
 use app\models\Juegos;
 use app\models\Usuarios;
+use app\services\Util;
 use yii\data\ActiveDataProvider;
 
 class SiteController extends Controller
@@ -26,10 +27,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout','checkout','make-payment'],
+                'only' => ['logout', 'checkout', 'make-payment'],
                 'rules' => [
                     [
-                        'actions' => ['logout','checkout','make-payment'],
+                        'actions' => ['logout', 'checkout', 'make-payment'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -228,40 +229,7 @@ class SiteController extends Controller
      */
     public function actionMakePayment()
     {
-        $params = [];
-        $params = $_SESSION['params'];
-        $juegos = $_SESSION['params']['juegos'];
-
-        Yii::$app->PayPalRestApi->processPayment($params);
-        $response = Yii::$app->response;
-
-        if (!empty($response->data) && $response->data->state === 'approved') {
-            foreach ($juegos as $juego) {
-                $usuario_id = Yii::$app->user->id;
-                $modelJuego = Juegos::findOne($juego);
-
-                $estaEnCarrito = Carrito::find()->where(['usuario_id' => $usuario_id])
-                    ->andFilterWhere(['juego_id' => $modelJuego->id])->exists();
-
-                if ($estaEnCarrito) {
-                    $modelCarrito = Carrito::find()->select('id')
-                        ->where(['usuario_id' => $usuario_id])
-                        ->andFilterWhere(['juego_id' => $modelJuego->id])->one();
-                    $modelCarrito->delete();
-                }
-
-                $modelCompras = new Compras();
-                $modelCompras->usuario_id = $usuario_id;
-                $modelCompras->juego_id = $modelJuego->id;
-                $modelCompras->subtotal = $modelJuego->precio;
-                $modelCompras->total = $modelJuego->precio;
-
-                $modelCompras->save();
-            }
-            unset($_SESSION['params']);
-            unset($_SESSION['params']['juegos']);
-            Yii::$app->session->setFlash('success', 'Pago realizado con éxito.');
-            return $this->redirect(['juegos/tienda']);
-        }
+        Util::realizarCompra();
+        return $this->redirect(['juegos/tienda']);
     }
 }

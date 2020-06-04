@@ -71,6 +71,7 @@ $this->registerJs($js);
                 $id = Yii::$app->user->id;
                 $estaComprado = Compras::find()->where(['usuario_id' => $id])
                     ->andFilterWhere(['juego_id' => $model->id])->exists();
+                    Yii::debug($model);
                 return $this->render('_juegos.php', [
                     'juego' => $model,
                     'modelValoracion' => $modelValoracion,

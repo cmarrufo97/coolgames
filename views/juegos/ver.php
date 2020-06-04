@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Comentarios;
 use app\models\Roles;
 use app\models\Usuarios;
 use yii\bootstrap4\Button;

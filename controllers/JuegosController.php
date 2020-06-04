@@ -219,15 +219,11 @@ class JuegosController extends Controller
     {
         $model = $this->findModel($id);
         $comentario = new Comentarios();
-
-        $searchModel = new ComentariosSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => Comentarios::find()->where(['juego_id' => $model->id]),
+        ]);
         $dataProvider->pagination->defaultPageSize = 5;
-        $dataProvider->sort->attributes['created_at'] = [
-            'desc' => [
-                'created_at' => SORT_DESC,
-            ],
-        ];
         $dataProvider->sort->defaultOrder = ['created_at' => SORT_DESC];
 
 
@@ -243,7 +239,7 @@ class JuegosController extends Controller
         $juegoId = Yii::$app->request->post('Juegos')['id'];
         $model = Juegos::findOne($juegoId);
         $fileName = $model->imagen;
-        
+
         Util::s3Descargar('juegos/' . $model->imagen, $fileName, 'coolgamesyii');
     }
 

@@ -136,8 +136,9 @@ class ValoracionesController extends Controller
 
             $model = $this->findModel($id);
             $model->estrellas = $estrellas;
+
             if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Valoración enviada con éxito.');
+                Yii::$app->session->setFlash('success', 'Valoración modificada con éxito.');
             }
         } else {
             $model = new Valoraciones();

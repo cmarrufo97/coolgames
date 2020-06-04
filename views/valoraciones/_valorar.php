@@ -24,7 +24,7 @@ $miValoracion = Valoraciones::find()
 <div class="valoraciones-form">
 
     <?php $form = ActiveForm::begin([
-        'id' => 'valorarForm' . $juego_id,
+        'id' => 'valorarForm'. $juego_id,
         'action' => ['valoraciones/valorar'],
     ]); ?>
 
@@ -40,58 +40,31 @@ $miValoracion = Valoraciones::find()
 
     <?php
     if (!Yii::$app->user->isGuest) {
-
-        if ($miValoracion != false) {
-            echo $form->field($valoracion, 'estrellas', [
-                'inputOptions' => [
-                    'id' => "" . $juego_id,
-                ],
-            ])->widget(StarRating::class, [
-                'name' => 'rating_19',
-                'pluginOptions' => [
-                    'stars' => 5,
-                    'min' => 0,
-                    'max' => 5,
-                    'step' => 0.5,
-                    'showCaption' => false,
-                    'filledStar' => '<i class="glyphicon glyphicon-star"></i>',
-                    'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
-                    'defaultCaption' => '{rating} estrellas',
-                    'starCaptions' => new JsExpression("function(val){return val == 1 ? 'Una estrella' : val + ' estrellas';}")
-                ],
-                'pluginEvents' => [
-                    'rating:change' => "function (event,value,caption) {
-                        $('.enviar-votacion').trigger('click');
-                    }",
-                ],
-            ])->label(false)->hiddenInput([
-                'value' => $miValoracion,
-            ]);
-        } else {
-            echo $form->field($valoracion, 'estrellas', [
-                'inputOptions' => [
-                    'id' => "" . $juego_id,
-                ],
-            ])->widget(StarRating::class, [
-                'name' => 'rating_19',
-                'pluginOptions' => [
-                    'stars' => 5,
-                    'min' => 0,
-                    'max' => 5,
-                    'step' => 0.5,
-                    'showCaption' => false,
-                    'filledStar' => '<i class="glyphicon glyphicon-star"></i>',
-                    'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
-                    'defaultCaption' => '{rating} estrellas',
-                    'starCaptions' => new JsExpression("function(val){return val == 1 ? 'Una estrella' : val + ' estrellas';}")
-                ],
-                'pluginEvents' => [
-                    'rating:change' => "function (event,value,caption) {
-                        $('.enviar-votacion').trigger('click');
-                    }",
-                ],
-            ])->label(false);
-        }
+        echo $form->field($valoracion, 'estrellas', [
+            'inputOptions' => [
+                'id' => "" . $juego_id,
+            ],
+        ])->widget(StarRating::class, [
+            'name' => 'rating_19',
+            'pluginOptions' => [
+                'stars' => 5,
+                'min' => 0,
+                'max' => 5,
+                'step' => 0.5,
+                'showCaption' => false,
+                'filledStar' => '<i class="glyphicon glyphicon-star"></i>',
+                'emptyStar' => '<i class="glyphicon glyphicon-star-empty"></i>',
+                'defaultCaption' => '{rating} estrellas',
+                'starCaptions' => new JsExpression("function(val){return val == 1 ? 'Una estrella' : val + ' estrellas';}")
+            ],
+            'pluginEvents' => [
+                'rating:change' => "function (event,value,caption) {
+                    $(this).closest('form').submit();
+                }",
+            ],
+        ])->label(false)->hiddenInput([
+            'value' => $miValoracion,
+        ]);
     }
     ?>
 
