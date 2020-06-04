@@ -13,40 +13,56 @@ Debes disponer de:
 
 Instalación:
 
-1. Creamos un directorio <code>coolgames</code> y vamos a él.
+<ol>
+<li>
+Creamos un directorio <code>coolgames</code> y vamos a él.
+</li>
 
-2. Ejecutar los siguientes comandos:
+<li>
+Ejecutar los siguientes comandos:
+
 ```
 git clone https://github.com/cmarrufo97/coolgames.git .
-
 composer install
-
 ```
+</li>
 
-3. Cambiamos el email en el <code>./config/params.php</code>
+<li>
+Cambiamos el email en el <code>./config/params.php</code>
 
 ```
 'smtpUsername' => 'Asignamos aqui el correo que mandará los emails de registro, etc.'
 ```
+</li>
 
-4. Crear las variables de entorno en el archivo <code>.env</code>:
+<li>
+Crear las variables de entorno en el archivo <code>.env</code>:
 
-    * SMT_PASS con la clave de aplicación de correo.
-    * S3_KEY_ la key de Amazon S3.
-    * S3_SECRET la secret de Amazon S3.
-    * PAYPAL_ID El ID que nos da PayPal.
-    * PAYPAL_SECRET El SECRET que nos da PayPal.
+* SMT_PASS con la clave de aplicación de correo.
+* S3\__KEY\__ la key de Amazon S3.
+* S3_SECRET la secret de Amazon S3.
+* PAYPAL_ID El ID que nos da PayPal.
+* PAYPAL_SECRET El SECRET que nos da PayPal.
+</li>
 
-5. Creamos y volcamos la base de datos:
+<li>
+Creamos y volcamos la base de datos:
+
 ```
 db/create.sh
 db/load.sh
 ```
+</li>
 
-6. Ejecutamos make serve para desplegar servidor local.
+<li>
+Ejecutamos <code>make serve</code> para desplegar servidor local.
+</li>
 
-7. Accedemos al servidor en el navegador poniendo en la url <code>localhost:8080</code>
+<li>
+Accedemos al servidor en el navegador poniendo en la url <code>localhost:8080</code>
+</li>
 
+</ol>
 
 ## En la nube
 
@@ -62,6 +78,7 @@ https://github.com/cmarrufo97/coolgames
 3. Añadimos el addon de Postgres de Heroku.
 
 4. Mediante la terminal logueamos con heroku y volcamos la base de datos del proyecto a la base de datos postgres de heroku.
+
 ```
 heroku login
 heroku pg:psql < db/coolgames.git
@@ -71,7 +88,7 @@ heroku pg:psql < db/coolgames.git
     * DATABASE_URL la URL de la base de datos del 3er paso.
     * YII_ENV a prod. (producción) o el modo que queramos.
     * SMT_PASS con la clave de aplicación de correo.
-    * S3_KEY_ la key de Amazon S3.
+    * S3\__KEY\__ la key de Amazon S3.
     * S3_SECRET la secret de Amazon S3.
     * PAYPAL_ID El ID que nos da PayPal.
     * PAYPAL_SECRET El SECRET que nos da PayPal.
