@@ -49,8 +49,13 @@
 <a class="list-group-item" href="#navigation-56" data-toggle="collapse" data-parent="#navigation">Conclusiones <b class="caret"></b></a><div id="navigation-56" class="submenu panel-collapse collapse"><a class="list-group-item" href="./conclusiones.html">Conclusiones</a></div>
 <a class="list-group-item" href="#navigation-57" data-toggle="collapse" data-parent="#navigation">Anexos <b class="caret"></b></a><div id="navigation-57" class="submenu panel-collapse collapse"><a class="list-group-item" href="./anexos.html">Anexos</a></div></div>    </div>
     <div class="col-md-9 guide-content" role="main">
-        <h1>Dificultades encontradas <span id="dificultades-encontradas"></span><a href="#dificultades-encontradas" class="hashlink">&para;</a></h1><p>Explicar, indicando también las soluciones adoptadas en cada caso.</p>
-<p>Incluir aquí el elemento de innovación que se indicó en la propuesta.</p>
+        <h1>Dificultades encontradas <span id="dificultades-encontradas"></span><a href="#dificultades-encontradas" class="hashlink">&para;</a></h1><h3>Comentarios Anidados <span id="comentarios-anidados"></span><a href="#comentarios-anidados" class="hashlink">&para;</a></h3><p>Dado que en los comentarios de perfil de los usuarios (donde otros usuarios publican comentarios hacia otros usuarios), se puede responder a otros comentarios la visualización de los mismos no se apreciaba, ya que no se sabia que comentario era respuesta de otro. Para resolver este problema de visualización he tenido que investigar como hacer que, dado un comentario con respuestas, estos se vean anidados, es decir, primero el comentario padre y luego los hijos anidandose. Para ello he investigado y basicamente es que, con ayuda de una clase Comentario voy creando comentarios y añadiendo sus hijos para luego ir recorriendolos, si se da el caso de que tengan hijos pues a esos comentarios hijos se le da un margin-left para que se aprecia la anidación.</p>
+<h3>StarRating Krajee <span id="starrating-krajee"></span><a href="#starrating-krajee" class="hashlink">&para;</a></h3><p>El plugin de StarRating es el plugin de krajee mediante el cual puedes realizar la votación de un juego concreto a través de las típicas estrellas (como en Google Play,e tc). El problema que he tenido ha sido que, el plugin del krajee generaba el mismo id en el widget, entonces, dado que en la tienda muestro el plugin por cada juego, me daba errores en la consola. Para ello he tenido que investigar por foros de yii2 framework como poder cambiar atributos del formulario que envía la valoración sin que perdiese la validación del modelo.</p>
+<h3>PayPal de bitcko/yii2-bitcko-paypal-api <span id="paypal-de-bitckoyii2-bitcko-paypal-api"></span><a href="#paypal-de-bitckoyii2-bitcko-paypal-api" class="hashlink">&para;</a></h3><p>Para implementar el pago por PayPal he usado el plugin de bitcko, mencionado en el título.</p>
+<p>El principal problema que he tenido aquí ha sido que, en el ejemplo que muestra el autor del plugin, siempre mete el mismo valor a cobrar. Es decir, en las dos acciones (checkout y payment) que necesita el plugin la variable $params siempre deben coincidir en el precio para que el pago se realize de verdad, es decir, que se reste, y, dado que cada juego tiene un precio, pues esto era un problema. Para solucionar este problema, he usado el $_SESSION para pasar de una acción a otra, y, una vez se realiza el pago y demás gestiones, la borro.</p>
+<hr />
+<h1>Elementos de innovación <span id="elementos-de-innovacion"></span><a href="#elementos-de-innovacion" class="hashlink">&para;</a></h1><h4>AWS S3 <span id="aws-s3"></span><a href="#aws-s3" class="hashlink">&para;</a></h4><p>He usado el servicio de Amazon S3 para el almacenamiento web.</p>
+<h4>PayPal <span id="paypal"></span><a href="#paypal" class="hashlink">&para;</a></h4><p>Pagos de los juegos mediante la API de PayPal. Dichos pagos se realizan de manera ficticia, con las cuentas sandbox que PayPal proporciona al crear una app. Pero en el día de mañana si disponemos de una cuenta business y las credenciales para acceder a la API, pues esto funcionaría perfectamente igual.</p>
         <div class="toplink"><a href="#" class="h1" title="go to top"><span class="glyphicon glyphicon-arrow-up"></a></div>
     </div>
 </div>
@@ -59,7 +64,7 @@
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Tue, 02 Jun 2020 20:38:34 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Thu, 04 Jun 2020 21:56:29 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script>jQuery(function ($) {
