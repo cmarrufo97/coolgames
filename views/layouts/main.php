@@ -12,6 +12,7 @@ use app\assets\AppAsset;
 use app\models\Carrito;
 use app\models\Roles;
 use app\models\Usuarios;
+use app\services\Util;
 use yii\helpers\Url;
 
 AppAsset::register($this);
@@ -31,18 +32,6 @@ AppAsset::register($this);
 
 <body>
     <?php $this->beginBody() ?>
-
-    <?php 
-        function getcountCarrito() {
-            if (!Yii::$app->user->isGuest) {
-                $usuario = Usuarios::findOne(Yii::$app->user->id);
-                if ($usuario->getItemsCarrito() > 0) {
-                    return ' ('.$usuario->getItemsCarrito() . ')'; 
-                }
-            }
-            // return '';
-        }
-    ?>
 
     <div class="wrap">
         <?php
@@ -65,7 +54,7 @@ AppAsset::register($this);
                     'visible' => !Yii::$app->user->isGuest
                 ],
                 ['label' => 'Tienda', 'url' => ['/juegos/tienda']],
-                ['label' => 'Carrito' . getcountCarrito(), 'url' => ['/carrito/lista']],
+                ['label' => 'Carrito' . Util::getcountCarrito(), 'url' => ['/carrito/lista']],
                 ['label' => 'Social', 'url' => ['/chat/principal']],
                 [
                     'label' => 'Mi Perfil', 'url' => ['/usuarios/perfil', 'id' => Yii::$app->user->id],

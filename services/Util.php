@@ -286,4 +286,19 @@ class Util
             Yii::$app->session->setFlash('success', 'Pago realizado con éxito.');
         }
     }
+
+    /**
+     * Obtiene el carrito del usuario logueado
+     *
+     * @return void
+     */
+    public static function getcountCarrito()
+    {
+        if (!Yii::$app->user->isGuest) {
+            $usuario = Usuarios::findOne(Yii::$app->user->id);
+            if ($usuario->getItemsCarrito() > 0) {
+                return ' (' . $usuario->getItemsCarrito() . ')';
+            }
+        }
+    }
 }
