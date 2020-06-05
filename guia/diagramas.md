@@ -2,7 +2,7 @@
 
 ## Diagramas de clases
 
-![Diagrama1](images/diagramas/diagrama-clases.png)
+![Diagrama Clases](images/diagramas/diagrama-clases.png)
 
 ## Diagramas de estructura lógica de datos
 

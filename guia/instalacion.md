@@ -22,7 +22,9 @@ composer install
 
 3. Cambiamos el email en el ./config/params.php
 ```
+
 'smtpUsername' => 'Asignamos aqui el correo que mandará los emails de registro, etc.'
+
 ```
 
 4. Crear las variables de entorno en el archivo ```.env```:
