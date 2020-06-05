@@ -69,21 +69,24 @@
 composer install</code></p>
 </li>
 <li><p>Cambiamos el email en el ./config/params.php
-<code>'smtpUsername' =&gt; 'Asignamos aqui el correo que mandará los emails de registro, etc.'</code></p>
+<code>`</code></p>
 </li>
-<li><p>Crear las variables de entorno en el archivo <code>`</code>.env<code>`</code>:</p>
-<ul>
-<li>SMT_PASS con la clave de aplicación de correo.</li>
-<li>S3_KEY_ la key de Amazon S3.</li>
-<li>S3_SECRET la secret de Amazon S3.</li>
-<li>PAYPAL_ID El ID que nos da PayPal.</li>
-<li>PAYPAL_SECRET El SECRET que nos da PayPal.</li>
-</ul>
-</li>
-<li><p>Creamos y volcamos la base de datos:
-<code>db/create.sh 
-db/load.sh</code></p>
-</li>
+</ol>
+<p>'smtpUsername' =&gt; 'Asignamos aqui el correo que mandará los emails de registro, etc.'</p>
+<pre><code class="hljs markdown"><span class="hljs-bullet">
+4. </span>Crear las variables de entorno en el archivo <span class="hljs-code">```</span>.env<span class="hljs-code">```</span>:
+<span class="hljs-bullet">* </span>SMT_PASS con la clave de aplicación de correo.
+<span class="hljs-bullet">* </span>S3\<span class="hljs-emphasis">_KEY\_</span> la key de Amazon S3.
+<span class="hljs-bullet">* </span>S3_SECRET la secret de Amazon S3.
+<span class="hljs-bullet">* </span>PAYPAL_ID El ID que nos da PayPal.
+<span class="hljs-bullet">* </span>PAYPAL_SECRET El SECRET que nos da PayPal.
+<span class="hljs-bullet">
+5. </span>Creamos y volcamos la base de datos:
+</code></pre>
+<p>db/create.sh 
+db/load.sh
+<code>`</code></p>
+<ol>
 <li>Ejecutamos make serve para desplegar servidor local.</li>
 <li>Accedemos al servidor en el navegador poniendo en la url localhost:8080</li>
 </ol>
@@ -126,7 +129,7 @@ heroku pg:psql &lt; db/coolgames.git
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Fri, 05 Jun 2020 20:11:37 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Fri, 05 Jun 2020 20:19:22 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script>jQuery(function ($) {
