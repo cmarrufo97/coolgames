@@ -64,31 +64,38 @@
 <p>Instalación:</p>
 <ol>
 <li>Creamos un directorio coolgames y vamos a él.</li>
-<li><p>Ejecutar los siguientes comandos:
-<code>git clone https://github.com/cmarrufo97/coolgames.git .
-composer install</code></p>
+<li><p>Ejecutar los siguientes comandos:</p>
+<ul>
+<li><p>git clone <a href="https://github.com/cmarrufo97/coolgames.git">https://github.com/cmarrufo97/coolgames.git</a> .</p>
 </li>
-<li><p>Cambiamos el email en el ./config/params.php
-<code>`</code></p>
+<li><p>composer install</p>
 </li>
-</ol>
-<p>'smtpUsername' =&gt; 'Asignamos aqui el correo que mandará los emails de registro, etc.'</p>
-<pre><code class="hljs markdown"><span class="hljs-bullet">
-4. </span>Crear las variables de entorno en el archivo <span class="hljs-code">```</span>.env<span class="hljs-code">```</span>:
-<span class="hljs-bullet">* </span>SMT_PASS con la clave de aplicación de correo.
-<span class="hljs-bullet">* </span>S3\<span class="hljs-emphasis">_KEY\_</span> la key de Amazon S3.
-<span class="hljs-bullet">* </span>S3_SECRET la secret de Amazon S3.
-<span class="hljs-bullet">* </span>PAYPAL_ID El ID que nos da PayPal.
-<span class="hljs-bullet">* </span>PAYPAL_SECRET El SECRET que nos da PayPal.
-<span class="hljs-bullet">
-5. </span>Creamos y volcamos la base de datos:
-</code></pre>
-<p>db/create.sh 
-db/load.sh
-<code>`</code></p>
-<ol>
-<li>Ejecutamos make serve para desplegar servidor local.</li>
-<li>Accedemos al servidor en el navegador poniendo en la url localhost:8080</li>
+</ul>
+</li>
+<li><p>Cambiamos el email en el ./config/params.php</p>
+<ul>
+<li>'smtpUsername' =&gt; 'Asignamos aqui el correo que mandará los emails de registro, etc.'</li>
+</ul>
+</li>
+<li><p>Crear las variables de entorno en el archivo <code>.env</code> :</p>
+<ul>
+<li>SMT_PASS con la clave de aplicación de correo.</li>
+<li>S3<em>KEY</em> la key de Amazon S3.</li>
+<li>S3_SECRET la secret de Amazon S3.</li>
+<li>PAYPAL_ID El ID que nos da PayPal.</li>
+<li>PAYPAL_SECRET El SECRET que nos da PayPal.</li>
+</ul>
+</li>
+<li><p>Creamos y volcamos la base de datos:</p>
+<ul>
+<li>db/create.sh </li>
+<li>db/load.sh</li>
+</ul>
+</li>
+<li><p>Ejecutamos make serve para desplegar servidor local.</p>
+</li>
+<li><p>Accedemos al servidor en el navegador poniendo en la url localhost:8080</p>
+</li>
 </ol>
 <h2>En la nube <span id="en-la-nube"></span><a href="#en-la-nube" class="hashlink">&para;</a></h2><p>Para desplegar la aplicación necesitas como requisito el Heroku Cli</p>
 <p>Despliegue:</p>
@@ -112,7 +119,7 @@ heroku pg:psql &lt; db/coolgames.git
 <li>DATABASE_URL la URL de la base de datos del 3er paso.</li>
 <li>YII_ENV a prod. (producción) o el modo que queramos.</li>
 <li>SMT_PASS con la clave de aplicación de correo.</li>
-<li>S3__KEY__ la key de Amazon S3.</li>
+<li>S3<em>KEY</em> la key de Amazon S3.</li>
 <li>S3_SECRET la secret de Amazon S3.</li>
 <li>PAYPAL_ID El ID que nos da PayPal.</li>
 <li>PAYPAL_SECRET El SECRET que nos da PayPal.</li>
@@ -129,7 +136,7 @@ heroku pg:psql &lt; db/coolgames.git
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Fri, 05 Jun 2020 20:19:22 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Fri, 05 Jun 2020 21:28:46 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script>jQuery(function ($) {

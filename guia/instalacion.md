@@ -15,32 +15,30 @@ Instalación:
 
 1. Creamos un directorio coolgames y vamos a él.
 2. Ejecutar los siguientes comandos:
-```
-git clone https://github.com/cmarrufo97/coolgames.git .
-composer install
-```
+    
+    - git clone https://github.com/cmarrufo97/coolgames.git .
+
+    - composer install
 
 3. Cambiamos el email en el ./config/params.php
-```
 
-'smtpUsername' => 'Asignamos aqui el correo que mandará los emails de registro, etc.'
+    - 'smtpUsername' => 'Asignamos aqui el correo que mandará los emails de registro, etc.'
 
-```
+4. Crear las variables de entorno en el archivo <code>.env</code> :
 
-4. Crear las variables de entorno en el archivo ```.env```:
-* SMT_PASS con la clave de aplicación de correo.
-* S3\_KEY\_ la key de Amazon S3.
-* S3_SECRET la secret de Amazon S3.
-* PAYPAL_ID El ID que nos da PayPal.
-* PAYPAL_SECRET El SECRET que nos da PayPal.
+    - SMT_PASS con la clave de aplicación de correo.
+    - S3_KEY_ la key de Amazon S3.
+    - S3_SECRET la secret de Amazon S3.
+    - PAYPAL_ID El ID que nos da PayPal.
+    - PAYPAL_SECRET El SECRET que nos da PayPal.
 
 5. Creamos y volcamos la base de datos:
-```
-db/create.sh 
-db/load.sh
-```
+
+    - db/create.sh 
+    - db/load.sh
 
 6. Ejecutamos make serve para desplegar servidor local.
+
 7. Accedemos al servidor en el navegador poniendo en la url localhost:8080
 
 ## En la nube
@@ -65,12 +63,13 @@ heroku pg:psql < db/coolgames.git
 
 
 5. Configuramos las variables de entorno (como hicimos anteriormente en local):
-    * DATABASE_URL la URL de la base de datos del 3er paso.
-    * YII_ENV a prod. (producción) o el modo que queramos.
-    * SMT_PASS con la clave de aplicación de correo.
-    * S3\__KEY\__ la key de Amazon S3.
-    * S3_SECRET la secret de Amazon S3.
-    * PAYPAL_ID El ID que nos da PayPal.
-    * PAYPAL_SECRET El SECRET que nos da PayPal.
+
+    - DATABASE_URL la URL de la base de datos del 3er paso.
+    - YII_ENV a prod. (producción) o el modo que queramos.
+    - SMT_PASS con la clave de aplicación de correo.
+    - S3_KEY_ la key de Amazon S3.
+    - S3_SECRET la secret de Amazon S3.
+    - PAYPAL_ID El ID que nos da PayPal.
+    - PAYPAL_SECRET El SECRET que nos da PayPal.
 
 6. La aplicación ya está lista para usarse.
