@@ -74,6 +74,7 @@ Ejecutar los siguientes comandos:
 git clone https://github.com/cmarrufo97/coolgames.git .
 composer install
 ```
+
 </li>
 
 <li>
@@ -82,9 +83,11 @@ Cambiamos el email en el <code>./config/params.php</code>
 ```
 'smtpUsername' => 'Asignamos aqui el correo que mandará los emails de registro, etc.'
 ```
+
 </li>
 
 <li>
+
 Crear las variables de entorno en el archivo <code>.env</code>:
 
 * SMT_PASS con la clave de aplicación de correo.
@@ -92,15 +95,18 @@ Crear las variables de entorno en el archivo <code>.env</code>:
 * S3_SECRET la secret de Amazon S3.
 * PAYPAL_ID El ID que nos da PayPal.
 * PAYPAL_SECRET El SECRET que nos da PayPal.
+
 </li>
 
 <li>
+
 Creamos y volcamos la base de datos:
 
 ```
 db/create.sh
 db/load.sh
 ```
+
 </li>
 
 <li>
@@ -151,7 +157,7 @@ heroku pg:psql &lt; db/coolgames.git
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Thu, 04 Jun 2020 22:02:54 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Fri, 05 Jun 2020 20:02:30 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script>jQuery(function ($) {
