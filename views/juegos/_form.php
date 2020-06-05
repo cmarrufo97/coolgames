@@ -1,7 +1,11 @@
 <?php
 
+use kartik\datecontrol\DateControl;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\ActiveForm;
+
+use kartik\icons\FontAwesomeAsset;
+FontAwesomeAsset::register($this);
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Juegos */
@@ -16,7 +20,16 @@ use yii\bootstrap4\ActiveForm;
 
     <?= $form->field($model, 'genero_id')->dropDownList($generos)->label('Género') ?>
 
-    <?= $form->field($model, 'flanzamiento')->textInput() ?>
+    <!-- <?= $form->field($model, 'flanzamiento')->textInput() ?> -->
+
+    <?= $form->field($model, 'flanzamiento')->widget(DateControl::class, [
+        'type' => DateControl::FORMAT_DATE,
+        'widgetOptions' => [
+            'pluginOptions' => [
+                'autoclose' => true,
+            ],
+        ],
+    ]) ?>
 
     <?= $form->field($model, 'precio')->textInput() ?>
 

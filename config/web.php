@@ -74,6 +74,12 @@ $config = [
         ],
     ],
     'params' => $params,
+    'modules' => [
+        'datecontrol' => [
+            'class' => \kartik\datecontrol\Module::class,
+            'displayTimezone' => 'Asia/Kolkata',
+        ],
+    ],
 ];
 
 if (YII_ENV_DEV) {
