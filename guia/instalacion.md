@@ -27,7 +27,7 @@ Instalación:
 4. Crear las variables de entorno en el archivo <code>.env</code> :
 
     - SMT_PASS con la clave de aplicación de correo.
-    - S3\_KEY\_ la key de Amazon S3.
+    - S3\__KEY\__ la key de Amazon S3.
     - S3_SECRET la secret de Amazon S3.
     - PAYPAL_ID El ID que nos da PayPal.
     - PAYPAL_SECRET El SECRET que nos da PayPal.
@@ -66,7 +66,7 @@ heroku pg:psql < db/coolgames.git
     - DATABASE_URL la URL de la base de datos del 3er paso.
     - YII_ENV a prod. (producción) o el modo que queramos.
     - SMT_PASS con la clave de aplicación de correo.
-    - S3\_KEY\_ la key de Amazon S3.
+    - S3\__KEY\__ la key de Amazon S3.
     - S3_SECRET la secret de Amazon S3.
     - PAYPAL_ID El ID que nos da PayPal.
     - PAYPAL_SECRET El SECRET que nos da PayPal.
