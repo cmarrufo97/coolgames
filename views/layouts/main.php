@@ -65,9 +65,7 @@ AppAsset::register($this);
                     'visible' => !Yii::$app->user->isGuest
                 ],
                 ['label' => 'Tienda', 'url' => ['/juegos/tienda']],
-                // ['label' => 'Deseados', 'url' => ['/juegos/deseados']],
                 ['label' => 'Carrito' . getcountCarrito(), 'url' => ['/carrito/lista']],
-                // . '('..')'
                 ['label' => 'Social', 'url' => ['/chat/principal']],
                 [
                     'label' => 'Mi Perfil', 'url' => ['/usuarios/perfil', 'id' => Yii::$app->user->id],
@@ -75,16 +73,22 @@ AppAsset::register($this);
                 ],
                 // Visible solo para los Admins
                 [
-                    'label' => 'Usuarios', 'url' => ['/usuarios/index'],
+                    'label' => 'Gestión',
                     'visible' => Usuarios::find()->select('rol_id')->where(['id' => Yii::$app->user->id])->scalar() === Roles::find()->select('id')->where(['rol' => 'admin'])->scalar(),
-                ],
-                [
-                    'label' => 'Generos', 'url' => ['/generos/index'],
-                    'visible' => Usuarios::find()->select('rol_id')->where(['id' => Yii::$app->user->id])->scalar() === Roles::find()->select('id')->where(['rol' => 'admin'])->scalar(),
-                ],
-                [
-                    'label' => 'Juegos', 'url' => ['/juegos/index'],
-                    'visible' => Usuarios::find()->select('rol_id')->where(['id' => Yii::$app->user->id])->scalar() === Roles::find()->select('id')->where(['rol' => 'admin'])->scalar(),
+                    'items' => [
+                        ['label' => 'Roles', 'url' => ['/roles/index']],
+                        ['label' => 'Estados', 'url' => ['/estados/index']],
+                        ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
+                        ['label' => 'Géneros', 'url' => ['/generos/index']],
+                        ['label' => 'Juegos', 'url' => ['/juegos/index']],
+                        ['label' => 'Amigos', 'url' => ['/amigos/index']],
+                        ['label' => 'Deseados', 'url' => ['/deseados/index']],
+                        ['label' => 'Carrito', 'url' => ['/carrito/index']],
+                        ['label' => 'Compras', 'url' => ['/compras/index']],
+                        ['label' => 'Valoraciones', 'url' => ['/valoraciones/index']],
+                        ['label' => 'Comentarios', 'url' => ['/comentarios/index']],
+                        ['label' => 'ComentariosPerfil', 'url' => ['/comentarios-perfil/index']],
+                    ],
                 ],
                 [
                     'label' => 'Acceso',
