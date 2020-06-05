@@ -6,6 +6,7 @@ use Yii;
 use app\models\Amigos;
 use app\models\AmigosSearch;
 use app\models\Peticiones;
+use app\models\Roles;
 use app\models\Usuarios;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -31,11 +32,18 @@ class AmigosController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['index','create','update'],
+                'only' => ['index', 'create', 'update'],
                 'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['@'],
+                        'matchCallback' => function ($rules, $action) {
+                            $adminId = Roles::find()->select('id')->where(['=', 'rol', 'admin'])->scalar();
+
+                            $usuario_rol_id = Usuarios::find()->select('rol_id')->where(['=', 'id', Yii::$app->user->id])->scalar();
+
+                            return $usuario_rol_id === $adminId;
+                        },
                     ],
                 ],
             ],

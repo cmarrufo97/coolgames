@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Chat;
 use app\models\ChatSearch;
+use app\models\Roles;
 use app\models\Usuarios;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
@@ -32,11 +33,18 @@ class ChatController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['principal', 'index', 'create', 'update'],
+                'only' => ['index', 'create', 'update'],
                 'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['@'],
+                        'matchCallback' => function ($rules, $action) {
+                            $adminId = Roles::find()->select('id')->where(['=', 'rol', 'admin'])->scalar();
+
+                            $usuario_rol_id = Usuarios::find()->select('rol_id')->where(['=', 'id', Yii::$app->user->id])->scalar();
+
+                            return $usuario_rol_id === $adminId;
+                        },
                     ],
                 ],
             ],
@@ -130,6 +138,10 @@ class ChatController extends Controller
      */
     public function actionPrincipal()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+
         $logueado = Usuarios::findOne(Yii::$app->user->id);
         $usuarios = new ActiveDataProvider([
             'query' => Usuarios::find()->where('1=0'),
