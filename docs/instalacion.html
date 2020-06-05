@@ -63,60 +63,29 @@
 </ul>
 <p>Instalación:</p>
 <ol>
-<li>
-Creamos un directorio <code>coolgames</code> y vamos a él.
+<li>Creamos un directorio coolgames y vamos a él.</li>
+<li><p>Ejecutar los siguientes comandos:
+<code>git clone https://github.com/cmarrufo97/coolgames.git .
+composer install</code></p>
 </li>
-
-<li>
-Ejecutar los siguientes comandos:
-
-```
-git clone https://github.com/cmarrufo97/coolgames.git .
-composer install
-```
-
+<li><p>Cambiamos el email en el ./config/params.php
+<code>'smtpUsername' =&gt; 'Asignamos aqui el correo que mandará los emails de registro, etc.'</code></p>
 </li>
-
-<li>
-Cambiamos el email en el <code>./config/params.php</code>
-
-```
-'smtpUsername' => 'Asignamos aqui el correo que mandará los emails de registro, etc.'
-```
-
+<li><p>Crear las variables de entorno en el archivo <code>`</code>.env<code>`</code>:</p>
+<ul>
+<li>SMT_PASS con la clave de aplicación de correo.</li>
+<li>S3_KEY_ la key de Amazon S3.</li>
+<li>S3_SECRET la secret de Amazon S3.</li>
+<li>PAYPAL_ID El ID que nos da PayPal.</li>
+<li>PAYPAL_SECRET El SECRET que nos da PayPal.</li>
+</ul>
 </li>
-
-<li>
-
-Crear las variables de entorno en el archivo <code>.env</code>:
-
-* SMT_PASS con la clave de aplicación de correo.
-* S3\__KEY\__ la key de Amazon S3.
-* S3_SECRET la secret de Amazon S3.
-* PAYPAL_ID El ID que nos da PayPal.
-* PAYPAL_SECRET El SECRET que nos da PayPal.
-
+<li><p>Creamos y volcamos la base de datos:
+<code>db/create.sh 
+db/load.sh</code></p>
 </li>
-
-<li>
-
-Creamos y volcamos la base de datos:
-
-```
-db/create.sh
-db/load.sh
-```
-
-</li>
-
-<li>
-Ejecutamos <code>make serve</code> para desplegar servidor local.
-</li>
-
-<li>
-Accedemos al servidor en el navegador poniendo en la url <code>localhost:8080</code>
-</li>
-
+<li>Ejecutamos make serve para desplegar servidor local.</li>
+<li>Accedemos al servidor en el navegador poniendo en la url localhost:8080</li>
 </ol>
 <h2>En la nube <span id="en-la-nube"></span><a href="#en-la-nube" class="hashlink">&para;</a></h2><p>Para desplegar la aplicación necesitas como requisito el Heroku Cli</p>
 <p>Despliegue:</p>
@@ -157,7 +126,7 @@ heroku pg:psql &lt; db/coolgames.git
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Fri, 05 Jun 2020 20:02:30 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Fri, 05 Jun 2020 20:11:37 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script>jQuery(function ($) {

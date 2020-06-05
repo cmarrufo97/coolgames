@@ -13,62 +13,33 @@ Debes disponer de:
 
 Instalación:
 
-<ol>
-<li>
-Creamos un directorio <code>coolgames</code> y vamos a él.
-</li>
-
-<li>
-Ejecutar los siguientes comandos:
-
+1. Creamos un directorio coolgames y vamos a él.
+2. Ejecutar los siguientes comandos:
 ```
 git clone https://github.com/cmarrufo97/coolgames.git .
 composer install
 ```
 
-</li>
-
-<li>
-Cambiamos el email en el <code>./config/params.php</code>
-
+3. Cambiamos el email en el ./config/params.php
 ```
 'smtpUsername' => 'Asignamos aqui el correo que mandará los emails de registro, etc.'
 ```
 
-</li>
-
-<li>
-
-Crear las variables de entorno en el archivo <code>.env</code>:
-
+4. Crear las variables de entorno en el archivo ```.env```:
 * SMT_PASS con la clave de aplicación de correo.
-* S3\__KEY\__ la key de Amazon S3.
+* S3\_KEY\_ la key de Amazon S3.
 * S3_SECRET la secret de Amazon S3.
 * PAYPAL_ID El ID que nos da PayPal.
 * PAYPAL_SECRET El SECRET que nos da PayPal.
 
-</li>
-
-<li>
-
-Creamos y volcamos la base de datos:
-
+5. Creamos y volcamos la base de datos:
 ```
-db/create.sh
+db/create.sh 
 db/load.sh
 ```
 
-</li>
-
-<li>
-Ejecutamos <code>make serve</code> para desplegar servidor local.
-</li>
-
-<li>
-Accedemos al servidor en el navegador poniendo en la url <code>localhost:8080</code>
-</li>
-
-</ol>
+6. Ejecutamos make serve para desplegar servidor local.
+7. Accedemos al servidor en el navegador poniendo en la url localhost:8080
 
 ## En la nube
 
