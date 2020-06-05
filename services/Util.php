@@ -156,6 +156,14 @@ class Util
         return $key;
     }
 
+    /**
+     * Descarga una foto de Amazon S3.
+     *
+     * @param [type] $key
+     * @param [type] $fileName
+     * @param [type] $bucketName
+     * @return void
+     */
     public static function s3Descargar($key, $fileName, $bucketName)
     {
         $s3 = static::inicializar();
@@ -170,6 +178,11 @@ class Util
         echo $result['Body'];
     }
 
+    /**
+     * Realiza la compra de juegos a través de paypal y envía email de factura.
+     *
+     * @return void
+     */
     public static function realizarCompra()
     {
         $params = [];
