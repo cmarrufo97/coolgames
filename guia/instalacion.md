@@ -26,11 +26,15 @@ Instalación:
 
 4. Crear las variables de entorno en el archivo <code>.env</code> :
 
-    - SMT_PASS con la clave de aplicación de correo.
-    - S3\__KEY\__ la key de Amazon S3.
-    - S3_SECRET la secret de Amazon S3.
-    - PAYPAL_ID El ID que nos da PayPal.
-    - PAYPAL_SECRET El SECRET que nos da PayPal.
+- <code>SMT_PASS</code> con la clave de aplicación de correo.
+
+- <code>S3_KEY_</code> la key de Amazon S3.
+
+- <code>S3_SECRET</code> la secret de Amazon S3.
+
+- <code>PAYPAL_ID</code> El ID que nos da PayPal.
+
+- <code>PAYPAL_SECRET</code> El SECRET que nos da PayPal.
 
 5. Creamos y volcamos la base de datos:
 
