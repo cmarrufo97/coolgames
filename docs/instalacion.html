@@ -83,7 +83,7 @@
 <ul>
 <li><p><code>SMT_PASS</code> con la clave de aplicación de correo.</p>
 </li>
-<li><p><code>S3<em>KEY</em></code> la key de Amazon S3.</p>
+<li><p><code>S3_KEY_</code> la key de Amazon S3.</p>
 </li>
 <li><p><code>S3_SECRET</code> la secret de Amazon S3.</p>
 </li>
@@ -123,13 +123,13 @@ heroku pg:psql &lt; db/coolgames.git
 <ol>
 <li><p>Configuramos las variables de entorno (como hicimos anteriormente en local):</p>
 <ul>
-<li>DATABASE_URL la URL de la base de datos del 3er paso.</li>
-<li>YII_ENV a prod. (producción) o el modo que queramos.</li>
-<li>SMT_PASS con la clave de aplicación de correo.</li>
-<li>S3__KEY__ la key de Amazon S3.</li>
-<li>S3_SECRET la secret de Amazon S3.</li>
-<li>PAYPAL_ID El ID que nos da PayPal.</li>
-<li>PAYPAL_SECRET El SECRET que nos da PayPal.</li>
+<li><code>DATABASE_URL</code> la URL de la base de datos del 3er paso.</li>
+<li><code>YII_ENV</code> a prod. (producción) o el modo que queramos.</li>
+<li><code>SMT_PASS</code> con la clave de aplicación de correo.</li>
+<li><code>S3_KEY_</code> la key de Amazon S3.</li>
+<li><code>S3_SECRET</code> la secret de Amazon S3.</li>
+<li><code>PAYPAL_ID</code> El ID que nos da PayPal.</li>
+<li><code>PAYPAL_SECRET</code> El SECRET que nos da PayPal.</li>
 </ul>
 </li>
 <li><p>La aplicación ya está lista para usarse.</p>
@@ -143,7 +143,7 @@ heroku pg:psql &lt; db/coolgames.git
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Sat, 06 Jun 2020 12:30:25 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Sat, 06 Jun 2020 12:41:02 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script>jQuery(function ($) {
