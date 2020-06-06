@@ -138,7 +138,7 @@ $js = <<< EOT
                 recogerHistorial(receptor_id);
             });
         }
-    EOT;
+EOT;
 
 $this->registerJs($js);
 ?>
@@ -170,27 +170,40 @@ $this->registerJs($js);
                         [
                             'class' => ActionColumn::class,
                             'controller' => 'usuarios',
-                            'template' => '{view} {add}',
+                            'template' => '{perfil}{add}',
                             'buttons' => [
+                                'perfil' => function ($url, $model, $key) {
+                                    return Html::a(
+                                        'Ver Perfil',
+                                        ['usuarios/perfil', 'id' => $key],
+                                        ['class' => 'btn btn-sm btn-info']
+                                    );
+                                },
                                 'add' => function ($url, $model, $key) {
                                     if (!Usuarios::esAmigo($model->id)) {
                                         return Html::a(
                                             'Agregar como amigo',
-                                            ['peticiones/crear', 'receptor_id' => $key],
+                                            ['peticiones/crear'],
                                             [
-                                                'data-method' => 'POST',
-                                                'class' => 'btn btn-sm btn-success'
+                                                'class' => 'btn btn-sm btn-success ml-1',
+                                                'data' => [
+                                                    'method' => 'POST',
+                                                    'params' => ['receptor_id' => $key],
+                                                ],
                                             ]
                                         );
                                     } else {
                                         return Html::a(
                                             'Eliminar amigo',
-                                            Url::to(['amigos/eliminar', 'id' => $key]),
+                                            ['amigos/eliminar'],
                                             [
-                                                'data-method' => 'POST',
-                                                'class' => 'btn btn-sm btn-danger',
-                                                'data-confirm' => '¿Estás seguro de que desea eliminar a este usuario como amigo?',
-                                            ],
+                                                'class' => 'btn btn-sm btn-danger ml-1',
+                                                'data' => [
+                                                    'method' => 'POST',
+                                                    'confirm' => '¿Estás seguro de que desea eliminar a este usuario como amigo?',
+                                                    'params' => ['id' => $key],
+                                                ],
+                                            ]
                                         );
                                     }
                                 },
@@ -229,11 +242,14 @@ $this->registerJs($js);
                                     <?=
                                         Html::a(
                                             'Aceptar',
-                                            Url::to([
-                                                'amigos/agregar',
-                                                'id' => $peticion->emisor_id,
-                                            ]),
-                                            ['class' => 'btn btn-sm btn-success']
+                                            ['amigos/agregar'],
+                                            [
+                                                'class' => 'btn btn-sm btn-success',
+                                                'data' => [
+                                                    'method' => 'POST',
+                                                    'params' => ['id' => $peticion->emisor_id],
+                                                ],
+                                            ]
                                         );
                                     ?>
                                 </span>
@@ -241,11 +257,15 @@ $this->registerJs($js);
                                     <?=
                                         Html::a(
                                             'Rechazar',
-                                            Url::to([
-                                                'peticiones/rechazar',
-                                                'emisor_id' => $peticion->emisor_id
-                                            ]),
-                                            ['class' => 'btn btn-sm btn-danger']
+                                            ['peticiones/rechazar'],
+                                            [
+                                                // 'data-method' => 'POST',
+                                                'class' => 'btn btn-sm btn-danger ml-1',
+                                                'data' => [
+                                                    'method' => 'POST',
+                                                    'params' => ['emisor_id' => $peticion->emisor_id],
+                                                ],
+                                            ]
                                         );
                                     ?>
                                 </span>
@@ -318,14 +338,13 @@ $this->registerJs($js);
                             'eliminar' => function ($url, $model) {
                                 return Html::a(
                                     'Eliminar amigo',
-                                    Url::to([
-                                        'amigos/eliminar',
-                                        'id' => $model['id']
-                                    ]),
+                                    ['amigos/eliminar'],
                                     [
                                         'class' => 'btn btn-sm btn-danger',
                                         'data' => [
-                                            'confirm' => '¿Estás seguro de que desea eliminar a este usuario como amigo?'
+                                            'method' => 'POST',
+                                            'confirm' => '¿Estás seguro de que desea eliminar a este usuario como amigo?',
+                                            'params' => ['id' => $model['id']],
                                         ],
                                     ]
                                 );

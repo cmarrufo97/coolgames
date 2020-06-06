@@ -23,20 +23,31 @@ use yii\bootstrap4\ActiveForm;
         'value' => $receptor_id,
     ])->label(false) ?>
 
-    <?= $form->field($model, 'comentario')->textarea([
-        'rows' => 4,
-        'placeholder' => "Deja un comentario aquí."
-    ])->label(false) ?>
+    <?php
+    if (Yii::$app->user->isGuest) {
+    ?>
+        <?= $form->field($model, 'comentario')->textarea([
+            'rows' => 4,
+            'placeholder' => "Tienes que estar logueado para comentar.",
+            'readonly' => true,
+        ])->label(false) ?>
 
-    <!-- <?= $form->field($model, 'edited_at')->textInput() ?>
-
-    <?= $form->field($model, 'padre_id')->textInput() ?> -->
-
-    <!-- <?= $form->field($model, 'created_at')->textInput() ?> -->
-
-    <div class="form-group">
-        <?= Html::submitButton('Enviar', ['class' => 'btn btn-sm btn-primary']) ?>
-    </div>
+        <div class="form-group">
+            <?= Html::submitButton('Enviar', ['class' => 'btn btn-sm btn-primary disabled']) ?>
+        </div>
+    <?php
+    } else {
+    ?>
+        <?= $form->field($model, 'comentario')->textarea([
+            'rows' => 4,
+            'placeholder' => "Deja un comentario aquí."
+        ])->label(false) ?>
+        <div class="form-group">
+            <?= Html::submitButton('Enviar', ['class' => 'btn btn-sm btn-primary']) ?>
+        </div>
+    <?php
+    }
+    ?>
 
     <?php ActiveForm::end(); ?>
 

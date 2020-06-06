@@ -27,6 +27,8 @@ class PeticionesController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'crear' => ['POST'],
+                    'rechazar' => ['POST'],
                 ],
             ],
             'access' => [
@@ -135,8 +137,9 @@ class PeticionesController extends Controller
      * @param [type] $receptor_id
      * @return void
      */
-    public function actionCrear($receptor_id)
+    public function actionCrear()
     {
+        $receptor_id = Yii::$app->request->post('receptor_id');
         $model = new Peticiones();
         $model->emisor_id = Yii::$app->user->id;
         $model->receptor_id = $receptor_id;
@@ -167,8 +170,9 @@ class PeticionesController extends Controller
      * @param [type] $emisor_id
      * @return void
      */
-    public function actionRechazar($emisor_id)
+    public function actionRechazar()
     {
+        $emisor_id = Yii::$app->request->post('emisor_id');
         $receptor_id = Yii::$app->user->id;
 
         $modelId = Peticiones::find()->select('id')->where(['=', 'emisor_id', $emisor_id])

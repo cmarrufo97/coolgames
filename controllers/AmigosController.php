@@ -28,6 +28,8 @@ class AmigosController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'agregar' => ['POST'],
+                    'eliminar' => ['POST'],
                 ],
             ],
             'access' => [
@@ -137,8 +139,9 @@ class AmigosController extends Controller
      * @param [type] $id
      * @return void
      */
-    public function actionAgregar($id)
+    public function actionAgregar()
     {
+        $id = Yii::$app->request->post('id');
         $amigo_id = $id;
         $model = new Amigos();
         $model->usuario_id = Yii::$app->user->id;
@@ -168,8 +171,9 @@ class AmigosController extends Controller
      * @param [type] $id
      * @return void
      */
-    public function actionEliminar($id)
+    public function actionEliminar()
     {
+        $id = Yii::$app->request->post('id');
         $amigo_id = $id;
         $nombre = Usuarios::find()->select('nombre')->where(['=', 'id', $amigo_id])->scalar();
 
