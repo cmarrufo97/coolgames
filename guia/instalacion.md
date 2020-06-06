@@ -28,7 +28,7 @@ Instalación:
 
 - <code>SMT_PASS</code> con la clave de aplicación de correo.
 
-- <code>S3_KEY_</code> la key de Amazon S3.
+- <code>S3\_KEY_</code> la key de Amazon S3.
 
 - <code>S3_SECRET</code> la secret de Amazon S3.
 
@@ -67,12 +67,12 @@ heroku pg:psql < db/coolgames.git
 
 5.  Configuramos las variables de entorno (como hicimos anteriormente en local):
 
-    - DATABASE_URL la URL de la base de datos del 3er paso.
-    - YII_ENV a prod. (producción) o el modo que queramos.
-    - SMT_PASS con la clave de aplicación de correo.
-    - S3\__KEY\__ la key de Amazon S3.
-    - S3_SECRET la secret de Amazon S3.
-    - PAYPAL_ID El ID que nos da PayPal.
-    - PAYPAL_SECRET El SECRET que nos da PayPal.
+    - <code>DATABASE_URL</code> la URL de la base de datos del 3er paso.
+    - <code>YII_ENV</code> a prod. (producción) o el modo que queramos.
+    - <code>SMT_PASS</code> con la clave de aplicación de correo.
+    - <code>S3\_KEY_</code> la key de Amazon S3.
+    - <code>S3_SECRET</code> la secret de Amazon S3.
+    - <code>PAYPAL_ID</code> El ID que nos da PayPal.
+    - <code>PAYPAL_SECRET</code> El SECRET que nos da PayPal.
 
 6.  La aplicación ya está lista para usarse.
