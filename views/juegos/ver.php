@@ -10,6 +10,7 @@ use yii\helpers\Url;
 use yii\widgets\ListView;
 
 $this->title = $model->titulo;
+$this->params['breadcrumbs'][] = ['label' => 'Tienda', 'url' => ['juegos/tienda']];
 $this->params['breadcrumbs'][] = $this->title;
 $usuario_id = Yii::$app->user->id;
 $juego_id = $model->id;

@@ -7,7 +7,7 @@ use yii\bootstrap4\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
 
-$this->title = 'Tienda';
+$this->title = 'Deseados';
 $this->params['breadcrumbs'][] = $this->title;
 
 if ($deseados->totalCount > 0) {

@@ -5,6 +5,9 @@ use yii\bootstrap4\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
 
+$this->title = 'Carrito';
+$this->params['breadcrumbs'][] = $this->title;
+
 $js = <<<EOT
     $(document).ready(function () {
         const formatter = new Intl.NumberFormat('es-ES', {
