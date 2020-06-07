@@ -18,7 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Usuarios', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'login',
             'nombre',
             'password',
@@ -39,7 +40,22 @@ $this->params['breadcrumbs'][] = $this->title;
             //'imagen:ntext',
             //'created_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}{update}{delete}{perfil}',
+                'buttons' => [
+                    'perfil' => function ($url, $model, $key) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-user ml-1"></span>',
+                            ['usuarios/perfil', 'id' => $key],
+                            [
+                                'data-toggle' => 'tooltip',
+                                'title' => 'Ver Perfil',
+                            ],
+                        );
+                    },
+                ],
+            ],
         ],
     ]); ?>
 

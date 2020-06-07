@@ -1,8 +1,10 @@
 <?php
 
+use app\models\Roles;
+use app\models\Usuarios;
 use yii\bootstrap4\Html;
 use yii\helpers\Url;
-
+$esAdmin = (Roles::find()->select('id')->where(['=', 'rol', 'admin'])->scalar() === Usuarios::find()->select('rol_id')->where(['=', 'id', Yii::$app->user->id])->scalar());
 ?>
 <div>
     <div class="float-left mt-3 ml-3">
@@ -12,7 +14,7 @@ use yii\helpers\Url;
     <div class="float-right">
         <div>
             <?php
-            if ($comentario->usuario_id === Yii::$app->user->id) {
+            if ($comentario->usuario_id === Yii::$app->user->id || $esAdmin) {
             ?>
                 <?=
                     Html::a(
