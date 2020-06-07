@@ -64,8 +64,8 @@ DROP TABLE IF EXISTS peticiones CASCADE;
 CREATE TABLE peticiones
 (
     id          bigserial PRIMARY KEY
-  , emisor_id   bigint NOT NULL REFERENCES usuarios (id)
-  , receptor_id bigint NOT NULL REFERENCES usuarios (id)
+  , emisor_id   bigint NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE
+  , receptor_id bigint NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE
   , created_at  timestamp(0) NOT NULL DEFAULT current_timestamp
 );
 
@@ -74,7 +74,7 @@ DROP TABLE IF EXISTS deseados CASCADE;
 CREATE TABLE deseados
 (
     id  bigserial PRIMARY KEY
-  , usuario_id  bigint  NOT NULL  REFERENCES usuarios (id)
+  , usuario_id  bigint  NOT NULL  REFERENCES usuarios (id) ON DELETE CASCADE
   , juego_id  bigint  NOT NULL  REFERENCES juegos (id) ON DELETE CASCADE
   , created_at  timestamp NOT NULL DEFAULT current_timestamp
 );
@@ -84,7 +84,7 @@ DROP TABLE IF EXISTS valoraciones CASCADE;
 CREATE TABLE valoraciones
 (
     id          bigserial PRIMARY KEY
-  , usuario_id  bigint NOT NULL REFERENCES usuarios (id)
+  , usuario_id  bigint NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE
   , juego_id    bigint NOT NULL REFERENCES juegos (id) ON DELETE CASCADE
   , estrellas   numeric(2,1)
   , created_at  timestamp NOT NULL DEFAULT current_timestamp 
@@ -95,7 +95,7 @@ DROP TABLE IF EXISTS comentarios CASCADE;
 CREATE TABLE comentarios
 (
     id          bigserial PRIMARY KEY
-  , usuario_id  bigint NOT NULL REFERENCES usuarios (id)
+  , usuario_id  bigint NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE
   , juego_id    bigint NOT NULL REFERENCES juegos (id) ON DELETE CASCADE
   , comentario  varchar(255) NOT NULL
   , created_at  timestamp NOT NULL DEFAULT current_timestamp
@@ -108,7 +108,7 @@ CREATE TABLE comentarios_perfil
     id          bigserial PRIMARY KEY
   , emisor_id   bigint NOT NULL REFERENCES usuarios (id)
                 ON DELETE CASCADE ON UPDATE CASCADE
-  , receptor_id bigint NOT NULL REFERENCES usuarios (id) 
+  , receptor_id bigint NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE
   , comentario  text  NOT NULL
   , edited_at   timestamp
   , padre_id    bigint  REFERENCES comentarios_perfil (id) ON DELETE CASCADE
@@ -120,7 +120,7 @@ DROP TABLE IF EXISTS carrito CASCADE;
 CREATE TABLE carrito
 (
     id          bigserial PRIMARY KEY
-  , usuario_id  bigint NOT NULL REFERENCES usuarios (id)
+  , usuario_id  bigint NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE
   , juego_id    bigint NOT NULL REFERENCES juegos (id) ON DELETE CASCADE
   , created_at  timestamp NOT NULL DEFAULT current_timestamp
 );
@@ -130,8 +130,8 @@ DROP TABLE IF EXISTS amigos CASCADE;
 CREATE TABLE amigos
 (
     id bigserial PRIMARY KEY
- ,  usuario_id  bigint NOT NULL REFERENCES usuarios (id)
- ,  amigo_id    bigint NOT NULL REFERENCES usuarios (id)
+ ,  usuario_id  bigint NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE
+ ,  amigo_id    bigint NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS chat CASCADE;
@@ -139,8 +139,8 @@ DROP TABLE IF EXISTS chat CASCADE;
 CREATE TABLE chat
 (
     id          bigserial PRIMARY KEY
-  , emisor_id   bigint NOT NULL REFERENCES usuarios (id)   
-  , receptor_id bigint NOT NULL REFERENCES usuarios (id)
+  , emisor_id   bigint NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE
+  , receptor_id bigint NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE
   , mensaje     text NOT NULL
   , created_at  timestamp NOT NULL DEFAULT current_timestamp         
 );
@@ -150,8 +150,8 @@ DROP TABLE IF EXISTS compras CASCADE;
 CREATE TABLE compras
 (
     id          bigserial PRIMARY KEY
-  , usuario_id  bigint NOT NULL REFERENCES usuarios (id)
-  , juego_id    bigint NOT NULL REFERENCES juegos (id)
+  , usuario_id  bigint NOT NULL REFERENCES usuarios (id) ON DELETE CASCADE
+  , juego_id    bigint NOT NULL REFERENCES juegos (id) ON DELETE CASCADE
   , subtotal    numeric(5,2)
   , total       numeric(5,2)
   , created_at  timestamp NOT NULL DEFAULT current_timestamp
