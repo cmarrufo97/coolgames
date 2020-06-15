@@ -142,6 +142,11 @@
         <td>Descarga una foto de Amazon S3.</td>
         <td><a href="app-services-util.html">app\services\Util</a></td>
     </tr>
+            <tr id="s3Eliminar()">
+        <td><a href="app-services-util.html#s3Eliminar()-detail">s3Eliminar()</a></td>
+        <td>Elimina un recurso de Amazon S3</td>
+        <td><a href="app-services-util.html">app\services\Util</a></td>
+    </tr>
             <tr id="s3GetImagenUrl()">
         <td><a href="app-services-util.html#s3GetImagenUrl()-detail">s3GetImagenUrl()</a></td>
         <td>Obtiene la url de una imagen.</td>
@@ -180,7 +185,7 @@ de Amazon S3.</td>
         <td>Inicializa el cliente de Amazon S3.</td>
         <td><a href="app-services-util.html">app\services\Util</a></td>
     </tr>
-                        </table>
+                            </table>
 </div>
 
 <a id="events"></a>
@@ -286,6 +291,39 @@ de Amazon S3.</td>
                 </tr>
                             <tr>
                   <td class="param-name-col"><span style="color: #0000BB">$fileName</span></td>
+                  <td class="param-type-col">\app\services\[type]</td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$bucketName</span></td>
+                  <td class="param-type-col">\app\services\[type]</td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="s3Eliminar()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="app-services-util.html#s3Eliminar()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        s3Eliminar()
+        <span class="detail-header-tag small">
+            public                        static            method
+                    </span>
+    </div>
+
+    
+    <div class="doc-description">
+        <p><strong>Elimina un recurso de Amazon S3</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><span class="signature-defs">public static</span> <span class="signature-type">void</span> <strong><a href="app-services-util.html#s3Eliminar()-detail">s3Eliminar</a></strong> ( <span style="color: #0000BB">$key</span>, <span style="color: #0000BB">$bucketName</span> )</td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$key</span></td>
                   <td class="param-type-col">\app\services\[type]</td>
                   <td class="param-desc-col"></td>
                 </tr>
@@ -456,7 +494,7 @@ de Amazon S3.</strong></p>
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Sat, 06 Jun 2020 17:14:13 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Mon, 15 Jun 2020 18:43:48 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script>jQuery(function ($) {
