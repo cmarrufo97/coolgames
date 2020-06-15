@@ -11,6 +11,7 @@ use app\models\Roles;
 use Yii;
 use app\models\Usuarios;
 use app\models\UsuariosSearch;
+use app\services\Util;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -238,13 +239,34 @@ class UsuariosController extends Controller
                 $userModel->imagen = $filename;
                 $userModel->save();
                 Yii::$app->session->setFlash('success', 'Foto de perfil modificada correctamente.');
-                return $this->redirect(['usuarios/perfil']);
+                return $this->redirect(['usuarios/perfil','id' => Yii::$app->user->id]);
             }
         }
 
         return $this->render('imagen', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Elimina la foto de perfil del usuario.
+     *
+     * @return void
+     */
+    public function actionEliminarFoto()
+    {
+        $model = Usuarios::findOne(Yii::$app->request->post('id'));
+        if (Yii::$app->request->post('id')) {
+            $model = Usuarios::findOne(Yii::$app->request->post('id'));
+            $nombreImagen = basename($model->getImagen());
+            if ($nombreImagen !== 'usuario-defecto.png') {
+                Util::s3Eliminar('usuarios/' . basename($model->getImagen()), 'coolgamesyii');
+                $model->imagen = null;
+                $model->save();
+            }
+        }
+
+        return $this->redirect(['usuarios/perfil','id' => Yii::$app->user->id]);
     }
 
     /**

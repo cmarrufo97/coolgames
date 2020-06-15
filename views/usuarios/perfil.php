@@ -18,10 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-lg-8 order-2 mt-2">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Perfil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" data-target="#comentarios" data-toggle="tab" class="nav-link">Comentarios</a>
+                        <a href="" data-target="#comentarios" data-toggle="tab" class="nav-link active">Comentarios</a>
                     </li>
                     <?php
                     if ($model->id == Yii::$app->user->id) {
@@ -34,21 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ?>
                 </ul>
                 <div class="tab-content py-4">
-                    <div class="tab-pane active" id="profile">
-                        <h2 class="mb-3"><?= $model->nombre ?></h2>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h4>Amigos: (<?= $model->getCountAmigos() ?>)</h4>
-                                <h4>Registrado el:
-                                    <?php
-                                    $fecha = Yii::$app->formatter->asDatetime($model->created_at);
-                                    ?>
-                                    <?= $fecha ?>
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="comentarios">
+                    <div class="tab-pane active" id="comentarios">
                         <?php
                         $emisor_id = Yii::$app->user->id;
                         $receptor_id = (int) Yii::$app->request->get('id');
@@ -97,10 +80,45 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ]
                                 )
                             ?>
+                            <?=
+                                Html::a(
+                                    'Eliminar',
+                                    ['usuarios/eliminar-foto'],
+                                    [
+                                        'class' => 'btn btn-danger text-white',
+                                        'data' => [
+                                            'method' => 'POST',
+                                            'params' => ['id' => $model->id],
+                                        ],
+                                    ]
+                                )
+                            ?>
                         <?php
                         }
                         ?>
                     </div>
+                </div>
+                <div class="mt-4">
+                    <table class="table table-sm">
+                        <caption>
+                            <p class="lead datos-perfil">Datos de perfil:</p>
+                        </caption>
+                        <tbody>
+                            <tr>
+                                <td class="border-0"><strong class="text-right">Nombre:</strong></td>
+                                <td class="border-0"><?= $model->nombre ?></td>
+                            </tr>
+                            <tr>
+                                <td class="border-0"><strong class="text-right">Amigos:</strong></td>
+                                <td class="border-0"><?= $model->getCountAmigos() ?></td>
+                            </tr>
+                            <tr>
+                                <td class="border-0"><strong class="text-right">Registrado el:</strong></td>
+                                <td class="border-0"><?= Yii::$app->formatter->asDate($model->created_at) ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
                 </div>
             </div>
         </div>
@@ -131,13 +149,17 @@ function dibujarComentario($comentario, $nivel = 0)
                         '',
                         [
                             'comentarios-perfil/responder',
-                            'receptor_id' => $modelComentario->receptor_id,
-                            'padre_id' => $modelComentario->id,
                         ],
                         [
                             'class' => ' responder glyphicon glyphicon-share-alt text-decoration-none mt-2 mr-2',
-                            'data-toggle' => 'tooltip',
-                            'data-method' => 'POST',
+                            'data' => [
+                                'method' => 'POST',
+                                'toggle' => 'tooltip',
+                                'params' => [
+                                    'receptor_id' => $modelComentario->receptor_id,
+                                    'padre_id' => $modelComentario->id,
+                                ],
+                            ],
                             'title' => 'Responder',
                         ],
                     );
@@ -155,12 +177,16 @@ function dibujarComentario($comentario, $nivel = 0)
                                     '',
                                     [
                                         'comentarios-perfil/editar',
-                                        'id' => $modelComentario->id,
                                     ],
                                     [
                                         'class' => 'glyphicon glyphicon-pencil mt-2 mr-2',
-                                        'data-toggle' => 'tooltip',
-                                        'data-method' => 'POST',
+                                        'data' => [
+                                            'method' => 'POST',
+                                            'toggle' => 'tooltip',
+                                            'params' => [
+                                                'id' => $modelComentario->id,
+                                            ],
+                                        ],
                                         'title' => 'Editar',
                                     ],
                                 )
@@ -171,12 +197,17 @@ function dibujarComentario($comentario, $nivel = 0)
                         <?=
                             Html::a(
                                 '',
-                                Url::to(['comentarios-perfil/delete', 'id' => $modelComentario->id]),
+                                Url::to(['comentarios-perfil/delete']),
                                 [
                                     'class' => 'glyphicon glyphicon-trash mt-2 mr-2',
-                                    'data-toggle' => 'tooltip',
-                                    'data-confirm' => '¿Está seguro de que desea eliminar este comentario?',
-                                    'data-method' => 'POST',
+                                    'data' => [
+                                        'method' => 'POST',
+                                        'confirm' => '¿Está seguro de que desea eliminar este comentario?',
+                                        'toggle' => 'tooltip',
+                                        'params' => [
+                                            'id' => $modelComentario->id,
+                                        ],
+                                    ],
                                     'title' => 'Eliminar',
                                 ],
                             )

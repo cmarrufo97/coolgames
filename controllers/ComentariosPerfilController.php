@@ -123,8 +123,9 @@ class ComentariosPerfilController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
+        $id = Yii::$app->request->post('id');
         $model = $this->findModel($id);
         $esAdmin = (Roles::find()->select('id')->where(['=', 'rol', 'admin'])->scalar() === Usuarios::find()->select('rol_id')->where(['=', 'id', Yii::$app->user->id])->scalar());
 
@@ -192,7 +193,8 @@ class ComentariosPerfilController extends Controller
      */
     public function actionEditar()
     {
-        $id = Yii::$app->request->get('id');
+        // $id = Yii::$app->request->get('id');
+        $id = Yii::$app->request->post('id');
         $model = $this->findModel($id);
 
         if ($model->emisor_id === Yii::$app->user->id) {
@@ -200,7 +202,7 @@ class ComentariosPerfilController extends Controller
                 Yii::$app->session->setFlash('success', 'Comentario editado con éxito.');
                 return $this->redirect(['usuarios/perfil', 'id' => $model->receptor_id]);
             }
-        }else {
+        } else {
             throw new ForbiddenHttpException('No tienes permisos para realizar esa acción.');
         }
 

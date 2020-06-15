@@ -146,3 +146,11 @@ a.desc:after {
     min-width: 18rem;
     max-width: 18rem;
 }
+
+.datos-perfil {
+    border-bottom: 1px solid lightgray;
+}
+
+table caption {
+    caption-side: top;
+}

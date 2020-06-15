@@ -9,6 +9,9 @@ use yii\bootstrap4\ActiveForm;
 /* @var $model app\models\ComentariosPerfil */
 /* @var $form yii\bootstrap4\ActiveForm */
 
+$padre_id = Yii::$app->request->post('padre_id');
+$receptor_id = Yii::$app->request->post('receptor_id');
+
 $comentario = ComentariosPerfil::findOne($padre_id);
 $usuario = Usuarios::findOne($comentario->emisor_id);
 ?>

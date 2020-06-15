@@ -179,6 +179,22 @@ class Util
     }
 
     /**
+     * Elimina un recurso de Amazon S3
+     *
+     * @param [type] $key
+     * @param [type] $bucketName
+     * @return void
+     */
+    public static function s3Eliminar($key, $bucketName)
+    {
+        $s3 = static::inicializar();
+        $s3->deleteObject([
+            'Bucket' => $bucketName,
+            'Key' => $key,
+        ]);
+    }
+
+    /**
      * Realiza la compra de juegos a través de paypal y envía email de factura.
      *
      * @return void
